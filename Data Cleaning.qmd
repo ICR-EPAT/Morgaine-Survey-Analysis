@@ -107,7 +107,69 @@ which(is.na(estimanddb$`Trial design`))
 print("Count of total missing values")
 sum(is.na(estimanddb$`Intervention type`))
 print("Position of missing values ")
+which(is.na(estimanddb$`Intervention type`))
 
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
 
+##################################################################################################################################
+
+#Protocol available missing values
+
+print("Count of total missing values")
+sum(is.na(estimanddb$`Protocol file available?`))
+print("Position of missing values ")
+which(is.na(estimanddb$`Protocol file available?`))
+
+#[1] "Count of total missing values"
+#[1] 263
+
+#Large amount of 'Protocol available' values missing - double check with Morgaine how she would like me to proceed? May potentially need individual checking and entering.
+
+##################################################################################################################################
+
+#SAP available missing values
+
+print("Count of total missing values")
+sum(is.na(estimanddb$`SAP file available?`))
+print("Position of missing values ")
+which(is.na(estimanddb$`SAP file available?`))
+
+#[1] "Count of total missing values"
+#[1] 265
+
+#Large amount of 'SAP available' values missing - double check with Morgaine how she would like me to proceed? May potentially need individual checking and entering.
+
+##################################################################################################################################
+
+#Trial phase missing values
+
+print("Count of total missing values")
+sum(is.na(estimanddb$`Trial Phase`))
+print("Position of missing values ")
+which(is.na(estimanddb$`Trial Phase`))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+
+##################################################################################################################################
+
+#Sponsor type missing values
+
+print("Count of total missing values")
+sum(is.na(estimanddb$`Sponsor type`))
+print("Position of missing values ")
+which(is.na(estimanddb$`Sponsor type`))
+
+#[1] "Count of total missing values"
+#[1] 1897
+
+#Large amount of 'Sponsor type' values missing - double check with Morgaine how she would like me to proceed? May potentially need individual checking and entering.
+
+#Save as xlsx file, enter Protocol & SAP information - re-upload for cleaning/encoding.
 ```
 
