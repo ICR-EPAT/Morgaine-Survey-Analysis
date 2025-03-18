@@ -42,5 +42,62 @@ which(is.na(estimanddb$`NCT number (if available)`))
 
 #ISRCTN Number missing values:
 
+print("Count of total missing values")
+sum(is.na(estimanddb$`ISRCTN number (if available)`))
+print("Position of missing values ")
+which(is.na(estimanddb$`ISRCTN number (if available)`))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+
+##################################################################################################################################
+
+#Funding Type missing values:
+
+print("Count of total missing values")
+sum(is.na(estimanddb$`Funding type`))
+print("Position of missing values ")
+which(is.na(estimanddb$`Funding type`))
+
+#[1] "Count of total missing values"
+#[1] 27
+#[1] "Position of missing values "
+# [1] 1961 1963 1964 1965 1967 1970 1971 1983 1986 1987 1990 2000 2002 2006 2007 2009 2012 2014 2016 2018 2028 2034 2035 2041
+#[25] 2043 2053 2060
+
+table(estimanddb$'Funding type')
+
+#    government organisation                       INDIV                    Industry                Not industry 
+#                         62                           4                        1133                         825 
+#private sector organisation 
+#                         14 
+
+estimanddb$`Funding type`[is.na(estimanddb$`Funding type`)] <- "Missing"
+
+print("Count of total missing values")
+sum(is.na(estimanddb$`Funding type`))
+print("Position of missing values ")
+which(is.na(estimanddb$`Funding type`))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0
+
+##################################################################################################################################
+
+#Trial design missing values
+
+print("Count of total missing values")
+sum(is.na(estimanddb$`Trial design`))
+print("Position of missing values ")
+which(is.na(estimanddb$`Trial design`))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
 ```
 
