@@ -170,6 +170,24 @@ which(is.na(estimanddb$`Sponsor type`))
 
 #Large amount of 'Sponsor type' values missing - double check with Morgaine how she would like me to proceed? May potentially need individual checking and entering.
 
+#Checked with Morgaine - To categorise all missing values in 'Sponsor type' as "Missing" due to data not available from CTGOV registry.
+
+estimanddb$`Sponsor type`[is.na(estimanddb$`Sponsor type`)] <- "Missing"
+
+print("Count of total missing values")
+sum(is.na(estimanddb$`Sponsor type`))
+print("Position of missing values ")
+which(is.na(estimanddb$`Sponsor type`))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+
 #Save as xlsx file, enter Protocol & SAP information - re-upload for cleaning/encoding.
+
+library(writexl)
+
+write_xlsx(estimanddb, "C:/Users/jskinner/OneDrive - The Institute of Cancer Research/Desktop/Morgaine/GitHub/Data Cleaning/Morgaine-Survey-Analysis/Estimand_Sheet1.xlsx")
 ```
 
