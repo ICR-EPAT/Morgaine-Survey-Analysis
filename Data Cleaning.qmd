@@ -1,0 +1,46 @@
+---
+title: "Data Cleaning"
+format: html
+editor: visual
+---
+
+```{r import data, include=TRUE}
+library(readxl)
+
+estimanddb <- read_xlsx("Morgaine Data Cleaning.xlsx")
+```
+
+```{r check for missing in all fields required for cleaning, include=TRUE}
+
+#NCT Number missing values:
+
+print("Count of total missing values")
+sum(is.na(estimanddb$`NCT number (if available)`))
+print("Position of missing values ")
+which(is.na(estimanddb$`NCT number (if available)`))
+
+# "Count of total missing values"
+# 1
+# "Position of missing values "
+# 1986
+
+#Does not appear to have NCT number, use "Nil known" for NCT Number field in row 1986.
+
+estimanddb$`NCT number (if available)`[is.na(estimanddb$`NCT number (if available)`)] <- "Nil known"
+
+print("Count of total missing values")
+sum(is.na(estimanddb$`NCT number (if available)`))
+print("Position of missing values ")
+which(is.na(estimanddb$`NCT number (if available)`))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+
+##################################################################################################################################
+
+#ISRCTN Number missing values:
+
+```
+
