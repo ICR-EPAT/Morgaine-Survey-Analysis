@@ -233,6 +233,78 @@ table(estimanddb1$`SAP file available?`)
 #Combined       No      Yes 
 #     736      246     1081 
 
+#NOTE: Amount of combined should be equal within BOTH 'Protocol Available' and 'SAP Available' fields.
+
+```
+
+#Protocol & SAP available:
+
+```{r Data cleaning, include=TRUE}
+
+#'Protocol Available' & 'SAP Available' fields
+
+##NOTE: Amount of combined should be equal within BOTH 'Protocol Available' and 'SAP Available' fields.
+
+estimanddb1$`Protocol file available?`[estimanddb1$`SAP file available?` == "Combined"] <- "Combined"
+
+table(estimanddb1$`Protocol file available?`)
+
+#Combined       No      Yes 
+#     736       30     1299
+
+table(estimanddb1$`SAP file available?`)
+
+#Combined       No      Yes 
+#     736      248     1081
+
+```
+
+#Funding type:
+
+```{r Funding type field cleaning, include=TRUE}
+
+table(estimanddb1$`Funding type`)
+
+#    government organisation                       INDIV                    Industry                     Missing 
+#                         62                           4                        1133                          27 
+#               Not industry private sector organisation 
+#                        825                          14 
+
+estimanddb1$`Funding type`[estimanddb1$`Funding type` == "Not industry"] <- "Non-Industry"
+estimanddb1$`Funding type`[estimanddb1$`Funding type` == "government organisation"] <- "Non-Industry"
+estimanddb1$`Funding type`[estimanddb1$`Funding type` == "INDIV"] <- "Other"
+estimanddb1$`Funding type`[estimanddb1$`Funding type` == "private sector organisation"] <- "Industry"
+
+table(estimanddb1$`Funding type`)
+
+#    Industry      Missing Non-Industry        Other 
+#        1147           27          887            4
+
+```
+
+#Trial phase:
+
+```{r Intervention type field cleaning, include=TRUE}
+
+table(estimanddb1$`Trial Phase`)
+
+# EARLY_PHASE1       Phase I    Phase I/II      Phase II  Phase II/III     Phase IIa     Phase III  Phase III/IV        PHASE1 
+#           68            10             1            26             5             1            58             3           415 
+#PHASE1|PHASE2        PHASE2 PHASE2|PHASE3        PHASE3 
+#          160           760            77           481 
+
+estimanddb1$`Trial Phase`[estimanddb1$`Trial Phase` == "EARLY_PHASE1"] <- "Phase I"
+estimanddb1$`Trial Phase`[estimanddb1$`Trial Phase` == "PHASE1"] <- "Phase I"
+estimanddb1$`Trial Phase`[estimanddb1$`Trial Phase` == "PHASE1|PHASE2"] <- "Phase I/II"
+estimanddb1$`Trial Phase`[estimanddb1$`Trial Phase` == "PHASE2"] <- "Phase II"
+estimanddb1$`Trial Phase`[estimanddb1$`Trial Phase` == "Phase IIa"] <- "Phase II"
+estimanddb1$`Trial Phase`[estimanddb1$`Trial Phase` == "PHASE2|PHASE3"] <- "Phase II/III"
+estimanddb1$`Trial Phase`[estimanddb1$`Trial Phase` == "PHASE3"] <- "Phase III"
+
+table(estimanddb1$`Trial Phase`)
+
+#     Phase I   Phase I/II     Phase II Phase II/III    Phase III Phase III/IV 
+#         493          161          787           82          539            3 
 
 ```
 
