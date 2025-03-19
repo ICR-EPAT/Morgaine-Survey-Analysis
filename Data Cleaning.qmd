@@ -4,7 +4,7 @@ format: html
 editor: visual
 ---
 
-```{r import data, include=TRUE}
+```{r import data, include=FALSE}
 library(readxl)
 
 estimanddb <- read_xlsx("Morgaine Data Cleaning.xlsx")
@@ -188,7 +188,7 @@ which(is.na(estimanddb$`Sponsor type`))
 
 library(writexl)
 
-write_xlsx(estimanddb, "C:/Users/jskinner/OneDrive - The Institute of Cancer Research/Desktop/Morgaine/GitHub/Data Cleaning/Morgaine-Survey-Analysis/Estimand_Sheet1.1.xlsx")
+write_xlsx(estimanddb, "C:/Users/jskinner/OneDrive - The Institute of Cancer Research/Desktop/ICR-EPAT/Morgaine Stiles/Morgaine-Survey-Analysis/Estimand_Sheet1.1.xlsx")
 
 #'Protocol available' & 'SAP Available' values added to spreadsheet above - To be imported and if a value of "Combined" has been used in one field, the other should also be converted to "Combined".
 #'
@@ -231,7 +231,7 @@ table(estimanddb1$`Protocol file available?`)
 table(estimanddb1$`SAP file available?`)
 
 #Combined       No      Yes 
-#     736      246     1081 
+#     736      248     1081 
 
 #NOTE: Amount of combined should be equal within BOTH 'Protocol Available' and 'SAP Available' fields.
 
@@ -257,6 +257,27 @@ table(estimanddb1$`SAP file available?`)
 #Combined       No      Yes 
 #     736      248     1081
 
+#Check for missing:
+
+print("Count of total missing values")
+sum(is.na(estimanddb1$`Protocol file available?`))
+print("Position of missing values ")
+which(is.na(estimanddb1$`Protocol file available?`))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+
+print("Count of total missing values")
+sum(is.na(estimanddb1$`SAP file available?`))
+print("Position of missing values ")
+which(is.na(estimanddb1$`SAP file available?`))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
 ```
 
 #Funding type:
@@ -350,6 +371,51 @@ table(estimanddb1$`Sponsor type`)
 
 #    Industry      Missing Non-Industry 
 #          67         1897          101 
+
+```
+
+#Trial design:
+
+```{r Trial design field cleaning, include=TRUE}
+
+library(dplyr)
+estimanddb1 %>% count(`Trial design`)
+
+```
+
+#Intervention type:
+
+```{r Intervention type field cleaning, include=TRUE}
+
+intervention_type <- estimanddb1 %>% count(`Intervention type`)
+
+library(writexl)
+
+write_xlsx(intervention_type, "C:/Users/jskinner/OneDrive - The Institute of Cancer Research/Desktop/ICR-EPAT/Morgaine Stiles/Morgaine-Survey-Analysis/intervention_type.xlsx")
+
+#####################################################################################################################################
+
+estimanddb1$`Intervention type2` <- estimanddb1$`Intervention type`
+
+
+estimanddb1 <- estimanddb1[order(estimanddb1$`Intervention type2`),] 
+
+#Replace values
+
+behaviourlist <- list(estimanddb1$`Intervention type2`[1:48])
+
+
+
+
+
+
+
+
+
+
+
+#####################################################################################################################################
+
 
 ```
 
