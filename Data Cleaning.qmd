@@ -189,5 +189,50 @@ which(is.na(estimanddb$`Sponsor type`))
 library(writexl)
 
 write_xlsx(estimanddb, "C:/Users/jskinner/OneDrive - The Institute of Cancer Research/Desktop/Morgaine/GitHub/Data Cleaning/Morgaine-Survey-Analysis/Estimand_Sheet1.1.xlsx")
+
+#'Protocol available' & 'SAP Available' values added to spreadsheet above - To be imported and if a value of "Combined" has been used in one field, the other should also be converted to "Combined".
+#'
+
+####################################################################################################################################
+
+library(readxl)
+
+estimanddb1 <- read_xlsx("Estimand_Sheet1.1.xlsx")
+
+#Check 'Protocol Available' and 'SAP Available' missing values.
+
+#Protocol available missing values
+
+print("Count of total missing values")
+sum(is.na(estimanddb1$`Protocol file available?`))
+print("Position of missing values ")
+which(is.na(estimanddb1$`Protocol file available?`))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+
+print("Count of total missing values")
+sum(is.na(estimanddb1$`SAP file available?`))
+print("Position of missing values ")
+which(is.na(estimanddb1$`SAP file available?`))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+
+table(estimanddb1$`Protocol file available?`)
+
+#Combined       No      Yes 
+#     110       30     1925
+
+table(estimanddb1$`SAP file available?`)
+
+#Combined       No      Yes 
+#     736      246     1081 
+
+
 ```
 
