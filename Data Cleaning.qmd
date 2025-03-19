@@ -308,3 +308,48 @@ table(estimanddb1$`Trial Phase`)
 
 ```
 
+# Sponsor type:
+
+```{r Sponsor type field cleaning, include=TRUE}
+
+table(estimanddb1$`Sponsor type`)
+
+#To be re-labelled into "Industry" & "Non-Industry"
+
+#                                        Charity                                      Government 
+#                                              2                                               3 
+#                      Hospital/treatment centre Hospital/treatment centre; University/education 
+#                                             24                                               5 
+#                                       Industry                  Industry; University/education 
+#                                             66                                               1 
+#                                        Missing                                              NK 
+#                                           1897                                               2 
+#                                   Not industry                                           Other 
+#                                              9                                               1 
+#                          Research organisation                            University/education 
+#                                              1                                              54 
+
+estimanddb1$`Sponsor type`[estimanddb1$`Sponsor type` == "Not industry"] <- "Non-Industry"
+estimanddb1$`Sponsor type`[estimanddb1$`Sponsor type` == "Hospital/treatment centre"] <- "Non-Industry"
+estimanddb1$`Sponsor type`[estimanddb1$`Sponsor type` == "Research organisation"] <- "Non-Industry"
+estimanddb1$`Sponsor type`[estimanddb1$`Sponsor type` == "Charity"] <- "Non-Industry"
+estimanddb1$`Sponsor type`[estimanddb1$`Sponsor type` == "Government"] <- "Non-Industry"
+estimanddb1$`Sponsor type`[estimanddb1$`Sponsor type` == "Hospital/treatment centre; University/education"] <- "Non-Industry"
+estimanddb1$`Sponsor type`[estimanddb1$`Sponsor type` == "University/education"] <- "Non-Industry"
+estimanddb1$`Sponsor type`[estimanddb1$`Sponsor type` == "NK"] <- "Non-Industry"
+estimanddb1$`Sponsor type`[estimanddb1$`Sponsor type` == "Other"] <- "Non-Industry"
+
+table(estimanddb1$`Sponsor type`)
+
+#                      Industry Industry; University/education                        Missing                   Non-Industry 
+#                            66                              1                           1897                            101 
+
+estimanddb1$`Sponsor type`[estimanddb1$`Sponsor type` == "Industry; University/education"] <- "Industry"
+
+table(estimanddb1$`Sponsor type`)
+
+#    Industry      Missing Non-Industry 
+#          67         1897          101 
+
+```
+
