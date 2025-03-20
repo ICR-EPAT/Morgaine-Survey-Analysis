@@ -186,10 +186,6 @@ which(is.na(estimanddb$`Sponsor type`))
 
 #Save as xlsx file, enter Protocol & SAP information - re-upload for cleaning/encoding.
 
-library(writexl)
-
-write_xlsx(estimanddb, "C:/Users/jskinner/OneDrive - The Institute of Cancer Research/Desktop/ICR-EPAT/Morgaine Stiles/Morgaine-Survey-Analysis/Estimand_Sheet1.1.xlsx")
-
 #'Protocol available' & 'SAP Available' values added to spreadsheet above - To be imported and if a value of "Combined" has been used in one field, the other should also be converted to "Combined".
 #'
 
@@ -197,7 +193,7 @@ write_xlsx(estimanddb, "C:/Users/jskinner/OneDrive - The Institute of Cancer Res
 
 library(readxl)
 
-estimanddb1 <- read_xlsx("Estimand_Sheet1.1.xlsx")
+estimanddb1 <- read_xlsx("Estimand_Sheet1.2.xlsx")
 
 #Check 'Protocol Available' and 'SAP Available' missing values.
 
@@ -389,20 +385,16 @@ estimanddb1 %>% count(`Trial design`)
 
 intervention_type <- estimanddb1 %>% count(`Intervention type`)
 
-library(writexl)
-
-write_xlsx(intervention_type, "C:/Users/jskinner/OneDrive - The Institute of Cancer Research/Desktop/ICR-EPAT/Morgaine Stiles/Morgaine-Survey-Analysis/intervention_type.xlsx")
-
 #####################################################################################################################################
 
 estimanddb1$`Intervention type2` <- estimanddb1$`Intervention type`
 
 
-estimanddb1 <- estimanddb1[order(estimanddb1$`Intervention type2`),] 
+estimanddb1 <- estimanddb1[order(estimanddb1$`Intervention type2`),]
 
 #Replace values
 
-behaviourlist <- list(estimanddb1$`Intervention type2`[1:48])
+estimanddb1$int_type <- estimanddb1$`Intervention type`[1:48]
 
 
 
@@ -418,4 +410,3 @@ behaviourlist <- list(estimanddb1$`Intervention type2`[1:48])
 
 
 ```
-
