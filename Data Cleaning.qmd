@@ -392,21 +392,66 @@ estimanddb1$`Intervention type2` <- estimanddb1$`Intervention type`
 
 estimanddb1 <- estimanddb1[order(estimanddb1$`Intervention type2`),]
 
-#Replace values
+#Replaced original values using MS Excel:
 
-estimanddb1$int_type <- estimanddb1$`Intervention type`[1:48]
+library(readxl)
 
+newfields <- read_xlsx("Tr_Des&Int_Typ Fields.xlsx")
 
+estimanddb2 <- cbind(estimanddb1,newfields)
 
+###################################################################
 
+table(estimanddb2$Int_typ_cat)
 
+#      Behavioural       Combination            Device 
+#               53                33                34 
+#              IMP             Other Procedure/Surgery 
+#             1878                14                30 
+#       Supplement 
+#               23 
+               
+#Check for missing
 
+print("Count of total missing values")
+sum(is.na(estimanddb2$Int_typ_cat))
+print("Position of missing values ")
+which(is.na(estimanddb2$Int_typ_cat))
 
-
-
-
-
-#####################################################################################################################################
-
-
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
 ```
+
+#Trial Design:
+
+```{r Trial design field cleaning, include=TRUE}
+
+table(estimanddb2$Tr_Des_Allocat)
+
+#1) equivalence trial 
+#                                                                                                       #                                      1 
+#                                                                                                       #                                     NA 
+#                                                                                                       #                                    468 
+#                                                                                                       #                         NON_RANDOMIZED 
+#                                                                                                       #                                    191 
+#Process of Care, Education or Self-Management, Psychological & Behavioural, Complex Intervention, #Physical, Management of Care, Rehabilitation 
+#                                                                                                       #                                     1 
+#                                                                                                       #                             RANDOMIZED 
+#                                                                                                       #                                   1305 
+#                                                                                           Treatment, #Complex Intervention, Management of Care 
+#                                                                                                       #                                      1 
+#                                                                                                       #    Treatment, Dietary, Health Economic 
+#                                                                                                       #                                      1 
+#                                                         Treatment, Dietary, Imaging, Psychological & #Behavioural, Management of Care, Surgery 
+#                                                                                                       #                                      1 
+#                                                                                                       #                       Treatment, Drug 
+#                                                                                                       #                                      1 
+#                                                                                                       #         Treatment, Drug, Immunotherapy 
+#                                                                                                       #                                      1 
+#                                                                                                       #                     Treatment, Vaccine 
+#                                                                                                       #                                      1 
+#
+```
+
