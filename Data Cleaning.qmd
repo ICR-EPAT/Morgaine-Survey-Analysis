@@ -424,34 +424,118 @@ which(is.na(estimanddb2$Int_typ_cat))
 #integer(0)
 ```
 
-#Trial Design:
+#Trial Design: Allocation
 
 ```{r Trial design field cleaning, include=TRUE}
 
 table(estimanddb2$Tr_Des_Allocat)
 
-#1) equivalence trial 
-#                                                                                                       #                                      1 
-#                                                                                                       #                                     NA 
-#                                                                                                       #                                    468 
-#                                                                                                       #                         NON_RANDOMIZED 
-#                                                                                                       #                                    191 
+#1)                                                                                                                           equivalence trial 
+#                                                                                                                                             1 
+#                                                                                                                                            NA 
+#                                                                                                                                           468 
+#                                                                                                                                NON_RANDOMIZED 
+#                                                                                                                                           191 
 #Process of Care, Education or Self-Management, Psychological & Behavioural, Complex Intervention, #Physical, Management of Care, Rehabilitation 
-#                                                                                                       #                                     1 
-#                                                                                                       #                             RANDOMIZED 
-#                                                                                                       #                                   1305 
+#                                                                                                                                            1 
+#                                                                                                                                    RANDOMIZED 
+#                                                                                                                                          1305 
 #                                                                                           Treatment, #Complex Intervention, Management of Care 
-#                                                                                                       #                                      1 
-#                                                                                                       #    Treatment, Dietary, Health Economic 
-#                                                                                                       #                                      1 
+#                                                                                                                                             1 
+#                                                                                                           Treatment, Dietary, Health Economic 
+#                                                                                                                                             1 
 #                                                         Treatment, Dietary, Imaging, Psychological & #Behavioural, Management of Care, Surgery 
-#                                                                                                       #                                      1 
-#                                                                                                       #                       Treatment, Drug 
-#                                                                                                       #                                      1 
-#                                                                                                       #         Treatment, Drug, Immunotherapy 
-#                                                                                                       #                                      1 
-#                                                                                                       #                     Treatment, Vaccine 
-#                                                                                                       #                                      1 
+#                                                                                                                                             1 
+#                                                                                                                              Treatment, Drug 
+#                                                                                                                                             1 
+#                                                                                                                Treatment, Drug, Immunotherapy 
+#                                                                                                                                             1 
+#                                                                                                                            Treatment, Vaccine 
+#                                                                                                                                             1 
 #
+estimanddb2$Tr_Des_Allocat[estimanddb2$Tr_Des_Allocat == "RANDOMIZED"] <- "Randomised"
+estimanddb2$Tr_Des_Allocat[estimanddb2$Tr_Des_Allocat == "NON_RANDOMIZED"] <- "Non-Randomised"
+estimanddb2$Tr_Des_Allocat[estimanddb2$Tr_Des_Allocat == "NA"] <- "Missing"
+estimanddb2$Tr_Des_Allocat[estimanddb2$Tr_Des_Allocat == "1) equivalence trial"] <- "Other"
+estimanddb2$Tr_Des_Allocat[estimanddb2$Tr_Des_Allocat == "Process of Care, Education or Self-Management, Psychological & Behavioural, Complex Intervention, Physical, Management of Care, Rehabilitation"] <- "Other"
+estimanddb2$Tr_Des_Allocat[estimanddb2$Tr_Des_Allocat == "Treatment, Complex Intervention, Management of Care"] <- "Other"
+estimanddb2$Tr_Des_Allocat[estimanddb2$Tr_Des_Allocat == "Treatment, Dietary, Health Economic"] <- "Other"
+estimanddb2$Tr_Des_Allocat[estimanddb2$Tr_Des_Allocat == "Treatment, Dietary, Imaging, Psychological & Behavioural, Management of Care, Surgery"] <- "Other"
+estimanddb2$Tr_Des_Allocat[estimanddb2$Tr_Des_Allocat == "Treatment, Drug"] <- "Other"
+estimanddb2$Tr_Des_Allocat[estimanddb2$Tr_Des_Allocat == "Treatment, Drug, Immunotherapy"] <- "Other"
+estimanddb2$Tr_Des_Allocat[estimanddb2$Tr_Des_Allocat == "Treatment, Vaccine"] <- "Other"
+
+table(estimanddb2$Tr_Des_Allocat)
+
+#       Missing Non-Randomised          Other     Randomised 
+#           468            191              8           1305
+
+print("Count of total missing values")
+sum(is.na(estimanddb2$Tr_Des_Allocat))
+print("Position of missing values ")
+which(is.na(estimanddb2$Tr_Des_Allocat))
+
+#[1] "Count of total missing values"
+#[1] 93
+
+estimanddb2$Tr_Des_Allocat[is.na(estimanddb2$Tr_Des_Allocat)] <- "Missing"
+
+print("Count of total missing values")
+sum(is.na(estimanddb2$Tr_Des_Allocat))
+print("Position of missing values ")
+which(is.na(estimanddb2$Tr_Des_Allocat))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+
+table(estimanddb2$Tr_Des_Allocat)
+
+#       Missing Non-Randomised          Other     Randomised 
+#           561            191              8           1305 
+
+```
+
+#Trial Design: Intervention Model
+
+```{r Trial Design Intervention Model, include=TRUE}
+
+print("Count of total missing values")
+sum(is.na(estimanddb2$Tr_Des_Int_Model))
+print("Position of missing values ")
+which(is.na(estimanddb2$Tr_Des_Int_Model))
+
+#[1] "Count of total missing values"
+#[1] 101
+
+estimanddb2$Tr_Des_Int_Model[is.na(estimanddb2$Tr_Des_Int_Model)] <- "Missing"
+
+print("Count of total missing values")
+sum(is.na(estimanddb2$Tr_Des_Int_Model))
+print("Position of missing values ")
+which(is.na(estimanddb2$Tr_Des_Int_Model))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+
+table(estimanddb2$Tr_Des_Int_Model)
+
+#   CROSSOVER    FACTORIAL      Missing     PARALLEL   SEQUENTIAL SINGLE_GROUP 
+#         172           13          101         1150          157          472
+
+estimanddb2$Tr_Des_Int_Model[estimanddb2$Tr_Des_Int_Model == "CROSSOVER"] <- "Crossover"
+estimanddb2$Tr_Des_Int_Model[estimanddb2$Tr_Des_Int_Model == "FACTORIAL"] <- "Factorial"
+estimanddb2$Tr_Des_Int_Model[estimanddb2$Tr_Des_Int_Model == "PARALLEL"] <- "Parallel"
+estimanddb2$Tr_Des_Int_Model[estimanddb2$Tr_Des_Int_Model == "SEQUENTIAL"] <- "Sequential"
+estimanddb2$Tr_Des_Int_Model[estimanddb2$Tr_Des_Int_Model == "SINGLE_GROUP"] <- "Single Group"
+
+table(estimanddb2$Tr_Des_Int_Model)
+
+#   Crossover    Factorial      Missing     Parallel   Sequential Single Group 
+#         172           13          101         1150          157          472 
+
 ```
 

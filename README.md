@@ -16,7 +16,7 @@ Intervention type field/s coding:
 
 Fields broken down: Intervention_type 2 = Main intervention category, INT1-6 = Individual interventions listed 
 
-'IMP'' <- "Biological', "Drug", "Standard Care", "IMP", "Vaccine", "Antibiotics", " Anti-viral agents", " Anti-fungal agent", "Anti-emetics"
+'IMP'' <- "Biological', "Drug", "Standard Care", "IMP", "Vaccine", "Antibiotics", " Anti-viral agents", " Anti-fungal agent", "Anti-emetics", "Standard of Care", "NA therapy", 
 
 'Supplement' <- "Supplement", "Dietary supplement"
 
@@ -24,7 +24,7 @@ Fields broken down: Intervention_type 2 = Main intervention category, INT1-6 = I
 
 'Procedure/surgery' <- "Procedure", "Radiation", "Bone Marrow Transplant", "Vanicream Gentle Facial Cleanser", "EltaMD UV Daily Broad-Spectrum SPF 40", "EltaMD PM Therapy Facial Moisturizer", " Vanicream Lite Lotion", "Biopsy", "Diagnostic Test", "Vestibular Socket Therapy", "Connective tissue graft", 
 
-'Other' <- "Placebo", "ISA 51D", "Saline", "Supported Care", "Best Supportive Care", "Best Practice", "Quality-of-Life Assessment", "Questionnaire Administration", "Eye Patch"
+'Other' <- "Placebo", "ISA 51D", "Saline", "Supported Care", "Best Supportive Care", "Best Practice", "Quality-of-Life Assessment", "Questionnaire Administration", "Eye Patch", "Digitally-delivered Psychoeducation", "Vehicle", "ASN008 Matching Vehicle", "Sham comparator", "Quality-of-Life Assessment", "Water Distilled", "Ice pack", "Sunscreen",   
 
 'Device' <- "Device", "Accupuncture therapy", "Implant", 
 
