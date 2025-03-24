@@ -4,6 +4,8 @@ format: html
 editor: visual
 ---
 
+#1.Missing data + cleaning
+
 ```{r import data, include=FALSE}
 library(readxl)
 
@@ -606,4 +608,132 @@ table(estimanddb2$`Year opened`)
 #1203  581  197   84 
 ```
 
+#Estimands used
 
+```{r Estimands used, include=TRUE}
+
+print("Count of total missing values")
+sum(is.na(estimanddb2$`Estimands used?`))
+print("Position of missing values ")
+which(is.na(estimanddb2$`Estimands used?`))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+
+table(estimanddb2$`Estimands used?`)
+
+#     No Revisit     yes     Yes 
+#   1646      84       1     334
+
+estimanddb2$`Estimands used?`[estimanddb2$`Estimands used?` == "yes"] <- "Yes"
+
+table(estimanddb2$`Estimands used?`)
+
+#     No Revisit     Yes 
+#   1646      84     335 
+
+```
+
+#2. Contingency tables
+
+#Contingency tables:
+
+Univariable analysis via the Chi squared test will be performed to identify any association between estimand use and sponsor type, sponsor country, funding type, trial phase, cancer vs non cancer trial, type of intervention, and year trial opened. Associated factors will be further analysed via multivariable logistic regression. Other results from the review will be presented in a narrative format, with specific findings tabulated and highlighted illustratively, in line with the study objectives. 
+
+```{r Tables, include=TRUE}
+
+#Sponsor Type
+
+table(estimanddb2$`Sponsor type`, estimanddb2$`Estimands used?`)
+
+#                 No Revisit  Yes
+#  Industry       38       2   27
+#  Missing      1519      78  300
+#  Non-Industry   89       4    8
+
+###########################################################################################################################
+
+#Sponsor Country
+
+table(estimanddb2$`Sponsor country`, estimanddb2$`Estimands used?`)
+
+#                                            No Revisit  Yes
+# Australia/United Kingdom                   0       2    0
+#  Belgium                                    1       0    0
+#  Brazil                                     2       0    0
+#  Canada                                     1       0    0
+#  China                                      1       0    0
+#  Czech Republic                             1       0    0
+#  Democratic Republic of Congo               1       0    0
+#  Greece                                     2       0    0
+#  Italy                                      4       0    0
+#  Mali                                       1       0    0
+#  Missing                                 1529      79  311
+#  Netherlands                                1       0    1
+#  Nigeria                                    1       0    0
+#  Spain                                      0       0    1
+#  Sweden                                     5       0    3
+#  Switzerland                                7       0    0
+#  Taiwan                                     1       0    0
+#  United Kingdom                            74       2   10
+#  United Kingdom/United States of America    1       0    0
+#  United States of America                  13       1    9
+
+###########################################################################################################################
+
+#Funding type
+
+table(estimanddb2$`Funding type`, estimanddb2$`Estimands used?`)
+
+#                No Revisit Yes
+#  Industry     762      69 316
+#  Missing       25       0   2
+#  Non-Industry 855      15  17
+#  Other          4       0   0
+
+###########################################################################################################################
+
+#Trial phase
+
+table(estimanddb2$`Trial Phase`, estimanddb2$`Estimands used?`)
+
+#                No Revisit Yes
+#  Phase I      462      12  19
+#  Phase I/II   153       3   5
+#  Phase II     615      31 141
+#  Phase II/III  62       3  17
+#  Phase III    351      35 153
+#  Phase III/IV   3       0   0
+
+###########################################################################################################################
+
+#Intervention types
+
+table(estimanddb2$Int_typ_cat, estimanddb2$`Estimands used?`)
+
+#                      No Revisit  Yes
+#  Behavioural         52       0    1
+#  Combination         31       0    2
+#  Device              31       0    3
+#  IMP               1470      84  324
+#  Other               10       0    4
+#  Procedure/Surgery   29       0    1
+#  Supplement          23       0    0
+
+###########################################################################################################################
+
+#Year opened
+
+table(estimanddb2$`Year opened`, estimanddb2$`Estimands used?`)
+
+#        No Revisit Yes
+#  2021 925      52 226
+#  2022 469      23  89
+#  2023 175       8  14
+#  2024  77       1   6
+                                            
+```
+
+#Chi-square tests:
