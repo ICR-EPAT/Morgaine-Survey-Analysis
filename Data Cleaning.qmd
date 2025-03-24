@@ -539,3 +539,71 @@ table(estimanddb2$Tr_Des_Int_Model)
 
 ```
 
+#Sponsor Country
+
+```{r Sponsor country, include=TRUE}
+
+print("Count of total missing values")
+sum(is.na(estimanddb2$`Sponsor country`))
+print("Position of missing values ")
+which(is.na(estimanddb2$`Sponsor country`))
+
+#[1] "Count of total missing values"
+#[1] 1894
+
+estimanddb2$`Sponsor country`[is.na(estimanddb2$`Sponsor country`)] <- "Missing"
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+
+
+table(estimanddb2$`Sponsor country`)
+
+# Australia; United Kingdom                    Belgium                     Brazil                     Canada 
+#                         2                          1                          2                          1 
+#                     China Congo, Democratic Republic             Czech Republic                     Greece 
+#                         1                          1                          1                          2 
+#                     Italy                       Mali                    Missing                Netherlands 
+#                         4                          1                       1894                          2 
+#                   Nigeria                         NK                      Spain                     Sweden 
+#                         1                         25                          1                          8 
+#               Switzerland                     Taiwan                  UK and US             United Kingdom 
+#                         7                          1                          1                         86 
+#             United States   United States of America 
+#                        22                          1 
+
+estimanddb2$`Sponsor country`[estimanddb2$`Sponsor country` == "NK"] <- "Missing"
+estimanddb2$`Sponsor country`[estimanddb2$`Sponsor country` == "Australia; United Kingdom"] <- "Australia/United Kingdom"
+estimanddb2$`Sponsor country`[estimanddb2$`Sponsor country` == "Congo, Democratic Republic"] <- "Democratic Republic of Congo"
+estimanddb2$`Sponsor country`[estimanddb2$`Sponsor country` == "UK and US"] <- "United Kingdom/United States of America"
+estimanddb2$`Sponsor country`[estimanddb2$`Sponsor country` == "United States"] <- "United States of America"
+
+table(estimanddb2$`Sponsor country`)
+
+
+
+```
+
+#Year Opened:
+
+```{r Year opened, include=TRUE}
+
+print("Count of total missing values")
+sum(is.na(estimanddb2$`Year opened`))
+print("Position of missing values ")
+which(is.na(estimanddb2$`Year opened`))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+
+table(estimanddb2$`Year opened`)
+
+#2021 2022 2023 2024 
+#1203  581  197   84 
+```
+
+
