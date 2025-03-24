@@ -325,6 +325,16 @@ table(estimanddb1$`Trial Phase`)
 #     Phase I   Phase I/II     Phase II Phase II/III    Phase III Phase III/IV 
 #         493          161          787           82          539            3 
 
+print("Count of total missing values")
+sum(is.na(estimanddb$`Trial Phase`))
+print("Position of missing values ")
+which(is.na(estimanddb$`Trial Phase`))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+
 ```
 
 # Sponsor type:
@@ -653,6 +663,13 @@ table(estimanddb2$`Sponsor type`, estimanddb2$`Estimands used?`)
 #  Missing      1519      78  300
 #  Non-Industry   89       4    8
 
+prop.table(table(estimanddb2$`Sponsor type`, estimanddb2$`Estimands used?`))*100
+
+#                       No    Revisit        Yes
+#  Industry      1.8401937  0.0968523  1.3075061
+#  Missing      73.5593220  3.7772397 14.5278450
+#  Non-Industry  4.3099274  0.1937046  0.3874092
+
 ###########################################################################################################################
 
 #Sponsor Country
@@ -681,6 +698,30 @@ table(estimanddb2$`Sponsor country`, estimanddb2$`Estimands used?`)
 #  United Kingdom/United States of America    1       0    0
 #  United States of America                  13       1    9
 
+prop.table(table(estimanddb2$`Sponsor country`, estimanddb2$`Estimands used?`))*100
+
+#                                                   No     Revisit         Yes
+#  Australia/United Kingdom                 0.00000000  0.09685230  0.00000000
+#  Belgium                                  0.04842615  0.00000000  0.00000000
+#  Brazil                                   0.09685230  0.00000000  0.00000000
+#  Canada                                   0.04842615  0.00000000  0.00000000
+#  China                                    0.04842615  0.00000000  0.00000000
+#  Czech Republic                           0.04842615  0.00000000  0.00000000
+#  Democratic Republic of Congo             0.04842615  0.00000000  0.00000000
+#  Greece                                   0.09685230  0.00000000  0.00000000
+#  Italy                                    0.19370460  0.00000000  0.00000000
+#  Mali                                     0.04842615  0.00000000  0.00000000
+#  Missing                                 74.04358354  3.82566586 15.06053269
+#  Netherlands                              0.04842615  0.00000000  0.04842615
+#  Nigeria                                  0.04842615  0.00000000  0.00000000
+#  Spain                                    0.00000000  0.00000000  0.04842615
+#  Sweden                                   0.24213075  0.00000000  0.14527845
+#  Switzerland                              0.33898305  0.00000000  0.00000000
+#  Taiwan                                   0.04842615  0.00000000  0.00000000
+#  United Kingdom                           3.58353511  0.09685230  0.48426150
+#  United Kingdom/United States of America  0.04842615  0.00000000  0.00000000
+#  United States of America                 0.62953995  0.04842615  0.43583535
+
 ###########################################################################################################################
 
 #Funding type
@@ -692,6 +733,14 @@ table(estimanddb2$`Funding type`, estimanddb2$`Estimands used?`)
 #  Missing       25       0   2
 #  Non-Industry 855      15  17
 #  Other          4       0   0
+
+prop.table(table(estimanddb2$`Funding type`, estimanddb2$`Estimands used?`))*100
+
+#                       No    Revisit        Yes
+#  Industry     36.9007264  3.3414044 15.3026634
+#  Missing       1.2106538  0.0000000  0.0968523
+#  Non-Industry 41.4043584  0.7263923  0.8232446
+#  Other         0.1937046  0.0000000  0.0000000
 
 ###########################################################################################################################
 
@@ -706,6 +755,16 @@ table(estimanddb2$`Trial Phase`, estimanddb2$`Estimands used?`)
 #  Phase II/III  62       3  17
 #  Phase III    351      35 153
 #  Phase III/IV   3       0   0
+
+prop.table(table(estimanddb2$`Trial Phase`, estimanddb2$`Estimands used?`))*100
+
+#                       No    Revisit        Yes
+#  Phase I      22.3728814  0.5811138  0.9200969
+#  Phase I/II    7.4092010  0.1452785  0.2421308
+#  Phase II     29.7820823  1.5012107  6.8280872
+#  Phase II/III  3.0024213  0.1452785  0.8232446
+#  Phase III    16.9975787  1.6949153  7.4092010
+#  Phase III/IV  0.1452785  0.0000000  0.0000000
 
 ###########################################################################################################################
 
@@ -722,6 +781,17 @@ table(estimanddb2$Int_typ_cat, estimanddb2$`Estimands used?`)
 #  Procedure/Surgery   29       0    1
 #  Supplement          23       0    0
 
+prop.table(table(estimanddb2$Int_typ_cat, estimanddb2$`Estimands used?`))*100
+
+#                             No     Revisit         Yes
+#  Behavioural        2.51815981  0.00000000  0.04842615
+#  Combination        1.50121065  0.00000000  0.09685230
+#  Device             1.50121065  0.00000000  0.14527845
+#  IMP               71.18644068  4.06779661 15.69007264
+#  Other              0.48426150  0.00000000  0.19370460
+#  Procedure/Surgery  1.40435835  0.00000000  0.04842615
+#  Supplement         1.11380145  0.00000000  0.00000000
+
 ###########################################################################################################################
 
 #Year opened
@@ -733,7 +803,15 @@ table(estimanddb2$`Year opened`, estimanddb2$`Estimands used?`)
 #  2022 469      23  89
 #  2023 175       8  14
 #  2024  77       1   6
+
+prop.table(table(estimanddb2$`Year opened`, estimanddb2$`Estimands used?`))*100
+
+#                No     Revisit         Yes
+#  2021 44.79418886  2.51815981 10.94430993
+#  2022 22.71186441  1.11380145  4.30992736
+#  2023  8.47457627  0.38740920  0.67796610
+#  2024  3.72881356  0.04842615  0.29055690
                                             
 ```
 
-#Chi-square tests:
+
