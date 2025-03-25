@@ -654,6 +654,8 @@ Univariable analysis via the Chi squared test will be performed to identify any 
 
 ```{r Tables, include=TRUE}
 
+#Make nice GTSummary tables
+
 #Sponsor Type
 
 table(estimanddb2$`Sponsor type`, estimanddb2$`Estimands used?`)
