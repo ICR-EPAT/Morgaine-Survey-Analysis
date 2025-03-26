@@ -656,6 +656,8 @@ Univariable analysis via the Chi squared test will be performed to identify any 
 
 estimanddb3 <- estimanddb2
 
+estimanddb4 <- estimanddb2
+
 #Make nice GTSummary tables
 
 #Sponsor Type
@@ -666,6 +668,8 @@ table(estimanddb2$`Sponsor type`, estimanddb2$`Estimands used?`)
 #  Industry       38       2   27
 #  Missing      1519      78  300
 #  Non-Industry   89       4    8
+
+#With missing
 
 library(gtsummary)
 
@@ -680,9 +684,32 @@ estimanddb3 |> tbl_summary(by = `Estimands used?`, include = `Sponsor type`) |>
   bold_labels() |>
   add_p(test.args = all_tests("fisher.test") ~ list(workspace=2e9))
 
+#Without missing
+
+estimanddb4$`Sponsor type`[estimanddb4$`Sponsor type` == "Missing"] <- NA
+
+table(estimanddb4$`Sponsor type`, estimanddb4$`Estimands used?`)
+
+#               No Revisit Yes
+#  Industry     38       2  27
+#  Non-Industry 89       4   8
+
+estimanddb4$`Sponsor type` <- as.factor(estimanddb4$`Sponsor type`)
+estimanddb4$`Estimands used?` <- as.factor(estimanddb4$`Estimands used?`)
+
+estimanddb4 |> tbl_summary(by = `Estimands used?`, include = `Sponsor type`) |>
+  add_overall() |>
+  add_n() |>
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Estimands Used?**") |>
+  modify_caption("**Table 1. Estimand usage by sponsor type**") |>
+  bold_labels() |>
+  add_p(test.args = all_tests("fisher.test") ~ list(workspace=2e9))
+
 ###########################################################################################################################
 
 #Sponsor Country
+
+#With missing
 
 table(estimanddb2$`Sponsor country`, estimanddb2$`Estimands used?`)
 
@@ -719,9 +746,49 @@ estimanddb3 |> tbl_summary(by = `Estimands used?`, include = `Sponsor country` )
   bold_labels() |>
   add_p(test.args = all_tests("fisher.test") ~ list(workspace=2e9))
 
+#Without missing
+
+estimanddb4$`Sponsor country`[estimanddb4$`Sponsor country` == "Missing"] <- NA
+
+table(estimanddb4$`Sponsor country`, estimanddb4$`Estimands used?`)
+
+#                                          No Revisit Yes
+#  Australia/United Kingdom                 0       2   0
+#  Belgium                                  1       0   0
+#  Brazil                                   2       0   0
+#  Canada                                   1       0   0
+#  China                                    1       0   0
+#  Czech Republic                           1       0   0
+#  Democratic Republic of Congo             1       0   0
+#  Greece                                   2       0   0
+#  Italy                                    4       0   0
+#  Mali                                     1       0   0
+#  Netherlands                              1       0   1
+#  Nigeria                                  1       0   0
+#  Spain                                    0       0   1
+#  Sweden                                   5       0   3
+#  Switzerland                              7       0   0
+#  Taiwan                                   1       0   0
+#  United Kingdom                          74       2  10
+#  United Kingdom/United States of America  1       0   0
+#  United States of America                13       1   9
+
+estimanddb4$`Sponsor country` <- as.factor(estimanddb4$`Sponsor country`)
+estimanddb4$`Estimands used?` <- as.factor(estimanddb4$`Estimands used?`)
+
+estimanddb4 |> tbl_summary(by = `Estimands used?`, include = `Sponsor country`) |>
+  add_overall() |>
+  add_n() |>
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Estimands Used?**") |>
+  modify_caption("**Table 2. Estimand usage by sponsor country**") |>
+  bold_labels() |>
+  add_p(test.args = all_tests("fisher.test") ~ list(workspace=2e9))
+
 ###########################################################################################################################
 
 #Funding type
+
+#With missing
 
 table(estimanddb2$`Funding type`, estimanddb2$`Estimands used?`)
 
@@ -741,9 +808,34 @@ estimanddb3 |> tbl_summary(by = `Estimands used?`, include = `Funding type` ) |>
   bold_labels() |>
   add_p(test.args = all_tests("fisher.test") ~ list(workspace=2e9))
 
+#Without missing
+
+estimanddb4$`Funding type`[estimanddb4$`Funding type` == "Missing"] <- NA
+
+table(estimanddb4$`Funding type`, estimanddb4$`Estimands used?`)
+
+#                No Revisit Yes
+#  Industry     762      69 316
+#  Non-Industry 855      15  17
+#  Other          4       0   0
+
+estimanddb4$`Funding type` <- as.factor(estimanddb4$`Funding type`)
+estimanddb4$`Estimands used?` <- as.factor(estimanddb4$`Estimands used?`)
+
+estimanddb4 |> tbl_summary(by = `Estimands used?`, include = `Funding type`) |>
+  add_overall() |>
+  add_n() |>
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Estimands Used?**") |>
+  modify_caption("**Table 3. Estimand usage by funding type**") |>
+  bold_labels() |>
+  add_p(test.args = all_tests("fisher.test") ~ list(workspace=2e9))
+
+
 ###########################################################################################################################
 
 #Trial phase
+
+#With missing
 
 table(estimanddb2$`Trial Phase`, estimanddb2$`Estimands used?`)
 
@@ -766,6 +858,7 @@ estimanddb3 |> tbl_summary(by = `Estimands used?`, include = `Trial Phase` ) |>
   
 #Cannot obtain Fisher's Exact test result - or simulate p-values. Wait until 'Revisit' category has been put into 'Yes' or 'No' and retry.
 
+
 ###########################################################################################################################
 
 #Intervention types
@@ -787,7 +880,7 @@ estimanddb3 |> tbl_summary(by = `Estimands used?`, include = Int_typ_cat ) |>
   add_overall() |>
   add_n() |>
   modify_spanning_header(c("stat_1", "stat_2") ~ "**Estimands Used?**") |>
-  modify_caption("**Table 3. Estimand usage by intervention type**") |>
+  modify_caption("**Table 5. Estimand usage by intervention type**") |>
   bold_labels()
 
 ###########################################################################################################################
@@ -808,7 +901,7 @@ estimanddb3 |> tbl_summary(by = `Estimands used?`, include = `Year opened` ) |>
   add_overall() |>
   add_n() |>
   modify_spanning_header(c("stat_1", "stat_2") ~ "**Estimands Used?**") |>
-  modify_caption("**Table 3. Estimand usage by Year**") |>
+  modify_caption("**Table 6. Estimand usage by Year**") |>
   bold_labels() |>
   add_p(test.args = all_tests("fisher.test") ~ list(workspace=2e9))
                                             
