@@ -646,9 +646,9 @@ table(estimanddb2$`Estimands used?`)
 
 ```
 
-#2. Contingency tables
+#2. Contingency tables + Graphs
 
-#Contingency tables:
+#Sposor Type
 
 Univariable analysis via the Chi squared test will be performed to identify any association between estimand use and sponsor type, sponsor country, funding type, trial phase, cancer vs non cancer trial, type of intervention, and year trial opened. Associated factors will be further analysed via multivariable logistic regression. Other results from the review will be presented in a narrative format, with specific findings tabulated and highlighted illustratively, in line with the study objectives. 
 
@@ -658,7 +658,7 @@ estimanddb3 <- estimanddb2
 
 estimanddb4 <- estimanddb2
 
-#Make nice GTSummary tables
+#Make GTSummary tables
 
 #Sponsor Type
 
@@ -672,6 +672,8 @@ table(estimanddb2$`Sponsor type`, estimanddb2$`Estimands used?`)
 #With missing
 
 library(gtsummary)
+library(ggplot2)
+library(dplyr)
 
 estimanddb3$`Sponsor type` <- as.factor(estimanddb3$`Sponsor type`)
 estimanddb3$`Estimands used?` <- as.factor(estimanddb3$`Estimands used?`)
@@ -683,6 +685,20 @@ estimanddb3 |> tbl_summary(by = `Estimands used?`, include = `Sponsor type`) |>
   modify_caption("**Table 1. Estimand usage by sponsor type**") |>
   bold_labels() |>
   add_p(test.args = all_tests("fisher.test") ~ list(workspace=2e9))
+
+#Stacked barchart
+
+estimanddb3 %>%
+  count(`Sponsor type`,`Estimands used?`) %>%
+  group_by(`Sponsor type`) %>%
+  mutate(pct = prop.table(n)*100) %>%
+  ggplot() + aes(`Sponsor type`, pct, fill = `Estimands used?`) +
+  geom_bar(stat = "identity") +
+  ylab("Percentage of trials listed") +
+  geom_text(aes(label=paste0(sprintf("%1.1f", pct),"%")),
+            position=position_stack(vjust = 0.5)) +
+  ggtitle("Estimand usage by sponsor type") +
+  theme_bw()
 
 #Without missing
 
@@ -705,6 +721,11 @@ estimanddb4 |> tbl_summary(by = `Estimands used?`, include = `Sponsor type`) |>
   bold_labels() |>
   add_p(test.args = all_tests("fisher.test") ~ list(workspace=2e9))
 
+```
+
+#Sponsor Country
+
+```{r Sponsor Country, include=TRUE}
 ###########################################################################################################################
 
 #Sponsor Country
@@ -784,6 +805,24 @@ estimanddb4 |> tbl_summary(by = `Estimands used?`, include = `Sponsor country`) 
   bold_labels() |>
   add_p(test.args = all_tests("fisher.test") ~ list(workspace=2e9))
 
+#Stacked barchart
+
+estimanddb3 %>%
+  count(`Sponsor country`,`Estimands used?`) %>%
+  group_by(`Sponsor country`) %>%
+  mutate(pct = prop.table(n)*100) %>%
+  ggplot() + aes(`Sponsor country`, pct, fill = `Estimands used?`) +
+  geom_bar(stat = "identity") +
+  ylab("Percentage of trials listed") +
+  geom_text(aes(label=paste0(sprintf("%1.1f", pct),"%")),
+            position=position_stack(vjust = 0.5)) +
+  ggtitle("Estimand usage by sponsor country") +
+  theme_bw()
+```
+
+#Funding Type
+
+```{r Funding type, include=TRUE}
 ###########################################################################################################################
 
 #Funding type
@@ -830,9 +869,27 @@ estimanddb4 |> tbl_summary(by = `Estimands used?`, include = `Funding type`) |>
   bold_labels() |>
   add_p(test.args = all_tests("fisher.test") ~ list(workspace=2e9))
 
+#Stacked barchart
+
+estimanddb3 %>%
+  count(`Funding type`,`Estimands used?`) %>%
+  group_by(`Funding type`) %>%
+  mutate(pct = prop.table(n)*100) %>%
+  ggplot() + aes(`Funding type`, pct, fill = `Estimands used?`) +
+  geom_bar(stat = "identity") +
+  ylab("Percentage of trials listed") +
+  geom_text(aes(label=paste0(sprintf("%1.1f", pct),"%")),
+            position=position_stack(vjust = 0.5)) +
+  ggtitle("Estimand usage by funding") +
+  theme_bw()
 
 ###########################################################################################################################
 
+```
+
+#Trial Phase
+
+```{r Trial Phase, include=TRUE}
 #Trial phase
 
 #With missing
@@ -858,9 +915,27 @@ estimanddb3 |> tbl_summary(by = `Estimands used?`, include = `Trial Phase` ) |>
   
 #Cannot obtain Fisher's Exact test result - or simulate p-values. Wait until 'Revisit' category has been put into 'Yes' or 'No' and retry.
 
+#Stacked barchart
+
+estimanddb3 %>%
+  count(`Trial Phase`,`Estimands used?`) %>%
+  group_by(`Trial Phase`) %>%
+  mutate(pct = prop.table(n)*100) %>%
+  ggplot() + aes(`Trial Phase`, pct, fill = `Estimands used?`) +
+  geom_bar(stat = "identity") +
+  ylab("Percentage of trials listed") +
+  geom_text(aes(label=paste0(sprintf("%1.1f", pct),"%")),
+            position=position_stack(vjust = 0.5)) +
+  ggtitle("Estimand usage by trial phase") +
+  theme_bw()
+
 
 ###########################################################################################################################
+```
 
+#Intervention type
+
+```{r Intervention Types, include=TRUE}
 #Intervention types
 
 table(estimanddb2$Int_typ_cat, estimanddb2$`Estimands used?`)
@@ -883,8 +958,25 @@ estimanddb3 |> tbl_summary(by = `Estimands used?`, include = Int_typ_cat ) |>
   modify_caption("**Table 5. Estimand usage by intervention type**") |>
   bold_labels()
 
-###########################################################################################################################
+#Stacked barchart
 
+estimanddb3 %>%
+  count(Int_typ_cat,`Estimands used?`) %>%
+  group_by(Int_typ_cat) %>%
+  mutate(pct = prop.table(n)*100) %>%
+  ggplot() + aes(Int_typ_cat, pct, fill = `Estimands used?`) +
+  geom_bar(stat = "identity") +
+  ylab("Percentage of trials listed") +
+  xlab("Intervention type") +
+  geom_text(aes(label=paste0(sprintf("%1.1f", pct),"%")),
+            position=position_stack(vjust = 0.5)) +
+  ggtitle("Estimand usage by intervention type") +
+  theme_bw()
+
+###########################################################################################################################
+```
+
+```{r Year opened, include=TRUE}
 #Year opened
 
 table(estimanddb2$`Year opened`, estimanddb2$`Estimands used?`)
@@ -904,7 +996,20 @@ estimanddb3 |> tbl_summary(by = `Estimands used?`, include = `Year opened` ) |>
   modify_caption("**Table 6. Estimand usage by Year**") |>
   bold_labels() |>
   add_p(test.args = all_tests("fisher.test") ~ list(workspace=2e9))
-                                            
+
+#Stacked barchart
+
+estimanddb3 %>%
+  count(`Year opened`,`Estimands used?`) %>%
+  group_by(`Year opened`) %>%
+  mutate(pct = prop.table(n)*100) %>%
+  ggplot() + aes(`Year opened`, pct, fill = `Estimands used?`) +
+  geom_bar(stat = "identity") +
+  ylab("Percentage of trials listed") +
+  geom_text(aes(label=paste0(sprintf("%1.1f", pct),"%")),
+            position=position_stack(vjust = 0.5)) +
+  ggtitle("Estimand usage by year opened") +
+  theme_bw()
 ```
 
 
