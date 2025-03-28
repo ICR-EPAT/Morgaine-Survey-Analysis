@@ -1,0 +1,886 @@
+---
+title: "Morgaine PhD Survey - Section 2 & 3"
+format: html
+editor: visual
+---
+
+#1. Import data
+
+```{r import, include=TRUE}
+library(rstudioapi)
+library(readxl)
+library(scales)
+
+mssurvey <- read_excel("mssurvey.xlsx")
+```
+
+#2. New data frame
+
+```{r New data frame, include=TRUE}
+
+#Select variables for visualisation
+
+mssurvey_cc <- mssurvey[,c('Q6','Q7','Q8','Q12','Q13_1','Q13_2','Q13_3','Q13_4','Q14','Q15_1','Q15_2','Q15_3','Q16','Q17_1','Q17_2','Q17_3','Q17_4','Q17_5','Q18','Q19_1','Q19_2','Q19_3','Q19_4','Q20')]
+
+```
+
+#3. Missing values
+
+```{r Missing values, include=TRUE}
+
+#Missing values check
+
+print("Count of total missing values")
+sum(is.na(mssurvey_cc))
+print("Position of missing values ")
+which(is.na(mssurvey_cc))
+
+print("Count of total missing values Q6")
+sum(is.na(mssurvey_cc$Q6))
+
+print("Count of total missing values Q7")
+sum(is.na(mssurvey_cc$Q7))
+
+print("Count of total missing values Q8")
+sum(is.na(mssurvey_cc$Q8))
+
+print("Count of total missing values Q13_1")
+sum(is.na(mssurvey_cc$Q13_1))
+
+print("Count of total missing values Q13_2")
+sum(is.na(mssurvey_cc$Q13_2))
+
+print("Count of total missing values Q13_3")
+sum(is.na(mssurvey_cc$Q13_3))
+
+print("Count of total missing values Q13_4")
+sum(is.na(mssurvey_cc$Q13_4))
+
+print("Count of total missing values Q15_1")
+sum(is.na(mssurvey_cc$Q15_1))
+
+print("Count of total missing values Q15_2")
+sum(is.na(mssurvey_cc$Q15_2))
+
+print("Count of total missing values Q15_3")
+sum(is.na(mssurvey_cc$Q15_3))
+
+print("Count of total missing values Q17_1")
+sum(is.na(mssurvey_cc$Q17_1))
+
+print("Count of total missing values Q17_2")
+sum(is.na(mssurvey_cc$Q17_2))
+
+print("Count of total missing values Q17_3")
+sum(is.na(mssurvey_cc$Q17_3))
+
+print("Count of total missing values Q17_4")
+sum(is.na(mssurvey_cc$Q17_4))
+
+print("Count of total missing values Q17_5")
+sum(is.na(mssurvey_cc$Q17_5))
+
+print("Count of total missing values Q19_1")
+sum(is.na(mssurvey_cc$Q19_1))
+
+print("Count of total missing values Q19_2")
+sum(is.na(mssurvey_cc$Q19_2))
+
+print("Count of total missing values Q19_3")
+sum(is.na(mssurvey_cc$Q19_3))
+
+print("Count of total missing values Q19_4")
+sum(is.na(mssurvey_cc$Q19_4))
+
+#No missing values.
+
+```
+
+#4. Variables as factors with tables included.
+
+```{r factoring/tabling, include=TRUE}
+
+#Q6: Have you run cancer trials in your unit within the last three years?
+
+table(mssurvey_cc$Q6)
+
+## 1  2  3 
+## 5 25 17 
+
+mssurvey_cc$Q6 <- factor(mssurvey_cc$Q6,labels = c("Yes, only cancer trials", "Yes, cancer trials and trials in other disease areas", "No"))
+
+table(mssurvey_cc$Q6)
+
+##    Yes, only cancer trials         Yes, cancer trials and trials in other disease areas          No
+##    5                               25                                                            17  
+
+###############################################################################################################################
+
+#Q7: When did your CTU start routinely using Estimands in trials, e.g. included in SOP's or guidance?
+
+table(mssurvey_cc$Q7)
+
+# 1  2  3  4 
+#21  6 14  6 
+
+mssurvey_cc$Q7 <- factor(mssurvey_cc$Q7,labels = c("Estimands are not used routinely in our trials", "Within the last year", "1-3 Years", "3-5 Years"))
+
+table(mssurvey_cc$Q7)
+
+#Estimands are not used routinely in our trials                           Within the last year 
+#                                            21                                              6 
+#
+#                                     1-3 Years                                      3-5 Years 
+#                                            14                                              6
+
+###############################################################################################################################
+
+#Q8: Thinking about the last 3 years, how often has the estimand framework been used when new trials are being developed?
+
+table(mssurvey_cc$Q8)
+
+# 1  2  3  4  5 
+# 6 10 19 10  2
+
+mssurvey_cc$Q8 <- factor(mssurvey_cc$Q8,labels = c("Never", "Rarely", "Sometimes", "Most of the time", "Always"))
+
+table(mssurvey_cc$Q8)
+
+#           Never           Rarely        Sometimes Most of the time           Always 
+#               6               10               19               10                2
+
+###############################################################################################################################
+
+#Q12: Please provide a brief explanation for your answer (Follow-on from Q11)
+
+table(mssurvey_cc$Q12)
+
+#Basically still down to the statistician involved, and those who use them more commonly just tend to be working on cancer #trials. 
+#                                                                                                                               #                                                                                                                               #                                                                                                           1 
+#                                                                                                                               #                                                                                                                               #                                    Cancer trials often CTIMP, more examples of how estimands can be applied 
+#                                                                                                                               #                                                                                                                               #                                                                                                           1 
+#                                                                                                                               #                                                                                                                               #                                             Estimands framework is not applicable to only one disease area. 
+#                                                                                                                               #                                                                                                                               #                                                                                                           1 
+#                                                                                                                               #            I don't know what factors would mean that cancer trials are more or less appropriate for use of estimands. #Estimands are simply helping clearly define how we analyse the data so would be applicable across all disease areas. 
+#                                                                                                                               #                                                                                                                               #                                                                                                           1 
+#                                                                                                                               #                                                                                                                               #                                                       I don't think their use is dependent on disease area. 
+#                                                                                                                               #                                                                                                                               #                                                                                                           1 
+#                                                                                                                               #                                                                                                                              #Intercurrent events are just as likely to be problematic in cancer trials as they are in other disease areas. 
+#                                                                                                                               #                                                                                                                               #                                                                                                           1 
+#                                                                                                                               #                                                                                                                               #                                                            Medical area does not influence use of estimands 
+#                                                                                                                               #                                                                                                                               #                                                                                                           1 
+#                                                                                                                               #                                                                                                                               #                                                                              No reason to treat differently 
+#                                                                                                                               #                                                                                                                               #                                                                                                           1 
+#                                                                                                                               #                                 No reason why estimands should not receive equal weighting across all areas of clinical #research, as it is important to know about ICEs for any trial and what analytical methods are used to assess these 
+#                                                                                                                               #                                                                                                                               #                                                                                                           1 
+#                                                                             Outcomes more likely to be similar across trials #for cancer clinical trials so once Estimands have been decided on they would be easier to implement across to another trial. #Also as we work mainly in cancer clinical trials it is more likely that we would implement Estimands into them. 
+#                                                                                                                               #                                                                                                                               #                                                                                                           1 
+#                                                                                                                               #                                                                                                                               #                                                                                        See the answer to 10 
+#                                                                                                                               #                                                                                                                               #                                                                                                           1 
+#                                                                                                                               #                                                                                                                               #                                                                  SOPs apply across all clinical disciplines 
+#                                                                                                                               #                                                                                                                               #                                                                                                           1 
+#                                                                                                                               #                                                                                                                               #    Statisticians in cancer field possibly more aware but I'm not sure whether there's an actual difference. 
+#                                                                                                                               #                                                                                                                               #                                                                                                           1 
+#                                                                                                                               #                                                                                                                               #                                                             the estimand framework is useful for all trials 
+#                                                                                                                               #                                                                                                                               #                                                                                                           1 
+#                                                                                                                               #                                                                                                                               #                 The surgical cancer trials are treated the same as all other trials in other disease areas. 
+#                                                                                                                               #                                                                                                                               #                                                                                                           1 
+#                                                                                                                               #                                                                                        We acknowledge the need for #implementing estimands and plan to incorporate them in future full trials, including both cancer and non-cancer trials. 
+#                                                                                                                               #                                                                                                                               #                                                                                                           1 
+#                                                                                                                               #                                                                                                                         We #currently have only one very early phase trial so it will be unlikely that we will use estimand for this trial. 
+#                                                                                                                               #                                                                                                                               #                                                                                                           1 
+#                                                                                                                               #                                                                                                                               #                                        We do not have separate work practices depending on the disease area 
+#                                                                                                                               #                                                                                                                               #                                                                                                           1 
+#                                            We don't think that there is any particular reason that the estimand framework is #any more/less relevant for cancer trials compared to trials in other disease areas (particularly if the design/analysis #challenges are similar - e.g. time to event endpoints, competing events, use of non-trial "rescue" medications etc.) 
+#                                                                                                                               #                                                                                                                               #                                                                                                           1 
+#                                                                                                                               #                                                                           We don’t do many cancer trials in ECTU so difficult #to say – but stage of cancer trial designs we work on is similar to other non-cancer trials in our portfolio 
+#                                                                                                                               #                                                                                                                               #                                                                                                           1 
+#                                                                                                                               #                                                    We only do a small number of cancer trials which are again related to #complex interventions for cancer survivors or referral pathways so limited experience of cancer treatment trials. 
+#                                                                                                                               #                                                                                                                               #                                                                                                           1 
+#                                                                                                                               #                                                    We work in early phase trials in Cancer area predominantly. The estimand #framework is less useful in this context particularly for non-randomised studies which we conduct a number of. 
+#                                                                                                                               #                                                                                                                               #                                                                                                           1 
+#While there are a lot of examples from pharmaceutical trials, and drug trials are common in cancer trials. We felt there were #many therapeutic areas that deliver drugs trials, such as cardiovascular studies, that also use the Estimand framework. We are #also aware of estimand extensions for factorial trials, cluster RCTs, and mental health trial guidelines too. 
+#                                                                                                                               #                                                                                                                               #                                                                                                           1 
+#                                                                                                                               #                                                                                                                               #                                                Within oncology, the unit works mostly in early-phase trials 
+#                                                                                                                               #                                                                                                                               #                                                                                                           1 
+#                                                                                                                               #                                                                                                                               #                                                                                                           x 
+#                                                                                                                               #                                                                                                                               #                                                                                                           1
+
+###############################################################################################################################
+
+#Q13: In which phases of trials have you used Estimands? (Select all that apply)
+
+class(mssurvey_cc$Q13_1)
+
+###############Q13_1: "Phase I trials"
+
+sum(mssurvey_cc$Q13_1)
+
+# sum(mssurvey_cc$Q13_1)
+#[1] 7
+
+###############Q13_2: "Phase II trials"
+
+sum(mssurvey_cc$Q13_2)
+
+# sum(mssurvey_cc$Q13_2)
+#[1] 18
+
+###############Q13_3: "Phase III trials"
+
+sum(mssurvey_cc$Q13_3)
+#sum(mssurvey_cc$Q13_3)
+#[1] 37
+
+###############Q13_4: "Other (please specify)"
+
+sum(mssurvey_cc$Q13_4)
+
+#sum(mssurvey_cc$Q13_4)
+#[1] 5
+
+###############################################################################################################################
+
+#Q14: If you selected "other" for Question 13, please specify:
+
+table(mssurvey_cc$Q14)
+
+#Phase IV 
+#                              1                                                                                                #                              
+#some of our trials don't fit into typical trial phase classes provided above 
+#                                                                                                                               #                              1 
+#                                                                                                                              #Trials of lifestyle intervention 
+#                                                                                                                               #                              1 
+#                                                                                                                               We have not yet routinely used estimands. 
+#                                                                                                                               #                              1 
+#We tend not to use drug trial phase terminology. Most of our RCT are large effectiveness studies and hybrid implementation RTC #and estimands were used in both 
+#                                                                                                                               #                              1
+
+###############################################################################################################################
+
+#Q15: Where are Estimands typically detailed in your trials? (Select all that apply)
+
+class(mssurvey_cc$Q15_1)
+
+###############Q13_1: "Protocol"
+
+sum(mssurvey_cc$Q15_1)
+
+# sum(mssurvey_cc$Q15_1)
+#[1] 26
+
+###############Q15_2: "Statistical Analysis Plan"
+
+sum(mssurvey_cc$Q15_2)
+
+#sum(mssurvey_cc$Q15_2)
+#[1] 39
+
+###############Q15_3: "Other (please specify)"
+
+sum(mssurvey_cc$Q15_3)
+
+#sum(mssurvey_cc$Q15_3)
+#[1] 6
+
+###############################################################################################################################
+
+#Q16: If you selected "Other" for Question 15, please specify:
+
+table(mssurvey_cc$Q16)
+
+#Funding Application 
+#                                                                                                                               #                                                                                                                               #                                                                                                                               #                                                                    1 
+#                                                                                                                               #                                                                                                                               #                                                                                                                               #Grant application 
+#                                                                                                                               #                                                                                                                               #                                                                                                                               #                                                                    1 
+#                                                                                                                               #                                                                                                                               #                                                                                                                               #Grant development 
+#                                                                                                                               #                                                                                                                               #                                                                                                                               #                                                                    1 
+#just to clarify protocol - we are trying to ensure that protocols address basics of estimands aspects even with using estimands #terminology (e.g., clarify on research question and population, primary outcome and timing, interventions, summary measure of #treatment effect and analysis approach). most details will be covered in the SAP, esp on intercurrent events and how to handle #them. it is impossible to cover estimands aspects in the protocol tbh 
+#                                                                                                                               #                                                                                                                               #                                                                                                                               #                                                                    1 
+#                                                                                                                               #                                                                                                                               #Occasionally #the primary estimand is specified in the research application/proposal 
+#                                                                                                                               #                                                                                                                               #                                                                                                                               #                                                                    1 
+#                                                                                                                               #                                                                                                                               #                                                                                                                               #Testing whether I can select two checkboxes in Q15. Edit: It works. 
+#                                                                                                                               #                                                                                                                               #                                                                                                                               #                                                                    1
+
+###############################################################################################################################
+
+#Q17: Which of your trial publications usually report details of the Estimand(S) used?
+
+class(mssurvey_cc$Q17_1)
+
+###############Q17_1: "Protocol publication"
+
+sum(mssurvey_cc$Q17_1)
+
+#sum(mssurvey_cc$Q17_1)
+#[1] 13
+
+###############Q17_2: "Primary results publication"
+
+sum(mssurvey_cc$Q17_2)
+
+#sum(mssurvey_cc$Q17_2)
+#[1] 15
+
+###############Q17_3: "Secondary analysis publication"
+
+sum(mssurvey_cc$Q17_3)
+
+#sum(mssurvey_cc$Q17_3)
+#[1] 6
+
+###############Q17_4: "None published to date"
+
+sum(mssurvey_cc$Q17_4)
+
+#sum(mssurvey_cc$Q17_4)
+#[1] 19
+
+###############Q17_5: "Other (Please specify)"
+
+sum(mssurvey_cc$Q17_5)
+
+#sum(mssurvey_cc$Q17_5)
+#[1] 8
+
+###############################################################################################################################
+
+#Q18: If you selected "Other" for Question 17, please specify.
+
+table(mssurvey_cc$Q18)
+
+#                                       Funder's report 
+#                                                                                                                               #                                                     1 
+#                                                                                                                               #                             I've not looked into this 
+#                                                                                                                               #                                                     1 
+#                                                                                                                            #It's use is implied within secondary sensitivity analyses 
+#                                                                                                                               #                                                     1 
+#                                                                                                                               #     Methodology paper on using estimands in TB trials 
+#                                                                                                                               #                                                     1 
+#                                                                                                                               #                                None published so far. 
+#                                                                                                                               #                                                     1 
+#                                                                                                                               #                             Statistical analysis plan 
+#                                                                                                                               #                                                     1 
+#                                                                                                                               #                 Statistical analysis plan publication 
+#                                                                                                                               #                                                     1 
+#Statistical analysis plans, although these are usually just made available online (e.g. via the ISRCTN registration) as opposed #to being published in a peer reviewed journal article 
+#                                                                                                                               #                                                     1
+
+###############################################################################################################################
+
+#Q19: If no publications to date have reported on estimand(s) used, in which trial publications are you planning to report details of the estimand(s) used?
+
+class(mssurvey_cc$Q19_1)
+
+###############Q19_1: "Protocol publication"
+
+sum(mssurvey_cc$Q19_1)
+
+#sum(mssurvey_cc$Q19_1)
+#[1] 13
+
+###############Q19_2: "Primary results publication"
+
+sum(mssurvey_cc$Q19_2)
+
+#sum(mssurvey_cc$Q19_2)
+#[1] 19
+
+###############Q19_3: "Secondary analysis publication"
+
+sum(mssurvey_cc$Q19_3)
+
+#sum(mssurvey_cc$Q19_3)
+#[1] 8
+
+###############Q19_4: "Other (Please specify)"
+
+sum(mssurvey_cc$Q19_4)
+
+#sum(mssurvey_cc$Q19_4)
+#[1] 4
+
+###############################################################################################################################
+
+#Q20: If you selected "Other" for Question 19, please specify
+
+table(mssurvey_cc$Q20)
+
+#i found it impossible to fit estimands in protocol publications; unsure i understood what is meant by secondary analysis publication 
+#                                                                                                                               #    1 
+#SAP if #published 
+#                                                                                                                               #    1 
+#SAP if published. Otherwise try incorporate into primary results #publication. 
+#                                                                                                                               #    1 
+#SAP #publications 
+#                                                                                                                               #    1 
+```
+
+#5. Figures/Graphs
+
+```{r Data visualisation Q6-8, include=TRUE}
+
+#Q6: Have you run any cancer trials in your unit within the last three years?
+library(ggplot2)
+
+q6 <- ggplot(mssurvey_cc, aes(Q6))
+q6 + geom_bar()
+
+library(dplyr)
+library(scales)
+
+q6_bar <- mssurvey_cc$Q6 %>% as.data.frame %>%
+  rename(Var='.') %>%
+  group_by(Var) %>% summarise(N=n()) %>%
+  ggplot(aes(x=Var,y=N,fill=Var))+
+  geom_bar(stat = 'identity',color='black',show.legend = FALSE)+
+  scale_y_continuous(labels = scales::comma_format(accuracy = 2))+
+  scale_x_discrete(labels = label_wrap(30)) +
+  geom_text(aes(label=N),vjust=-0.25,fontface='bold')+
+    labs(
+    title = "Q6: Have you run any cancer trials in your unit within the last three years?",
+    x = "Question 6",
+    y = "Count"
+  )
+  theme_bw()+
+  theme(axis.text = element_text(color='black',face='bold', size = 8),
+        axis.title = element_text(color='black',face='bold'),
+        legend.text = element_text(color='black',face='bold'),
+        legend.title = element_text(color='black',face='bold'))
+
+q6_bar
+
+###########################################################################################################################
+
+#Q7: When did your CTU start routinely using estimands in trials, e.g. included in SOPs or guidance?
+
+library(ggplot2)
+
+q7 <- ggplot(mssurvey_cc, aes(Q7))
+q7 + geom_bar()
+
+library(dplyr)
+
+q7_bar <- mssurvey_cc$Q7 %>% as.data.frame %>%
+  rename(Var='.') %>%
+  group_by(Var) %>% summarise(N=n()) %>%
+  ggplot(aes(x=Var,y=N,fill=Var))+
+  geom_bar(stat = 'identity',color='black',show.legend = FALSE)+
+  scale_x_discrete(labels = label_wrap(30)) +
+  scale_y_continuous(labels = scales::comma_format(accuracy = 2))+
+  geom_text(aes(label=N),vjust=-0.25,fontface='bold')+
+    labs(
+    title = "Q7: When did your CTU start routinely using estimands in trials?",
+    x = "Question 7",
+    y = "Count"
+  )
+  theme_bw()+
+  theme(axis.text = element_text(color='black',face='bold', size = 8),
+        axis.title = element_text(color='black',face='bold'),
+        legend.text = element_text(color='black',face='bold'),
+        legend.title = element_text(color='black',face='bold'))
+
+q7_bar
+
+###########################################################################################################################
+
+#Q8: Thinking about the last 3 years, how often has the estimand framework been used when new trials are being developed?
+
+wrapper <- function(x, ...) 
+{
+  paste(strwrap(x, ...), collapse = "\n")
+}
+
+q8title = "Q8: Thinking about the last 3 years, how often has the estimand framework been used when new trials are being developed?"
+
+library(ggplot2)
+
+q8 <- ggplot(mssurvey_cc, aes(Q8))
+q8 + geom_bar()
+
+library(dplyr)
+
+q8_bar <- mssurvey_cc$Q8 %>% as.data.frame %>%
+  rename(Var='.') %>%
+  group_by(Var) %>% summarise(N=n()) %>%
+  ggplot(aes(x=Var,y=N,fill=Var))+
+  geom_bar(stat = 'identity',color='black',show.legend = FALSE)+
+  scale_x_discrete(labels = label_wrap(30)) +
+  scale_y_continuous(labels = scales::comma_format(accuracy = 2))+
+  geom_text(aes(label=N),vjust=-0.25,fontface='bold')+
+    labs(
+    title = wrapper(q8title, 80),
+    x = "Question 8",
+    y = "Count"
+  )
+  theme_bw()+
+  theme(axis.text = element_text(color='black',face='bold', size = 8),
+        axis.title = element_text(color='black',face='bold'),
+        legend.text = element_text(color='black',face='bold'),
+        legend.title = element_text(color='black',face='bold'))
+
+q8_bar
+
+###########################################################################################################################
+
+```
+
+#6. New data frame for multiple response answers of Q13, Q15, Q17 & Q19
+
+```{r Q13 Multiple response answers, include=TRUE}
+
+#Question 13:In which phases of trials have you used estimands? (select all that apply)
+
+q13.1 = data.frame(num = c( 1 : 7 ),
+                 phase = c("1"))
+
+q13.2=data.frame(num = c( 8 : 25 ),
+               phase = c("2"))
+
+q13.3=data.frame(num = c( 27 : 63 ),
+               phase = c("3"))
+
+q13.4=data.frame(num = c( 64 : 68 ),
+               phase = c("4"))
+
+new_row=q13.2[c(1:18),]
+
+new_row2=q13.3[c(1:37),]
+
+new_row3=q13.4[c(1:5),]
+
+q13.1=rbind(q13.1, new_row)
+q13.1=rbind(q13.1, new_row2)
+q13.1=rbind(q13.1, new_row3)
+
+print(q13.1)
+
+table(q13.1$phase)
+
+# 1  2  3  4 
+# 7 18 37  5
+
+#Double check against original count
+sum(mssurvey_cc$Q13_1)
+#[1] 7
+sum(mssurvey_cc$Q13_2)
+#[1] 18
+sum(mssurvey_cc$Q13_3)
+#[1] 37
+sum(mssurvey_cc$Q13_4)
+#[1] 5
+
+class(q13.1$phase)
+
+q13.1$phase <- factor(q13.1$phase,labels = c("Phase I Trials", "Phase II Trials", "Phase III Trials", "Other(Please specify)"))
+
+table(q13.1$phase)
+
+#       Phase I Trials       Phase II Trials      Phase III Trials Other(Please specify) 
+#                    7                    18                    37                     5 
+```
+
+```{r Q15 Multiple response answers, include= TRUE}
+
+#Question 15: Where are estimands typically detailed in your trials? (select all that apply)
+
+q15.1 = data.frame(num = c( 1 : 26 ),
+                 location = c("1"))
+
+q15.2=data.frame(num = c( 27 : 65 ),
+               location = c("2"))
+
+q15.3=data.frame(num = c( 67 : 72 ),
+               location = c("3"))
+
+
+
+new_row_15=q15.2[c(1:39),]
+
+new_row2_15=q15.3[c(1:6),]
+
+q15.1=rbind(q15.1, new_row_15)
+q15.1=rbind(q15.1, new_row2_15)
+
+
+print(q15.1)
+
+table(q15.1$location)
+
+# 1  2  3 
+#26 39  6 
+
+#Double check against original count
+sum(mssurvey_cc$Q15_1)
+#[1] 26
+sum(mssurvey_cc$Q15_2)
+#[1] 39
+sum(mssurvey_cc$Q15_3)
+#[1] 6
+
+class(q15.1$location)
+
+q15.1$location <- factor(q15.1$location,labels = c("Protocol", "Statistical Analysis Plan", "Other(Please specify)"))
+
+table(q15.1$location)
+
+#                 Protocol Statistical Analysis Plan     Other(Please specify) 
+#                       26                        39                         6 
+
+```
+
+```{r Q17 Multiple response answers, include=TRUE}
+
+#Q17: Which of your trial publications usually report details of the estimand(s) used?
+
+q17.1 = data.frame(num = c( 1 : 13 ),
+                 publication = c("1"))
+
+q17.2=data.frame(num = c( 14 : 28 ),
+               publication = c("2"))
+
+q17.3=data.frame(num = c( 29 : 34 ),
+               publication = c("3"))
+
+q17.4=data.frame(num = c( 35 : 53 ),
+               publication = c("4"))
+
+q17.5=data.frame(num = c( 54 : 61 ),
+               publication = c("5"))
+
+new_row_17=q17.2[c(1:15),]
+
+new_row2_17=q17.3[c(1:6),]
+
+new_row3_17=q17.4[c(1:19),]
+
+new_row4_17=q17.5[c(1:8),]
+
+q17.1=rbind(q17.1, new_row_17)
+q17.1=rbind(q17.1, new_row2_17)
+q17.1=rbind(q17.1, new_row3_17)
+q17.1=rbind(q17.1, new_row4_17)
+
+print(q17.1)
+
+table(q17.1$publication)
+
+# 1  2  3  4  5 
+#13 15  6 19  8 
+
+#Double check against original count
+sum(mssurvey_cc$Q17_1)
+#[1] 13
+sum(mssurvey_cc$Q17_2)
+#[1] 15
+sum(mssurvey_cc$Q17_3)
+#[1] 6
+sum(mssurvey_cc$Q17_4)
+#[1] 19
+sum(mssurvey_cc$Q17_5)
+#[1] 8
+
+class(q17.1$publication)
+
+q17.1$publication <- factor(q17.1$publication,labels = c("Protocol publication", "Primary results publication", "Secondary analysis publication", "None published to date", "Other (Please specify"))
+
+table(q17.1$publication)
+
+#          Protocol publication    Primary results publication Secondary analysis publication         None published to date 
+#                            13                             15                              6                             19 
+#         Other (Please specify 
+#                             8 
+```
+
+```{r Q19 Multiple response answers, include=TRUE}
+
+#Q19: If no publications to date have reported on estimand(s) used, in which trial publications are you planning to report details of the estimand(s) used? 
+
+q19.1 = data.frame(num = c( 1 : 13 ),
+                 publication2 = c("1"))
+
+q19.2=data.frame(num = c( 14 : 32 ),
+               publication2 = c("2"))
+
+q19.3=data.frame(num = c( 33 : 40 ),
+               publication2 = c("3"))
+
+q19.4=data.frame(num = c( 41 : 44 ),
+               publication2 = c("4"))
+
+new_row_19=q19.2[c(1:19),]
+
+new_row2_19=q19.3[c(1:8),]
+
+new_row3_19=q19.4[c(1:4),]
+
+
+q19.1=rbind(q19.1, new_row_19)
+q19.1=rbind(q19.1, new_row2_19)
+q19.1=rbind(q19.1, new_row3_19)
+
+print(q19.1)
+
+table(q19.1$publication2)
+
+# 1  2  3  4 
+#13 19  8  4 
+
+#Double check against original count
+sum(mssurvey_cc$Q19_1)
+#[1] 13
+sum(mssurvey_cc$Q19_2)
+#[1] 19
+sum(mssurvey_cc$Q19_3)
+#[1] 8
+sum(mssurvey_cc$Q19_4)
+#[1] 4
+
+class(q19.1$publication2)
+
+q19.1$publication2 <- factor(q19.1$publication2,labels = c("Protocol publication", "Primary results publication", "Secondary analysis publication", "Other (Please specify"))
+
+table(q19.1$publication2)
+
+#          Protocol publication    Primary results publication Secondary analysis publication          Other (Please specify 
+#                            13                             19                              8                              4    
+
+```
+
+#7. Figures and Graphics for Q13, Q15, Q17, Q19.
+
+```{r Graphs, include=TRUE}
+
+#Q13: In which phases of trials have you used estimands?
+
+library(ggplot2)
+
+q13 <- ggplot(q13.1, aes(phase))
+q13 + geom_bar()
+
+library(dplyr)
+
+q13_bar <- q13.1$phase %>% as.data.frame %>%
+  rename(Var='.') %>%
+  group_by(Var) %>% summarise(N=n()) %>%
+  ggplot(aes(x=Var,y=N,fill=Var))+
+  geom_bar(stat = 'identity',color='black',show.legend = FALSE)+
+  scale_x_discrete(labels = label_wrap(18)) +
+  scale_y_continuous(labels = scales::comma_format(accuracy = 2))+
+  geom_text(aes(label=N),vjust=-0.25,fontface='bold')+
+    labs(
+    title = "Q13: In which phases of trials have you used estimands?",
+    x = "Question 13",
+    y = "Count"
+  )
+  theme_bw()+
+  theme(axis.text = element_text(color='black',face='bold', size = 8),
+        axis.title = element_text(color='black',face='bold'),
+        legend.text = element_text(color='black',face='bold'),
+        legend.title = element_text(color='black',face='bold'))
+
+q13_bar
+
+##########################################################################################################################################
+
+#Q15: Where are estimands typically detailed in your trials?
+
+library(ggplot2)
+
+q15 <- ggplot(q15.1, aes(location))
+q15 + geom_bar()
+
+library(dplyr)
+
+q15_bar <- q15.1$location %>% as.data.frame %>%
+  rename(Var='.') %>%
+  group_by(Var) %>% summarise(N=n()) %>%
+  ggplot(aes(x=Var,y=N,fill=Var))+
+  geom_bar(stat = 'identity',color='black',show.legend = FALSE)+
+  scale_x_discrete(labels = label_wrap(18)) +
+  scale_y_continuous(labels = scales::comma_format(accuracy = 2))+
+  geom_text(aes(label=N),vjust=-0.25,fontface='bold')+
+    labs(
+    title = "Q15: Where are estimands typically detailed in your trials?",
+    x = "Question 15",
+    y = "Count"
+  )
+  theme_bw()+
+  theme(axis.text = element_text(color='black',face='bold', size = 8),
+        axis.title = element_text(color='black',face='bold'),
+        legend.text = element_text(color='black',face='bold'),
+        legend.title = element_text(color='black',face='bold'))
+
+q15_bar
+
+##########################################################################################################################################
+
+#Q17: Which of your trial publications usually report details of the estimand(s) used?
+
+library(ggplot2)
+
+q17 <- ggplot(q17.1, aes(publication))
+q17 + geom_bar()
+
+library(dplyr)
+
+q17_bar <- q17.1$publication %>% as.data.frame %>%
+  rename(Var='.') %>%
+  group_by(Var) %>% summarise(N=n()) %>%
+  ggplot(aes(x=Var,y=N,fill=Var))+
+  geom_bar(stat = 'identity',color='black',show.legend = FALSE)+
+  scale_x_discrete(labels = label_wrap(12)) +
+  scale_y_continuous(labels = scales::comma_format(accuracy = 2))+
+  geom_text(aes(label=N),vjust=-0.25,fontface='bold')+
+    labs(
+    title = "Q17: Which of your trial publications usually report details of the estimand(s) used?",
+    x = "Question 17",
+    y = "Count"
+  )
+  theme_bw()+
+  theme(axis.text = element_text(color='black',face='bold', size = 8),
+        axis.title = element_text(color='black',face='bold'),
+        legend.text = element_text(color='black',face='bold'),
+        legend.title = element_text(color='black',face='bold'))
+
+q17_bar
+
+##########################################################################################################################################
+
+#Q19: If no publications to date have reported on estimand(s) used, in which trial publications are you planning to report details of the estimand(s) used?
+
+library(ggplot2)
+
+q19 <- ggplot(q19.1, aes(publication2))
+q19 + geom_bar()
+
+wrapper <- function(x, ...) 
+{
+  paste(strwrap(x, ...), collapse = "\n")
+}
+
+q19title = "Q19: If no publications to date have reported on estimand(s) used, in which trial publications are you planning to report details of the estimand(s) used?"
+
+library(dplyr)
+
+q19_bar <- q19.1$publication2 %>% as.data.frame %>%
+  rename(Var='.') %>%
+  group_by(Var) %>% summarise(N=n()) %>%
+  ggplot(aes(x=Var,y=N,fill=Var))+
+  geom_bar(stat = 'identity',color='black',show.legend = FALSE)+
+  scale_x_discrete(labels = label_wrap(18)) +
+  scale_y_continuous(labels = scales::comma_format(accuracy = 2))+
+  geom_text(aes(label=N),vjust=-0.25,fontface='bold')+
+    labs(
+    title = wrapper(q19title),
+    x = "Question 19",
+    y = "Count"
+  )
+  theme_bw()+
+  theme(axis.text = element_text(color='black',face='bold', size = 8),
+        axis.title = element_text(color='black',face='bold'),
+        legend.text = element_text(color='black',face='bold'),
+        legend.title = element_text(color='black',face='bold'))
+
+q19_bar
+```
