@@ -433,10 +433,9 @@ q6_bar <- mssurvey_cc$Q6 %>% as.data.frame %>%
   rename(Var='.') %>%
   group_by(Var) %>% summarise(N=n()) %>%
   ggplot(aes(x=Var,y=N,fill=Var))+
-  geom_bar(stat = 'identity',color='black')+
-  theme(legend.text = element_text(size=8)) +
+  geom_bar(stat = 'identity',color='black',show.legend = FALSE)+
   scale_y_continuous(labels = scales::comma_format(accuracy = 2))+
-  scale_x_discrete(labels = label_wrap(18)) +
+  scale_x_discrete(labels = label_wrap(30)) +
   geom_text(aes(label=N),vjust=-0.25,fontface='bold')+
     labs(
     title = "Q6: Have you run any cancer trials in your unit within the last three years?",
@@ -466,9 +465,8 @@ q7_bar <- mssurvey_cc$Q7 %>% as.data.frame %>%
   rename(Var='.') %>%
   group_by(Var) %>% summarise(N=n()) %>%
   ggplot(aes(x=Var,y=N,fill=Var))+
-  geom_bar(stat = 'identity',color='black')+
-  theme(legend.text = element_text(size=5)) +
-  scale_x_discrete(labels = label_wrap(20)) +
+  geom_bar(stat = 'identity',color='black',show.legend = FALSE)+
+  scale_x_discrete(labels = label_wrap(30)) +
   scale_y_continuous(labels = scales::comma_format(accuracy = 2))+
   geom_text(aes(label=N),vjust=-0.25,fontface='bold')+
     labs(
@@ -488,6 +486,13 @@ q7_bar
 
 #Q8: Thinking about the last 3 years, how often has the estimand framework been used when new trials are being developed?
 
+wrapper <- function(x, ...) 
+{
+  paste(strwrap(x, ...), collapse = "\n")
+}
+
+q8title = "Q8: Thinking about the last 3 years, how often has the estimand framework been used when new trials are being developed?"
+
 library(ggplot2)
 
 q8 <- ggplot(mssurvey_cc, aes(Q8))
@@ -499,12 +504,12 @@ q8_bar <- mssurvey_cc$Q8 %>% as.data.frame %>%
   rename(Var='.') %>%
   group_by(Var) %>% summarise(N=n()) %>%
   ggplot(aes(x=Var,y=N,fill=Var))+
-  geom_bar(stat = 'identity',color='black')+
-  scale_x_discrete(labels = label_wrap(18)) +
+  geom_bar(stat = 'identity',color='black',show.legend = FALSE)+
+  scale_x_discrete(labels = label_wrap(30)) +
   scale_y_continuous(labels = scales::comma_format(accuracy = 2))+
   geom_text(aes(label=N),vjust=-0.25,fontface='bold')+
     labs(
-    title = "Q8: Thinking about the last 3 years, how often has the estimand framework been used when new trials are being developed?",
+    title = wrapper(q8title, 80),
     x = "Question 8",
     y = "Count"
   )
@@ -759,7 +764,7 @@ q13_bar <- q13.1$phase %>% as.data.frame %>%
   rename(Var='.') %>%
   group_by(Var) %>% summarise(N=n()) %>%
   ggplot(aes(x=Var,y=N,fill=Var))+
-  geom_bar(stat = 'identity',color='black')+
+  geom_bar(stat = 'identity',color='black',show.legend = FALSE)+
   scale_x_discrete(labels = label_wrap(18)) +
   scale_y_continuous(labels = scales::comma_format(accuracy = 2))+
   geom_text(aes(label=N),vjust=-0.25,fontface='bold')+
@@ -791,7 +796,7 @@ q15_bar <- q15.1$location %>% as.data.frame %>%
   rename(Var='.') %>%
   group_by(Var) %>% summarise(N=n()) %>%
   ggplot(aes(x=Var,y=N,fill=Var))+
-  geom_bar(stat = 'identity',color='black')+
+  geom_bar(stat = 'identity',color='black',show.legend = FALSE)+
   scale_x_discrete(labels = label_wrap(18)) +
   scale_y_continuous(labels = scales::comma_format(accuracy = 2))+
   geom_text(aes(label=N),vjust=-0.25,fontface='bold')+
@@ -823,7 +828,7 @@ q17_bar <- q17.1$publication %>% as.data.frame %>%
   rename(Var='.') %>%
   group_by(Var) %>% summarise(N=n()) %>%
   ggplot(aes(x=Var,y=N,fill=Var))+
-  geom_bar(stat = 'identity',color='black')+
+  geom_bar(stat = 'identity',color='black',show.legend = FALSE)+
   scale_x_discrete(labels = label_wrap(12)) +
   scale_y_continuous(labels = scales::comma_format(accuracy = 2))+
   geom_text(aes(label=N),vjust=-0.25,fontface='bold')+
@@ -849,18 +854,25 @@ library(ggplot2)
 q19 <- ggplot(q19.1, aes(publication2))
 q19 + geom_bar()
 
+wrapper <- function(x, ...) 
+{
+  paste(strwrap(x, ...), collapse = "\n")
+}
+
+q19title = "Q19: If no publications to date have reported on estimand(s) used, in which trial publications are you planning to report details of the estimand(s) used?"
+
 library(dplyr)
 
 q19_bar <- q19.1$publication2 %>% as.data.frame %>%
   rename(Var='.') %>%
   group_by(Var) %>% summarise(N=n()) %>%
   ggplot(aes(x=Var,y=N,fill=Var))+
-  geom_bar(stat = 'identity',color='black')+
+  geom_bar(stat = 'identity',color='black',show.legend = FALSE)+
   scale_x_discrete(labels = label_wrap(18)) +
   scale_y_continuous(labels = scales::comma_format(accuracy = 2))+
   geom_text(aes(label=N),vjust=-0.25,fontface='bold')+
     labs(
-    title = "Q19: If no publications to date have reported on estimand(s) used, in which trial publications are you planning to report details of the estimand(s) used?",
+    title = wrapper(q19title),
     x = "Question 19",
     y = "Count"
   )
