@@ -20,7 +20,7 @@ mssurvey <- read_excel("mssurvey.xlsx")
 
 #Select variables for visualisation
 
-mssurvey_cc <- mssurvey[,c('Q6','Q7','Q8','Q12','Q13_1','Q13_2','Q13_3','Q13_4','Q14','Q15_1','Q15_2','Q15_3','Q16','Q17_1','Q17_2','Q17_3','Q17_4','Q17_5','Q18','Q19_1','Q19_2','Q19_3','Q19_4','Q20')]
+mssurvey_cc <- mssurvey[,c('Q6','Q7','Q8','Q12','Q13_1','Q13_2','Q13_3','Q13_4','Q14','Q15_1','Q15_2','Q15_3','Q16','Q17_1','Q17_2','Q17_3','Q17_4','Q17_5','Q18','Q19_1','Q19_2','Q19_3','Q19_4','Q20', 'Q21_1', 'Q21_2', 'Q21_3', 'Q21_4', 'Q21_5', 'Q21_6', 'Q21_7', 'Q22', 'Q23', 'Q24_1', 'Q24_2', 'Q24_3', 'Q24_4', 'Q24_5', 'Q25', 'Q26_1', 'Q26_2', 'Q26_3', 'Q26_4', 'Q26_5', 'Q26_6', 'Q26_7', 'Q27', 'Q28', 'Q29')]
 
 ```
 
@@ -438,7 +438,7 @@ q6_bar <- mssurvey_cc$Q6 %>% as.data.frame %>%
   scale_x_discrete(labels = label_wrap(30)) +
   geom_text(aes(label=N),vjust=-0.25,fontface='bold')+
     labs(
-    title = "Q6: Have you run any cancer trials in your unit within the last three years?",
+    title = "Have you run any cancer trials in your unit within the last three years?",
     x = "Question 6",
     y = "Count"
   )
@@ -470,7 +470,7 @@ q7_bar <- mssurvey_cc$Q7 %>% as.data.frame %>%
   scale_y_continuous(labels = scales::comma_format(accuracy = 2))+
   geom_text(aes(label=N),vjust=-0.25,fontface='bold')+
     labs(
-    title = "Q7: When did your CTU start routinely using estimands in trials?",
+    title = "When did your CTU start routinely using estimands in trials?",
     x = "Question 7",
     y = "Count"
   )
@@ -491,7 +491,7 @@ wrapper <- function(x, ...)
   paste(strwrap(x, ...), collapse = "\n")
 }
 
-q8title = "Q8: Thinking about the last 3 years, how often has the estimand framework been used when new trials are being developed?"
+q8title = "Thinking about the last 3 years, how often has the estimand framework been used when new trials are being developed?"
 
 library(ggplot2)
 
@@ -769,7 +769,7 @@ q13_bar <- q13.1$phase %>% as.data.frame %>%
   scale_y_continuous(labels = scales::comma_format(accuracy = 2))+
   geom_text(aes(label=N),vjust=-0.25,fontface='bold')+
     labs(
-    title = "Q13: In which phases of trials have you used estimands?",
+    title = "In which phases of trials have you used estimands?",
     x = "Question 13",
     y = "Count"
   )
@@ -801,7 +801,7 @@ q15_bar <- q15.1$location %>% as.data.frame %>%
   scale_y_continuous(labels = scales::comma_format(accuracy = 2))+
   geom_text(aes(label=N),vjust=-0.25,fontface='bold')+
     labs(
-    title = "Q15: Where are estimands typically detailed in your trials?",
+    title = "Where are estimands typically detailed in your trials?",
     x = "Question 15",
     y = "Count"
   )
@@ -833,7 +833,7 @@ q17_bar <- q17.1$publication %>% as.data.frame %>%
   scale_y_continuous(labels = scales::comma_format(accuracy = 2))+
   geom_text(aes(label=N),vjust=-0.25,fontface='bold')+
     labs(
-    title = "Q17: Which of your trial publications usually report details of the estimand(s) used?",
+    title = "Which of your trial publications usually report details of the estimand(s) used?",
     x = "Question 17",
     y = "Count"
   )
@@ -859,7 +859,7 @@ wrapper <- function(x, ...)
   paste(strwrap(x, ...), collapse = "\n")
 }
 
-q19title = "Q19: If no publications to date have reported on estimand(s) used, in which trial publications are you planning to report details of the estimand(s) used?"
+q19title = "If no publications to date have reported on estimand(s) used, in which trial publications are you planning to report details of the estimand(s) used?"
 
 library(dplyr)
 
@@ -872,7 +872,7 @@ q19_bar <- q19.1$publication2 %>% as.data.frame %>%
   scale_y_continuous(labels = scales::comma_format(accuracy = 2))+
   geom_text(aes(label=N),vjust=-0.25,fontface='bold')+
     labs(
-    title = wrapper(q19title),
+    title = wrapper(q19title, 80),
     x = "Question 19",
     y = "Count"
   )
@@ -884,3 +884,487 @@ q19_bar <- q19.1$publication2 %>% as.data.frame %>%
 
 q19_bar
 ```
+
+#Question 21
+
+```{r question 21, include=TRUE}
+
+#Q21: Who is usually actively involved in the development of estimands for the trials in your unit? (select all that apply)
+
+sum(mssurvey_cc$Q21_1)
+#[1] 41
+sum(mssurvey_cc$Q21_2)
+#[1] 6
+sum(mssurvey_cc$Q21_3)
+#[1] 3
+sum(mssurvey_cc$Q21_4)
+#[1] 2
+sum(mssurvey_cc$Q21_5)
+#[1] 9
+sum(mssurvey_cc$Q21_6)
+#[1] 32
+sum(mssurvey_cc$Q21_7)
+#[1] 4
+
+q21.1 = data.frame(num = c( 1 : 41 ),
+                 department = c("1"))
+
+q21.2=data.frame(num = c( 42 : 47 ),
+               department = c("2"))
+
+q21.3=data.frame(num = c( 48 : 50 ),
+               department = c("3"))
+
+q21.4=data.frame(num = c( 51 : 52 ),
+               department = c("4"))
+
+q21.5=data.frame(num = c( 53 : 61 ),
+               department = c("5"))
+
+q21.6=data.frame(num = c( 62 : 93 ),
+               department = c("6"))
+
+q21.7=data.frame(num = c( 94 : 97 ),
+               department = c("7"))
+
+new_row_21=q21.2[c(1:6),]
+
+new_row_21.2=q21.3[c(1:3),]
+
+new_row_21.3=q21.4[c(1:2),]
+
+new_row_21.4=q21.5[c(1:9),]
+
+new_row_21.5=q21.6[c(1:32),]
+
+new_row_21.6=q21.7[c(1:4),]
+
+q21.1=rbind(q21.1, new_row_21)
+q21.1=rbind(q21.1, new_row_21.2)
+q21.1=rbind(q21.1, new_row_21.3)
+q21.1=rbind(q21.1, new_row_21.4)
+q21.1=rbind(q21.1, new_row_21.5)
+q21.1=rbind(q21.1, new_row_21.6)
+
+print(q21.1)
+
+table(q21.1$department)
+
+# 1  2  3  4  5  6  7 
+#41  6  3  2  9 32  4 
+
+q21.1$department <- factor(q21.1$department,labels = c("Statistics", "Trial management", "Data management", "Operations", "Patient partners", "Clinicians", "Other"))
+
+table(q21.1$department)
+
+#      Statistics Trial management  Data management       Operations Patient partners       Clinicians 
+#              41                6                3                2                9               32 
+#           Other 
+#               4
+
+library(ggplot2)
+
+q21 <- ggplot(q21.1, aes(department))
+q21 + geom_bar()
+
+wrapper <- function(x, ...) 
+{
+  paste(strwrap(x, ...), collapse = "\n")
+}
+
+q21title = "Who is usually actively involved in the development of estimands for the trials in your unit? (select all that apply)"
+
+library(dplyr)
+
+q21_bar <- q21.1$department %>% as.data.frame %>%
+  rename(Var='.') %>%
+  group_by(Var) %>% summarise(N=n()) %>%
+  ggplot(aes(x=Var,y=N,fill=Var))+
+  geom_bar(stat = 'identity',color='black',show.legend = FALSE)+
+  scale_x_discrete(labels = label_wrap(18)) +
+  scale_y_continuous(labels = scales::comma_format(accuracy = 2))+
+  geom_text(aes(label=N),vjust=-0.25,fontface='bold')+
+    labs(
+    title = wrapper(q21title, 80),
+    x = "Question 21",
+    y = "Count"
+  )
+  theme_bw()+
+  theme(axis.text = element_text(color='black',face='bold', size = 8),
+        axis.title = element_text(color='black',face='bold'),
+        legend.text = element_text(color='black',face='bold'),
+        legend.title = element_text(color='black',face='bold'))
+
+q21_bar
+
+
+```
+
+#Question 22
+
+```{r question 22, include=TRUE}
+
+table(mssurvey_cc$Q22)
+
+
+```
+#Question 23
+
+```{r Question 23, include=TRUE}
+
+#Q23: Do you, or have you previously, run training (formal or informal) regarding estimand development and use in your unit?
+
+print("Count of total missing values Q23")
+sum(is.na(mssurvey_cc$Q23))
+
+#No missing values
+
+table(mssurvey_cc$Q23)
+
+# 1  2 
+#28 19 
+
+mssurvey_cc$Q23 <- factor(mssurvey_cc$Q23,labels = c("Yes", "No"))
+
+table(mssurvey_cc$Q23)
+
+#Yes  No 
+# 28  19 
+
+library(ggplot2)
+
+q23 <- ggplot(mssurvey_cc, aes(Q23))
+q23 + geom_bar()
+
+library(dplyr)
+library(scales)
+
+wrapper <- function(x, ...) 
+{
+  paste(strwrap(x, ...), collapse = "\n")
+}
+
+q23title = "Do you, or have you previously, run training (formal or informal) regarding estimand development and use in your unit?"
+
+q23_bar <- mssurvey_cc$Q23 %>% as.data.frame %>%
+  rename(Var='.') %>%
+  group_by(Var) %>% summarise(N=n()) %>%
+  ggplot(aes(x=Var,y=N,fill=Var))+
+  geom_bar(stat = 'identity',color='black',show.legend = FALSE)+
+  scale_y_continuous(labels = scales::comma_format(accuracy = 2))+
+  scale_x_discrete(labels = label_wrap(30)) +
+  geom_text(aes(label=N),vjust=-0.25,fontface='bold')+
+    labs(
+    title = wrapper(q23title, 80),
+    x = "Question 23",
+    y = "Count"
+  )
+  theme_bw()+
+  theme(axis.text = element_text(color='black',face='bold', size = 8),
+        axis.title = element_text(color='black',face='bold'),
+        legend.text = element_text(color='black',face='bold'),
+        legend.title = element_text(color='black',face='bold'))
+
+q23_bar
+```
+
+#Question 24
+
+```{r question 24, include=TRUE}
+
+#Q24: If yes, which format(s) does this training take? (select all that apply)
+
+sum(mssurvey_cc$Q24_1)
+#[1] 4
+sum(mssurvey_cc$Q24_2)
+#[1] 13
+sum(mssurvey_cc$Q24_3)
+#[1] 18
+sum(mssurvey_cc$Q24_4)
+#[1] 5
+sum(mssurvey_cc$Q24_5)
+#[1] 6
+
+
+q24.1 = data.frame(num = c( 1 : 4 ),
+                 format = c("1"))
+
+q24.2=data.frame(num = c( 5 : 17 ),
+               format = c("2"))
+
+q24.3=data.frame(num = c( 18 : 35 ),
+               format = c("3"))
+
+q24.4=data.frame(num = c( 36 : 40 ),
+               format = c("4"))
+
+q24.5=data.frame(num = c( 41 : 46 ),
+               format = c("5"))
+
+
+new_row_24=q24.2[c(1:13),]
+
+new_row_24.2=q24.3[c(1:18),]
+
+new_row_24.3=q24.4[c(1:5),]
+
+new_row_24.4=q24.5[c(1:6),]
+
+
+q24.1=rbind(q24.1, new_row_24)
+q24.1=rbind(q24.1, new_row_24.2)
+q24.1=rbind(q24.1, new_row_24.3)
+q24.1=rbind(q24.1, new_row_24.4)
+
+
+print(q24.1)
+
+table(q24.1$format)
+
+# 1  2  3  4  5 
+# 4 13 18  5  6 
+
+q24.1$format <- factor(q24.1$format,labels = c("Regular meetings", "Ad-hoc discussions", "Seminar-style training", "Workshops", "Other"))
+
+table(q24.1$format)
+
+#      Regular meetings     Ad-hoc discussions Seminar-style training              Workshops                  Other 
+#                     4                     13                     18                      5                      6 
+
+library(ggplot2)
+
+q24 <- ggplot(q24.1, aes(format))
+q24 + geom_bar()
+
+wrapper <- function(x, ...) 
+{
+  paste(strwrap(x, ...), collapse = "\n")
+}
+
+q24title = "If yes, which format(s) does this training take? (select all that apply)"
+
+library(dplyr)
+
+q24_bar <- q24.1$format %>% as.data.frame %>%
+  rename(Var='.') %>%
+  group_by(Var) %>% summarise(N=n()) %>%
+  ggplot(aes(x=Var,y=N,fill=Var))+
+  geom_bar(stat = 'identity',color='black',show.legend = FALSE)+
+  scale_x_discrete(labels = label_wrap(18)) +
+  scale_y_continuous(labels = scales::comma_format(accuracy = 2))+
+  geom_text(aes(label=N),vjust=-0.25,fontface='bold')+
+    labs(
+    title = wrapper(q24title, 80),
+    x = "Question 24",
+    y = "Count"
+  )
+  theme_bw()+
+  theme(axis.text = element_text(color='black',face='bold', size = 8),
+        axis.title = element_text(color='black',face='bold'),
+        legend.text = element_text(color='black',face='bold'),
+        legend.title = element_text(color='black',face='bold'))
+
+q24_bar
+
+
+```
+
+#Question 25
+
+```{r Question 25, include=TRUE}
+
+#Q25: If you selected "other" for question 24, please specify
+
+table(mssurvey_cc$Q25)
+
+```
+
+#Question 26
+
+```{r question 26, include=TRUE}
+
+#Q26: Which groups attend(ed) this training?
+
+sum(mssurvey_cc$Q26_1)
+#[1] 28
+sum(mssurvey_cc$Q26_2)
+#[1] 9
+sum(mssurvey_cc$Q26_3)
+#[1] 8
+sum(mssurvey_cc$Q26_4)
+#[1] 5
+sum(mssurvey_cc$Q26_5)
+#[1] 0
+sum(mssurvey_cc$Q26_6)
+#[1] 2
+sum(mssurvey_cc$Q26_7)
+#[1] 2
+
+q26.1 = data.frame(num = c( 1 : 28 ),
+                 group = c("1"))
+
+q26.2=data.frame(num = c( 29 : 37 ),
+               group = c("2"))
+
+q26.3=data.frame(num = c( 38 :45  ),
+               group = c("3"))
+
+q26.4=data.frame(num = c( 46 : 50 ),
+               group = c("4"))
+
+q26.6=data.frame(num = c( 51 : 52 ),
+               group = c("6"))
+
+q21.7=data.frame(num = c( 53 : 54 ),
+               group = c("7"))
+
+new_row_26=q26.2[c(1:9),]
+
+new_row_26.2=q26.3[c(1:8),]
+
+new_row_26.3=q26.4[c(1:5),]
+
+new_row_26.4=q26.6[c(1:2),]
+
+new_row_26.5=q21.7[c(1:2),]
+
+
+
+q26.1=rbind(q26.1, new_row_26)
+q26.1=rbind(q26.1, new_row_26.2)
+q26.1=rbind(q26.1, new_row_26.3)
+q26.1=rbind(q26.1, new_row_26.4)
+q26.1=rbind(q26.1, new_row_26.5)
+
+
+print(q26.1)
+
+table(q26.1$group)
+
+# 1  2  3  4  6  7 
+#28  9  8  5  2  2 
+
+q26.1$group <- factor(q26.1$group,labels = c("Statistics", "Trial management", "Data management", "Operations", "Clinicians", "Other"))
+
+table(q26.1$group)
+
+#     Statistics Trial management  Data management       Operations       Clinicians            Other 
+#              28                9                8                5                2                2 
+
+library(ggplot2)
+
+q26 <- ggplot(q26.1, aes(group))
+q26 + geom_bar()
+
+wrapper <- function(x, ...) 
+{
+  paste(strwrap(x, ...), collapse = "\n")
+}
+
+q26title = "Which groups attend(ed) this training?"
+
+library(dplyr)
+
+q26_bar <- q26.1$group %>% as.data.frame %>%
+  rename(Var='.') %>%
+  group_by(Var) %>% summarise(N=n()) %>%
+  ggplot(aes(x=Var,y=N,fill=Var))+
+  geom_bar(stat = 'identity',color='black',show.legend = FALSE)+
+  scale_x_discrete(labels = label_wrap(18)) +
+  scale_y_continuous(labels = scales::comma_format(accuracy = 2))+
+  geom_text(aes(label=N),vjust=-0.25,fontface='bold')+
+    labs(
+    title = wrapper(q26title, 80),
+    x = "Question 26",
+    y = "Count"
+  )
+  theme_bw()+
+  theme(axis.text = element_text(color='black',face='bold', size = 8),
+        axis.title = element_text(color='black',face='bold'),
+        legend.text = element_text(color='black',face='bold'),
+        legend.title = element_text(color='black',face='bold'))
+
+q26_bar
+
+
+```
+
+#Question 27
+
+```{r question 27, include=TRUE}
+
+#Q27: If you selected "other" for question 26, please specify
+
+table(mssurvey_cc$Q27)
+
+```
+
+#Question 28
+
+```{r question 28, include=TRUE}
+
+#Q28: Do you use any specific resources for discussing estimands with patient partners?
+
+print("Count of total missing values Q28")
+sum(is.na(mssurvey_cc$Q28))
+
+#No missing values
+
+table(mssurvey_cc$Q28)
+
+# 1  2 
+# 3 44 
+
+mssurvey_cc$Q28 <- factor(mssurvey_cc$Q28,labels = c("Yes", "No"))
+
+table(mssurvey_cc$Q28)
+
+#Yes  No 
+#  3  44
+
+library(ggplot2)
+
+q28 <- ggplot(mssurvey_cc, aes(Q28))
+q28 + geom_bar()
+
+library(dplyr)
+library(scales)
+
+wrapper <- function(x, ...) 
+{
+  paste(strwrap(x, ...), collapse = "\n")
+}
+
+q28title = "Do you use any specific resources for discussing estimands with patient partners?"
+
+q28_bar <- mssurvey_cc$Q28 %>% as.data.frame %>%
+  rename(Var='.') %>%
+  group_by(Var) %>% summarise(N=n()) %>%
+  ggplot(aes(x=Var,y=N,fill=Var))+
+  geom_bar(stat = 'identity',color='black',show.legend = FALSE)+
+  scale_y_continuous(labels = scales::comma_format(accuracy = 2))+
+  scale_x_discrete(labels = label_wrap(30)) +
+  geom_text(aes(label=N),vjust=-0.25,fontface='bold')+
+    labs(
+    title = wrapper(q28title, 80),
+    x = "Question 28",
+    y = "Count"
+  )
+  theme_bw()+
+  theme(axis.text = element_text(color='black',face='bold', size = 8),
+        axis.title = element_text(color='black',face='bold'),
+        legend.text = element_text(color='black',face='bold'),
+        legend.title = element_text(color='black',face='bold'))
+
+q28_bar
+
+```
+
+#Question 29
+
+```{r question 29, include=TRUE}
+
+table(mssurvey_cc$Q29)
+
+```
+
