@@ -650,7 +650,7 @@ table(estimanddb2$`Estimands used?`)
 
 #Sposor Type
 
-Univariable analysis via the Chi squared test will be performed to identify any association between estimand use and sponsor type, sponsor country, funding type, trial phase, cancer vs non cancer trial, type of intervention, and year trial opened. Associated factors will be further analysed via multivariable logistic regression. Other results from the review will be presented in a narrative format, with specific findings tabulated and highlighted illustratively, in line with the study objectives. 
+Univariable analysis via the Chi squared test will be performed to identify any association between estimand use and sponsor type, sponsor country, funding type, trial phase, cancer vs non cancer trial, type of intervention, and year trial opened. Associated factors will be further analysed via multivariable logistic regression. Other results from the review will be presented in a narrative format, with specific findings tabulated and highlighted illustratively, in line with the study objectives.
 
 ```{r Tables, include=TRUE}
 
@@ -678,12 +678,12 @@ library(dplyr)
 estimanddb3$`Sponsor type` <- as.factor(estimanddb3$`Sponsor type`)
 estimanddb3$`Estimands used?` <- as.factor(estimanddb3$`Estimands used?`)
 
-estimanddb3 |> tbl_summary(by = `Estimands used?`, include = `Sponsor type`) |>
-  add_overall() |>
-  add_n() |>
+estimanddb3 |> tbl_summary(by = `Estimands used?`, include = `Sponsor type`, percent = "row") |>
   modify_spanning_header(c("stat_1", "stat_2") ~ "**Estimands Used?**") |>
   modify_caption("**Table 1. Estimand usage by sponsor type**") |>
   bold_labels() |>
+  add_overall(last=TRUE) |>
+  add_n() |>
   add_p(test.args = all_tests("fisher.test") ~ list(workspace=2e9))
 
 #Stacked barchart
@@ -713,8 +713,8 @@ table(estimanddb4$`Sponsor type`, estimanddb4$`Estimands used?`)
 estimanddb4$`Sponsor type` <- as.factor(estimanddb4$`Sponsor type`)
 estimanddb4$`Estimands used?` <- as.factor(estimanddb4$`Estimands used?`)
 
-estimanddb4 |> tbl_summary(by = `Estimands used?`, include = `Sponsor type`) |>
-  add_overall() |>
+estimanddb4 |> tbl_summary(by = `Estimands used?`, include = `Sponsor type`, percent = "row") |>
+  add_overall(last=TRUE) |>
   add_n() |>
   modify_spanning_header(c("stat_1", "stat_2") ~ "**Estimands Used?**") |>
   modify_caption("**Table 1. Estimand usage by sponsor type**") |>
@@ -725,7 +725,7 @@ estimanddb4 |> tbl_summary(by = `Estimands used?`, include = `Sponsor type`) |>
 
 #Sponsor Country
 
-```{r Sponsor Country, include=TRUE}
+```{r Sponsor Country, fig.width=10, fig.height = 4, include=TRUE}
 ###########################################################################################################################
 
 #Sponsor Country
@@ -759,8 +759,8 @@ table(estimanddb2$`Sponsor country`, estimanddb2$`Estimands used?`)
 
 estimanddb3$`Sponsor country` <- as.factor(estimanddb3$`Sponsor country`)
 
-estimanddb3 |> tbl_summary(by = `Estimands used?`, include = `Sponsor country` ) |>
-  add_overall() |>
+estimanddb3 |> tbl_summary(by = `Estimands used?`, include = `Sponsor country`, percent = "row" ) |>
+  add_overall(last=TRUE) |>
   add_n() |>
   modify_spanning_header(c("stat_1", "stat_2") ~ "**Estimands Used?**") |>
   modify_caption("**Table 2. Estimand usage by sponsor country**") |>
@@ -797,8 +797,8 @@ table(estimanddb4$`Sponsor country`, estimanddb4$`Estimands used?`)
 estimanddb4$`Sponsor country` <- as.factor(estimanddb4$`Sponsor country`)
 estimanddb4$`Estimands used?` <- as.factor(estimanddb4$`Estimands used?`)
 
-estimanddb4 |> tbl_summary(by = `Estimands used?`, include = `Sponsor country`) |>
-  add_overall() |>
+estimanddb4 |> tbl_summary(by = `Estimands used?`, include = `Sponsor country`, percent = "row") |>
+  add_overall(last=TRUE) |>
   add_n() |>
   modify_spanning_header(c("stat_1", "stat_2") ~ "**Estimands Used?**") |>
   modify_caption("**Table 2. Estimand usage by sponsor country**") |>
@@ -817,6 +817,7 @@ estimanddb3 %>%
   geom_text(aes(label=paste0(sprintf("%1.1f", pct),"%")),
             position=position_stack(vjust = 0.5)) +
   ggtitle("Estimand usage by sponsor country") +
+  theme(axis.text.x = element_text(angle=30, hjust=0.5, vjust = 0.5))
   theme_bw()
 ```
 
@@ -839,8 +840,8 @@ table(estimanddb2$`Funding type`, estimanddb2$`Estimands used?`)
 
 estimanddb3$`Funding type` <- as.factor(estimanddb3$`Funding type`)
 
-estimanddb3 |> tbl_summary(by = `Estimands used?`, include = `Funding type` ) |>
-  add_overall() |>
+estimanddb3 |> tbl_summary(by = `Estimands used?`, include = `Funding type`, percent="row" ) |>
+  add_overall(last=TRUE) |>
   add_n() |>
   modify_spanning_header(c("stat_1", "stat_2") ~ "**Estimands Used?**") |>
   modify_caption("**Table 3. Estimand usage by funding type**") |>
@@ -861,8 +862,8 @@ table(estimanddb4$`Funding type`, estimanddb4$`Estimands used?`)
 estimanddb4$`Funding type` <- as.factor(estimanddb4$`Funding type`)
 estimanddb4$`Estimands used?` <- as.factor(estimanddb4$`Estimands used?`)
 
-estimanddb4 |> tbl_summary(by = `Estimands used?`, include = `Funding type`) |>
-  add_overall() |>
+estimanddb4 |> tbl_summary(by = `Estimands used?`, include = `Funding type`, percent="row") |>
+  add_overall(last=TRUE) |>
   add_n() |>
   modify_spanning_header(c("stat_1", "stat_2") ~ "**Estimands Used?**") |>
   modify_caption("**Table 3. Estimand usage by funding type**") |>
@@ -906,8 +907,8 @@ table(estimanddb2$`Trial Phase`, estimanddb2$`Estimands used?`)
 
 estimanddb3$`Trial Phase` <- as.factor(estimanddb3$`Trial Phase`)
 
-estimanddb3 |> tbl_summary(by = `Estimands used?`, include = `Trial Phase` ) |>
-  add_overall() |>
+estimanddb3 |> tbl_summary(by = `Estimands used?`, include = `Trial Phase`, percent = "row" ) |>
+  add_overall(last=TRUE) |>
   add_n() |>
   modify_spanning_header(c("stat_1", "stat_2") ~ "**Estimands Used?**") |>
   modify_caption("**Table 4. Estimand usage by trial phase**") |>
@@ -951,8 +952,8 @@ table(estimanddb2$Int_typ_cat, estimanddb2$`Estimands used?`)
 
 estimanddb3$Int_typ_cat <- as.factor(estimanddb3$Int_typ_cat)
 
-estimanddb3 |> tbl_summary(by = `Estimands used?`, include = Int_typ_cat ) |>
-  add_overall() |>
+estimanddb3 |> tbl_summary(by = `Estimands used?`, include = Int_typ_cat, percent = "row" ) |>
+  add_overall(last=TRUE) |>
   add_n() |>
   modify_spanning_header(c("stat_1", "stat_2") ~ "**Estimands Used?**") |>
   modify_caption("**Table 5. Estimand usage by intervention type**") |>
@@ -989,8 +990,8 @@ table(estimanddb2$`Year opened`, estimanddb2$`Estimands used?`)
 
 estimanddb3$`Year opened` <- as.factor(estimanddb3$`Year opened`)
 
-estimanddb3 |> tbl_summary(by = `Estimands used?`, include = `Year opened` ) |>
-  add_overall() |>
+estimanddb3 |> tbl_summary(by = `Estimands used?`, include = `Year opened`, percent="row" ) |>
+  add_overall(last=TRUE) |>
   add_n() |>
   modify_spanning_header(c("stat_1", "stat_2") ~ "**Estimands Used?**") |>
   modify_caption("**Table 6. Estimand usage by Year**") |>
@@ -1011,5 +1012,3 @@ estimanddb3 %>%
   ggtitle("Estimand usage by year opened") +
   theme_bw()
 ```
-
-
