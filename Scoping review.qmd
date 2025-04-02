@@ -1,0 +1,1014 @@
+---
+title: "Data Cleaning"
+format: html
+editor: visual
+---
+
+#1.Missing data + cleaning
+
+```{r import data, include=FALSE}
+library(readxl)
+
+estimanddb <- read_xlsx("Morgaine Data Cleaning.xlsx")
+```
+
+```{r check for missing in all fields required for cleaning, include=TRUE}
+
+#NCT Number missing values:
+
+print("Count of total missing values")
+sum(is.na(estimanddb$`NCT number (if available)`))
+print("Position of missing values ")
+which(is.na(estimanddb$`NCT number (if available)`))
+
+# "Count of total missing values"
+# 1
+# "Position of missing values "
+# 1986
+
+#Does not appear to have NCT number, use "Nil known" for NCT Number field in row 1986.
+
+estimanddb$`NCT number (if available)`[is.na(estimanddb$`NCT number (if available)`)] <- "Nil known"
+
+print("Count of total missing values")
+sum(is.na(estimanddb$`NCT number (if available)`))
+print("Position of missing values ")
+which(is.na(estimanddb$`NCT number (if available)`))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+
+##################################################################################################################################
+
+#ISRCTN Number missing values:
+
+print("Count of total missing values")
+sum(is.na(estimanddb$`ISRCTN number (if available)`))
+print("Position of missing values ")
+which(is.na(estimanddb$`ISRCTN number (if available)`))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+
+##################################################################################################################################
+
+#Funding Type missing values:
+
+print("Count of total missing values")
+sum(is.na(estimanddb$`Funding type`))
+print("Position of missing values ")
+which(is.na(estimanddb$`Funding type`))
+
+#[1] "Count of total missing values"
+#[1] 27
+#[1] "Position of missing values "
+# [1] 1961 1963 1964 1965 1967 1970 1971 1983 1986 1987 1990 2000 2002 2006 2007 2009 2012 2014 2016 2018 2028 2034 2035 2041
+#[25] 2043 2053 2060
+
+table(estimanddb$'Funding type')
+
+#    government organisation                       INDIV                    Industry                Not industry 
+#                         62                           4                        1133                         825 
+#private sector organisation 
+#                         14 
+
+estimanddb$`Funding type`[is.na(estimanddb$`Funding type`)] <- "Missing"
+
+print("Count of total missing values")
+sum(is.na(estimanddb$`Funding type`))
+print("Position of missing values ")
+which(is.na(estimanddb$`Funding type`))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0
+
+##################################################################################################################################
+
+#Trial design missing values
+
+print("Count of total missing values")
+sum(is.na(estimanddb$`Trial design`))
+print("Position of missing values ")
+which(is.na(estimanddb$`Trial design`))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+
+##################################################################################################################################
+
+#Intervention type missing values
+
+print("Count of total missing values")
+sum(is.na(estimanddb$`Intervention type`))
+print("Position of missing values ")
+which(is.na(estimanddb$`Intervention type`))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+
+##################################################################################################################################
+
+#Protocol available missing values
+
+print("Count of total missing values")
+sum(is.na(estimanddb$`Protocol file available?`))
+print("Position of missing values ")
+which(is.na(estimanddb$`Protocol file available?`))
+
+#[1] "Count of total missing values"
+#[1] 263
+
+#Large amount of 'Protocol available' values missing - double check with Morgaine how she would like me to proceed? May potentially need individual checking and entering.
+
+##################################################################################################################################
+
+#SAP available missing values
+
+print("Count of total missing values")
+sum(is.na(estimanddb$`SAP file available?`))
+print("Position of missing values ")
+which(is.na(estimanddb$`SAP file available?`))
+
+#[1] "Count of total missing values"
+#[1] 265
+
+#Large amount of 'SAP available' values missing - double check with Morgaine how she would like me to proceed? May potentially need individual checking and entering.
+
+##################################################################################################################################
+
+#Trial phase missing values
+
+print("Count of total missing values")
+sum(is.na(estimanddb$`Trial Phase`))
+print("Position of missing values ")
+which(is.na(estimanddb$`Trial Phase`))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+
+##################################################################################################################################
+
+#Sponsor type missing values
+
+print("Count of total missing values")
+sum(is.na(estimanddb$`Sponsor type`))
+print("Position of missing values ")
+which(is.na(estimanddb$`Sponsor type`))
+
+#[1] "Count of total missing values"
+#[1] 1897
+
+#Large amount of 'Sponsor type' values missing - double check with Morgaine how she would like me to proceed? May potentially need individual checking and entering.
+
+#Checked with Morgaine - To categorise all missing values in 'Sponsor type' as "Missing" due to data not available from CTGOV registry.
+
+estimanddb$`Sponsor type`[is.na(estimanddb$`Sponsor type`)] <- "Missing"
+
+print("Count of total missing values")
+sum(is.na(estimanddb$`Sponsor type`))
+print("Position of missing values ")
+which(is.na(estimanddb$`Sponsor type`))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+
+#Save as xlsx file, enter Protocol & SAP information - re-upload for cleaning/encoding.
+
+#'Protocol available' & 'SAP Available' values added to spreadsheet above - To be imported and if a value of "Combined" has been used in one field, the other should also be converted to "Combined".
+#'
+
+####################################################################################################################################
+
+library(readxl)
+
+estimanddb1 <- read_xlsx("Estimand_Sheet1.2.xlsx")
+
+#Check 'Protocol Available' and 'SAP Available' missing values.
+
+#Protocol available missing values
+
+print("Count of total missing values")
+sum(is.na(estimanddb1$`Protocol file available?`))
+print("Position of missing values ")
+which(is.na(estimanddb1$`Protocol file available?`))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+
+print("Count of total missing values")
+sum(is.na(estimanddb1$`SAP file available?`))
+print("Position of missing values ")
+which(is.na(estimanddb1$`SAP file available?`))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+
+table(estimanddb1$`Protocol file available?`)
+
+#Combined       No      Yes 
+#     110       30     1925
+
+table(estimanddb1$`SAP file available?`)
+
+#Combined       No      Yes 
+#     736      248     1081 
+
+#NOTE: Amount of combined should be equal within BOTH 'Protocol Available' and 'SAP Available' fields.
+
+```
+
+#Protocol & SAP available:
+
+```{r Data cleaning, include=TRUE}
+
+#'Protocol Available' & 'SAP Available' fields
+
+##NOTE: Amount of combined should be equal within BOTH 'Protocol Available' and 'SAP Available' fields.
+
+estimanddb1$`Protocol file available?`[estimanddb1$`SAP file available?` == "Combined"] <- "Combined"
+
+table(estimanddb1$`Protocol file available?`)
+
+#Combined       No      Yes 
+#     736       30     1299
+
+table(estimanddb1$`SAP file available?`)
+
+#Combined       No      Yes 
+#     736      248     1081
+
+#Check for missing:
+
+print("Count of total missing values")
+sum(is.na(estimanddb1$`Protocol file available?`))
+print("Position of missing values ")
+which(is.na(estimanddb1$`Protocol file available?`))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+
+print("Count of total missing values")
+sum(is.na(estimanddb1$`SAP file available?`))
+print("Position of missing values ")
+which(is.na(estimanddb1$`SAP file available?`))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+```
+
+#Funding type:
+
+```{r Funding type field cleaning, include=TRUE}
+
+table(estimanddb1$`Funding type`)
+
+#    government organisation                       INDIV                    Industry                     Missing 
+#                         62                           4                        1133                          27 
+#               Not industry private sector organisation 
+#                        825                          14 
+
+estimanddb1$`Funding type`[estimanddb1$`Funding type` == "Not industry"] <- "Non-Industry"
+estimanddb1$`Funding type`[estimanddb1$`Funding type` == "government organisation"] <- "Non-Industry"
+estimanddb1$`Funding type`[estimanddb1$`Funding type` == "INDIV"] <- "Other"
+estimanddb1$`Funding type`[estimanddb1$`Funding type` == "private sector organisation"] <- "Industry"
+
+table(estimanddb1$`Funding type`)
+
+#    Industry      Missing Non-Industry        Other 
+#        1147           27          887            4
+
+```
+
+#Trial phase:
+
+```{r Intervention type field cleaning, include=TRUE}
+
+table(estimanddb1$`Trial Phase`)
+
+# EARLY_PHASE1       Phase I    Phase I/II      Phase II  Phase II/III     Phase IIa     Phase III  Phase III/IV        PHASE1 
+#           68            10             1            26             5             1            58             3           415 
+#PHASE1|PHASE2        PHASE2 PHASE2|PHASE3        PHASE3 
+#          160           760            77           481 
+
+estimanddb1$`Trial Phase`[estimanddb1$`Trial Phase` == "EARLY_PHASE1"] <- "Phase I"
+estimanddb1$`Trial Phase`[estimanddb1$`Trial Phase` == "PHASE1"] <- "Phase I"
+estimanddb1$`Trial Phase`[estimanddb1$`Trial Phase` == "PHASE1|PHASE2"] <- "Phase I/II"
+estimanddb1$`Trial Phase`[estimanddb1$`Trial Phase` == "PHASE2"] <- "Phase II"
+estimanddb1$`Trial Phase`[estimanddb1$`Trial Phase` == "Phase IIa"] <- "Phase II"
+estimanddb1$`Trial Phase`[estimanddb1$`Trial Phase` == "PHASE2|PHASE3"] <- "Phase II/III"
+estimanddb1$`Trial Phase`[estimanddb1$`Trial Phase` == "PHASE3"] <- "Phase III"
+
+table(estimanddb1$`Trial Phase`)
+
+#     Phase I   Phase I/II     Phase II Phase II/III    Phase III Phase III/IV 
+#         493          161          787           82          539            3 
+
+print("Count of total missing values")
+sum(is.na(estimanddb$`Trial Phase`))
+print("Position of missing values ")
+which(is.na(estimanddb$`Trial Phase`))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+
+```
+
+# Sponsor type:
+
+```{r Sponsor type field cleaning, include=TRUE}
+
+table(estimanddb1$`Sponsor type`)
+
+#To be re-labelled into "Industry" & "Non-Industry"
+
+#                                        Charity                                      Government 
+#                                              2                                               3 
+#                      Hospital/treatment centre Hospital/treatment centre; University/education 
+#                                             24                                               5 
+#                                       Industry                  Industry; University/education 
+#                                             66                                               1 
+#                                        Missing                                              NK 
+#                                           1897                                               2 
+#                                   Not industry                                           Other 
+#                                              9                                               1 
+#                          Research organisation                            University/education 
+#                                              1                                              54 
+
+estimanddb1$`Sponsor type`[estimanddb1$`Sponsor type` == "Not industry"] <- "Non-Industry"
+estimanddb1$`Sponsor type`[estimanddb1$`Sponsor type` == "Hospital/treatment centre"] <- "Non-Industry"
+estimanddb1$`Sponsor type`[estimanddb1$`Sponsor type` == "Research organisation"] <- "Non-Industry"
+estimanddb1$`Sponsor type`[estimanddb1$`Sponsor type` == "Charity"] <- "Non-Industry"
+estimanddb1$`Sponsor type`[estimanddb1$`Sponsor type` == "Government"] <- "Non-Industry"
+estimanddb1$`Sponsor type`[estimanddb1$`Sponsor type` == "Hospital/treatment centre; University/education"] <- "Non-Industry"
+estimanddb1$`Sponsor type`[estimanddb1$`Sponsor type` == "University/education"] <- "Non-Industry"
+estimanddb1$`Sponsor type`[estimanddb1$`Sponsor type` == "NK"] <- "Non-Industry"
+estimanddb1$`Sponsor type`[estimanddb1$`Sponsor type` == "Other"] <- "Non-Industry"
+
+table(estimanddb1$`Sponsor type`)
+
+#                      Industry Industry; University/education                        Missing                   Non-Industry 
+#                            66                              1                           1897                            101 
+
+estimanddb1$`Sponsor type`[estimanddb1$`Sponsor type` == "Industry; University/education"] <- "Industry"
+
+table(estimanddb1$`Sponsor type`)
+
+#    Industry      Missing Non-Industry 
+#          67         1897          101 
+
+```
+
+#Trial design:
+
+```{r Trial design field cleaning, include=TRUE}
+
+library(dplyr)
+estimanddb1 %>% count(`Trial design`)
+
+```
+
+#Intervention type:
+
+```{r Intervention type field cleaning, include=TRUE}
+
+intervention_type <- estimanddb1 %>% count(`Intervention type`)
+
+#####################################################################################################################################
+
+estimanddb1$`Intervention type2` <- estimanddb1$`Intervention type`
+
+
+estimanddb1 <- estimanddb1[order(estimanddb1$`Intervention type2`),]
+
+#Replaced original values using MS Excel:
+
+library(readxl)
+
+newfields <- read_xlsx("Tr_Des&Int_Typ Fields.xlsx")
+
+estimanddb2 <- cbind(estimanddb1,newfields)
+
+###################################################################
+
+table(estimanddb2$Int_typ_cat)
+
+#      Behavioural       Combination            Device 
+#               53                33                34 
+#              IMP             Other Procedure/Surgery 
+#             1878                14                30 
+#       Supplement 
+#               23 
+               
+#Check for missing
+
+print("Count of total missing values")
+sum(is.na(estimanddb2$Int_typ_cat))
+print("Position of missing values ")
+which(is.na(estimanddb2$Int_typ_cat))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+```
+
+#Trial Design: Allocation
+
+```{r Trial design field cleaning, include=TRUE}
+
+table(estimanddb2$Tr_Des_Allocat)
+
+#1)                                                                                                                           equivalence trial 
+#                                                                                                                                             1 
+#                                                                                                                                            NA 
+#                                                                                                                                           468 
+#                                                                                                                                NON_RANDOMIZED 
+#                                                                                                                                           191 
+#Process of Care, Education or Self-Management, Psychological & Behavioural, Complex Intervention, #Physical, Management of Care, Rehabilitation 
+#                                                                                                                                            1 
+#                                                                                                                                    RANDOMIZED 
+#                                                                                                                                          1305 
+#                                                                                           Treatment, #Complex Intervention, Management of Care 
+#                                                                                                                                             1 
+#                                                                                                           Treatment, Dietary, Health Economic 
+#                                                                                                                                             1 
+#                                                         Treatment, Dietary, Imaging, Psychological & #Behavioural, Management of Care, Surgery 
+#                                                                                                                                             1 
+#                                                                                                                              Treatment, Drug 
+#                                                                                                                                             1 
+#                                                                                                                Treatment, Drug, Immunotherapy 
+#                                                                                                                                             1 
+#                                                                                                                            Treatment, Vaccine 
+#                                                                                                                                             1 
+#
+estimanddb2$Tr_Des_Allocat[estimanddb2$Tr_Des_Allocat == "RANDOMIZED"] <- "Randomised"
+estimanddb2$Tr_Des_Allocat[estimanddb2$Tr_Des_Allocat == "NON_RANDOMIZED"] <- "Non-Randomised"
+estimanddb2$Tr_Des_Allocat[estimanddb2$Tr_Des_Allocat == "NA"] <- "Missing"
+estimanddb2$Tr_Des_Allocat[estimanddb2$Tr_Des_Allocat == "1) equivalence trial"] <- "Other"
+estimanddb2$Tr_Des_Allocat[estimanddb2$Tr_Des_Allocat == "Process of Care, Education or Self-Management, Psychological & Behavioural, Complex Intervention, Physical, Management of Care, Rehabilitation"] <- "Other"
+estimanddb2$Tr_Des_Allocat[estimanddb2$Tr_Des_Allocat == "Treatment, Complex Intervention, Management of Care"] <- "Other"
+estimanddb2$Tr_Des_Allocat[estimanddb2$Tr_Des_Allocat == "Treatment, Dietary, Health Economic"] <- "Other"
+estimanddb2$Tr_Des_Allocat[estimanddb2$Tr_Des_Allocat == "Treatment, Dietary, Imaging, Psychological & Behavioural, Management of Care, Surgery"] <- "Other"
+estimanddb2$Tr_Des_Allocat[estimanddb2$Tr_Des_Allocat == "Treatment, Drug"] <- "Other"
+estimanddb2$Tr_Des_Allocat[estimanddb2$Tr_Des_Allocat == "Treatment, Drug, Immunotherapy"] <- "Other"
+estimanddb2$Tr_Des_Allocat[estimanddb2$Tr_Des_Allocat == "Treatment, Vaccine"] <- "Other"
+
+table(estimanddb2$Tr_Des_Allocat)
+
+#       Missing Non-Randomised          Other     Randomised 
+#           468            191              8           1305
+
+print("Count of total missing values")
+sum(is.na(estimanddb2$Tr_Des_Allocat))
+print("Position of missing values ")
+which(is.na(estimanddb2$Tr_Des_Allocat))
+
+#[1] "Count of total missing values"
+#[1] 93
+
+estimanddb2$Tr_Des_Allocat[is.na(estimanddb2$Tr_Des_Allocat)] <- "Missing"
+
+print("Count of total missing values")
+sum(is.na(estimanddb2$Tr_Des_Allocat))
+print("Position of missing values ")
+which(is.na(estimanddb2$Tr_Des_Allocat))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+
+table(estimanddb2$Tr_Des_Allocat)
+
+#       Missing Non-Randomised          Other     Randomised 
+#           561            191              8           1305 
+
+```
+
+#Trial Design: Intervention Model
+
+```{r Trial Design Intervention Model, include=TRUE}
+
+print("Count of total missing values")
+sum(is.na(estimanddb2$Tr_Des_Int_Model))
+print("Position of missing values ")
+which(is.na(estimanddb2$Tr_Des_Int_Model))
+
+#[1] "Count of total missing values"
+#[1] 101
+
+estimanddb2$Tr_Des_Int_Model[is.na(estimanddb2$Tr_Des_Int_Model)] <- "Missing"
+
+print("Count of total missing values")
+sum(is.na(estimanddb2$Tr_Des_Int_Model))
+print("Position of missing values ")
+which(is.na(estimanddb2$Tr_Des_Int_Model))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+
+table(estimanddb2$Tr_Des_Int_Model)
+
+#   CROSSOVER    FACTORIAL      Missing     PARALLEL   SEQUENTIAL SINGLE_GROUP 
+#         172           13          101         1150          157          472
+
+estimanddb2$Tr_Des_Int_Model[estimanddb2$Tr_Des_Int_Model == "CROSSOVER"] <- "Crossover"
+estimanddb2$Tr_Des_Int_Model[estimanddb2$Tr_Des_Int_Model == "FACTORIAL"] <- "Factorial"
+estimanddb2$Tr_Des_Int_Model[estimanddb2$Tr_Des_Int_Model == "PARALLEL"] <- "Parallel"
+estimanddb2$Tr_Des_Int_Model[estimanddb2$Tr_Des_Int_Model == "SEQUENTIAL"] <- "Sequential"
+estimanddb2$Tr_Des_Int_Model[estimanddb2$Tr_Des_Int_Model == "SINGLE_GROUP"] <- "Single Group"
+
+table(estimanddb2$Tr_Des_Int_Model)
+
+#   Crossover    Factorial      Missing     Parallel   Sequential Single Group 
+#         172           13          101         1150          157          472 
+
+```
+
+#Sponsor Country
+
+```{r Sponsor country, include=TRUE}
+
+print("Count of total missing values")
+sum(is.na(estimanddb2$`Sponsor country`))
+print("Position of missing values ")
+which(is.na(estimanddb2$`Sponsor country`))
+
+#[1] "Count of total missing values"
+#[1] 1894
+
+estimanddb2$`Sponsor country`[is.na(estimanddb2$`Sponsor country`)] <- "Missing"
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+
+
+table(estimanddb2$`Sponsor country`)
+
+# Australia; United Kingdom                    Belgium                     Brazil                     Canada 
+#                         2                          1                          2                          1 
+#                     China Congo, Democratic Republic             Czech Republic                     Greece 
+#                         1                          1                          1                          2 
+#                     Italy                       Mali                    Missing                Netherlands 
+#                         4                          1                       1894                          2 
+#                   Nigeria                         NK                      Spain                     Sweden 
+#                         1                         25                          1                          8 
+#               Switzerland                     Taiwan                  UK and US             United Kingdom 
+#                         7                          1                          1                         86 
+#             United States   United States of America 
+#                        22                          1 
+
+estimanddb2$`Sponsor country`[estimanddb2$`Sponsor country` == "NK"] <- "Missing"
+estimanddb2$`Sponsor country`[estimanddb2$`Sponsor country` == "Australia; United Kingdom"] <- "Australia/United Kingdom"
+estimanddb2$`Sponsor country`[estimanddb2$`Sponsor country` == "Congo, Democratic Republic"] <- "Democratic Republic of Congo"
+estimanddb2$`Sponsor country`[estimanddb2$`Sponsor country` == "UK and US"] <- "United Kingdom/United States of America"
+estimanddb2$`Sponsor country`[estimanddb2$`Sponsor country` == "United States"] <- "United States of America"
+
+table(estimanddb2$`Sponsor country`)
+
+
+
+```
+
+#Year Opened:
+
+```{r Year opened, include=TRUE}
+
+print("Count of total missing values")
+sum(is.na(estimanddb2$`Year opened`))
+print("Position of missing values ")
+which(is.na(estimanddb2$`Year opened`))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+
+table(estimanddb2$`Year opened`)
+
+#2021 2022 2023 2024 
+#1203  581  197   84 
+```
+
+#Estimands used
+
+```{r Estimands used, include=TRUE}
+
+print("Count of total missing values")
+sum(is.na(estimanddb2$`Estimands used?`))
+print("Position of missing values ")
+which(is.na(estimanddb2$`Estimands used?`))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+
+table(estimanddb2$`Estimands used?`)
+
+#     No Revisit     yes     Yes 
+#   1646      84       1     334
+
+estimanddb2$`Estimands used?`[estimanddb2$`Estimands used?` == "yes"] <- "Yes"
+
+table(estimanddb2$`Estimands used?`)
+
+#     No Revisit     Yes 
+#   1646      84     335 
+
+```
+
+#2. Contingency tables + Graphs
+
+#Sposor Type
+
+Univariable analysis via the Chi squared test will be performed to identify any association between estimand use and sponsor type, sponsor country, funding type, trial phase, cancer vs non cancer trial, type of intervention, and year trial opened. Associated factors will be further analysed via multivariable logistic regression. Other results from the review will be presented in a narrative format, with specific findings tabulated and highlighted illustratively, in line with the study objectives.
+
+```{r Tables, include=TRUE}
+
+estimanddb3 <- estimanddb2
+
+estimanddb4 <- estimanddb2
+
+#Make GTSummary tables
+
+#Sponsor Type
+
+table(estimanddb2$`Sponsor type`, estimanddb2$`Estimands used?`)
+
+#                 No Revisit  Yes
+#  Industry       38       2   27
+#  Missing      1519      78  300
+#  Non-Industry   89       4    8
+
+#With missing
+
+library(gtsummary)
+library(ggplot2)
+library(dplyr)
+
+estimanddb3$`Sponsor type` <- as.factor(estimanddb3$`Sponsor type`)
+estimanddb3$`Estimands used?` <- as.factor(estimanddb3$`Estimands used?`)
+
+estimanddb3 |> tbl_summary(by = `Estimands used?`, include = `Sponsor type`, percent = "row") |>
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Estimands Used?**") |>
+  modify_caption("**Table 1. Estimand usage by sponsor type**") |>
+  bold_labels() |>
+  add_overall(last=TRUE) |>
+  add_n() |>
+  add_p(test.args = all_tests("fisher.test") ~ list(workspace=2e9))
+
+#Stacked barchart
+
+estimanddb3 %>%
+  count(`Sponsor type`,`Estimands used?`) %>%
+  group_by(`Sponsor type`) %>%
+  mutate(pct = prop.table(n)*100) %>%
+  ggplot() + aes(`Sponsor type`, pct, fill = `Estimands used?`) +
+  geom_bar(stat = "identity") +
+  ylab("Percentage of trials listed") +
+  geom_text(aes(label=paste0(sprintf("%1.1f", pct),"%")),
+            position=position_stack(vjust = 0.5)) +
+  ggtitle("Estimand usage by sponsor type") +
+  theme_bw()
+
+#Without missing
+
+estimanddb4$`Sponsor type`[estimanddb4$`Sponsor type` == "Missing"] <- NA
+
+table(estimanddb4$`Sponsor type`, estimanddb4$`Estimands used?`)
+
+#               No Revisit Yes
+#  Industry     38       2  27
+#  Non-Industry 89       4   8
+
+estimanddb4$`Sponsor type` <- as.factor(estimanddb4$`Sponsor type`)
+estimanddb4$`Estimands used?` <- as.factor(estimanddb4$`Estimands used?`)
+
+estimanddb4 |> tbl_summary(by = `Estimands used?`, include = `Sponsor type`, percent = "row") |>
+  add_overall(last=TRUE) |>
+  add_n() |>
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Estimands Used?**") |>
+  modify_caption("**Table 1. Estimand usage by sponsor type**") |>
+  bold_labels() |>
+  add_p(test.args = all_tests("fisher.test") ~ list(workspace=2e9))
+
+```
+
+#Sponsor Country
+
+```{r Sponsor Country, fig.width=10, fig.height = 4, include=TRUE}
+###########################################################################################################################
+
+#Sponsor Country
+
+#With missing
+
+table(estimanddb2$`Sponsor country`, estimanddb2$`Estimands used?`)
+
+#                                            No Revisit  Yes
+# Australia/United Kingdom                   0       2    0
+#  Belgium                                    1       0    0
+#  Brazil                                     2       0    0
+#  Canada                                     1       0    0
+#  China                                      1       0    0
+#  Czech Republic                             1       0    0
+#  Democratic Republic of Congo               1       0    0
+#  Greece                                     2       0    0
+#  Italy                                      4       0    0
+#  Mali                                       1       0    0
+#  Missing                                 1529      79  311
+#  Netherlands                                1       0    1
+#  Nigeria                                    1       0    0
+#  Spain                                      0       0    1
+#  Sweden                                     5       0    3
+#  Switzerland                                7       0    0
+#  Taiwan                                     1       0    0
+#  United Kingdom                            74       2   10
+#  United Kingdom/United States of America    1       0    0
+#  United States of America                  13       1    9
+
+
+estimanddb3$`Sponsor country` <- as.factor(estimanddb3$`Sponsor country`)
+
+estimanddb3 |> tbl_summary(by = `Estimands used?`, include = `Sponsor country`, percent = "row" ) |>
+  add_overall(last=TRUE) |>
+  add_n() |>
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Estimands Used?**") |>
+  modify_caption("**Table 2. Estimand usage by sponsor country**") |>
+  bold_labels() |>
+  add_p(test.args = all_tests("fisher.test") ~ list(workspace=2e9))
+
+#Without missing
+
+estimanddb4$`Sponsor country`[estimanddb4$`Sponsor country` == "Missing"] <- NA
+
+table(estimanddb4$`Sponsor country`, estimanddb4$`Estimands used?`)
+
+#                                          No Revisit Yes
+#  Australia/United Kingdom                 0       2   0
+#  Belgium                                  1       0   0
+#  Brazil                                   2       0   0
+#  Canada                                   1       0   0
+#  China                                    1       0   0
+#  Czech Republic                           1       0   0
+#  Democratic Republic of Congo             1       0   0
+#  Greece                                   2       0   0
+#  Italy                                    4       0   0
+#  Mali                                     1       0   0
+#  Netherlands                              1       0   1
+#  Nigeria                                  1       0   0
+#  Spain                                    0       0   1
+#  Sweden                                   5       0   3
+#  Switzerland                              7       0   0
+#  Taiwan                                   1       0   0
+#  United Kingdom                          74       2  10
+#  United Kingdom/United States of America  1       0   0
+#  United States of America                13       1   9
+
+estimanddb4$`Sponsor country` <- as.factor(estimanddb4$`Sponsor country`)
+estimanddb4$`Estimands used?` <- as.factor(estimanddb4$`Estimands used?`)
+
+estimanddb4 |> tbl_summary(by = `Estimands used?`, include = `Sponsor country`, percent = "row") |>
+  add_overall(last=TRUE) |>
+  add_n() |>
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Estimands Used?**") |>
+  modify_caption("**Table 2. Estimand usage by sponsor country**") |>
+  bold_labels() |>
+  add_p(test.args = all_tests("fisher.test") ~ list(workspace=2e9))
+
+#Stacked barchart
+
+estimanddb3 %>%
+  count(`Sponsor country`,`Estimands used?`) %>%
+  group_by(`Sponsor country`) %>%
+  mutate(pct = prop.table(n)*100) %>%
+  ggplot() + aes(`Sponsor country`, pct, fill = `Estimands used?`) +
+  geom_bar(stat = "identity") +
+  ylab("Percentage of trials listed") +
+  geom_text(aes(label=paste0(sprintf("%1.1f", pct),"%")),
+            position=position_stack(vjust = 0.5)) +
+  ggtitle("Estimand usage by sponsor country") +
+  theme(axis.text.x = element_text(angle=30, hjust=0.5, vjust = 0.5))
+  theme_bw()
+```
+
+#Funding Type
+
+```{r Funding type, include=TRUE}
+###########################################################################################################################
+
+#Funding type
+
+#With missing
+
+table(estimanddb2$`Funding type`, estimanddb2$`Estimands used?`)
+
+#                No Revisit Yes
+#  Industry     762      69 316
+#  Missing       25       0   2
+#  Non-Industry 855      15  17
+#  Other          4       0   0
+
+estimanddb3$`Funding type` <- as.factor(estimanddb3$`Funding type`)
+
+estimanddb3 |> tbl_summary(by = `Estimands used?`, include = `Funding type`, percent="row" ) |>
+  add_overall(last=TRUE) |>
+  add_n() |>
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Estimands Used?**") |>
+  modify_caption("**Table 3. Estimand usage by funding type**") |>
+  bold_labels() |>
+  add_p(test.args = all_tests("fisher.test") ~ list(workspace=2e9))
+
+#Without missing
+
+estimanddb4$`Funding type`[estimanddb4$`Funding type` == "Missing"] <- NA
+
+table(estimanddb4$`Funding type`, estimanddb4$`Estimands used?`)
+
+#                No Revisit Yes
+#  Industry     762      69 316
+#  Non-Industry 855      15  17
+#  Other          4       0   0
+
+estimanddb4$`Funding type` <- as.factor(estimanddb4$`Funding type`)
+estimanddb4$`Estimands used?` <- as.factor(estimanddb4$`Estimands used?`)
+
+estimanddb4 |> tbl_summary(by = `Estimands used?`, include = `Funding type`, percent="row") |>
+  add_overall(last=TRUE) |>
+  add_n() |>
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Estimands Used?**") |>
+  modify_caption("**Table 3. Estimand usage by funding type**") |>
+  bold_labels() |>
+  add_p(test.args = all_tests("fisher.test") ~ list(workspace=2e9))
+
+#Stacked barchart
+
+estimanddb3 %>%
+  count(`Funding type`,`Estimands used?`) %>%
+  group_by(`Funding type`) %>%
+  mutate(pct = prop.table(n)*100) %>%
+  ggplot() + aes(`Funding type`, pct, fill = `Estimands used?`) +
+  geom_bar(stat = "identity") +
+  ylab("Percentage of trials listed") +
+  geom_text(aes(label=paste0(sprintf("%1.1f", pct),"%")),
+            position=position_stack(vjust = 0.5)) +
+  ggtitle("Estimand usage by funding") +
+  theme_bw()
+
+###########################################################################################################################
+
+```
+
+#Trial Phase
+
+```{r Trial Phase, include=TRUE}
+#Trial phase
+
+#With missing
+
+table(estimanddb2$`Trial Phase`, estimanddb2$`Estimands used?`)
+
+#                No Revisit Yes
+#  Phase I      462      12  19
+#  Phase I/II   153       3   5
+#  Phase II     615      31 141
+#  Phase II/III  62       3  17
+#  Phase III    351      35 153
+#  Phase III/IV   3       0   0
+
+estimanddb3$`Trial Phase` <- as.factor(estimanddb3$`Trial Phase`)
+
+estimanddb3 |> tbl_summary(by = `Estimands used?`, include = `Trial Phase`, percent = "row" ) |>
+  add_overall(last=TRUE) |>
+  add_n() |>
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Estimands Used?**") |>
+  modify_caption("**Table 4. Estimand usage by trial phase**") |>
+  bold_labels()
+  
+#Cannot obtain Fisher's Exact test result - or simulate p-values. Wait until 'Revisit' category has been put into 'Yes' or 'No' and retry.
+
+#Stacked barchart
+
+estimanddb3 %>%
+  count(`Trial Phase`,`Estimands used?`) %>%
+  group_by(`Trial Phase`) %>%
+  mutate(pct = prop.table(n)*100) %>%
+  ggplot() + aes(`Trial Phase`, pct, fill = `Estimands used?`) +
+  geom_bar(stat = "identity") +
+  ylab("Percentage of trials listed") +
+  geom_text(aes(label=paste0(sprintf("%1.1f", pct),"%")),
+            position=position_stack(vjust = 0.5)) +
+  ggtitle("Estimand usage by trial phase") +
+  theme_bw()
+
+
+###########################################################################################################################
+```
+
+#Intervention type
+
+```{r Intervention Types, include=TRUE}
+#Intervention types
+
+table(estimanddb2$Int_typ_cat, estimanddb2$`Estimands used?`)
+
+#                      No Revisit  Yes
+#  Behavioural         52       0    1
+#  Combination         31       0    2
+#  Device              31       0    3
+#  IMP               1470      84  324
+#  Other               10       0    4
+#  Procedure/Surgery   29       0    1
+#  Supplement          23       0    0
+
+estimanddb3$Int_typ_cat <- as.factor(estimanddb3$Int_typ_cat)
+
+estimanddb3 |> tbl_summary(by = `Estimands used?`, include = Int_typ_cat, percent = "row" ) |>
+  add_overall(last=TRUE) |>
+  add_n() |>
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Estimands Used?**") |>
+  modify_caption("**Table 5. Estimand usage by intervention type**") |>
+  bold_labels()
+
+#Stacked barchart
+
+estimanddb3 %>%
+  count(Int_typ_cat,`Estimands used?`) %>%
+  group_by(Int_typ_cat) %>%
+  mutate(pct = prop.table(n)*100) %>%
+  ggplot() + aes(Int_typ_cat, pct, fill = `Estimands used?`) +
+  geom_bar(stat = "identity") +
+  ylab("Percentage of trials listed") +
+  xlab("Intervention type") +
+  geom_text(aes(label=paste0(sprintf("%1.1f", pct),"%")),
+            position=position_stack(vjust = 0.5)) +
+  ggtitle("Estimand usage by intervention type") +
+  theme_bw()
+
+###########################################################################################################################
+```
+
+```{r Year opened, include=TRUE}
+#Year opened
+
+table(estimanddb2$`Year opened`, estimanddb2$`Estimands used?`)
+
+#        No Revisit Yes
+#  2021 925      52 226
+#  2022 469      23  89
+#  2023 175       8  14
+#  2024  77       1   6
+
+estimanddb3$`Year opened` <- as.factor(estimanddb3$`Year opened`)
+
+estimanddb3 |> tbl_summary(by = `Estimands used?`, include = `Year opened`, percent="row" ) |>
+  add_overall(last=TRUE) |>
+  add_n() |>
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Estimands Used?**") |>
+  modify_caption("**Table 6. Estimand usage by Year**") |>
+  bold_labels() |>
+  add_p(test.args = all_tests("fisher.test") ~ list(workspace=2e9))
+
+#Stacked barchart
+
+estimanddb3 %>%
+  count(`Year opened`,`Estimands used?`) %>%
+  group_by(`Year opened`) %>%
+  mutate(pct = prop.table(n)*100) %>%
+  ggplot() + aes(`Year opened`, pct, fill = `Estimands used?`) +
+  geom_bar(stat = "identity") +
+  ylab("Percentage of trials listed") +
+  geom_text(aes(label=paste0(sprintf("%1.1f", pct),"%")),
+            position=position_stack(vjust = 0.5)) +
+  ggtitle("Estimand usage by year opened") +
+  theme_bw()
+```
