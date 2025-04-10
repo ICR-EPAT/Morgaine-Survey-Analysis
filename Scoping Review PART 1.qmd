@@ -1,0 +1,683 @@
+---
+title: "Scoping Review Final"
+format: html
+editor: visual
+---
+
+#Import data
+
+```{r import data, include=FALSE}
+
+library(readxl)
+
+estimanddb_final <- read_xlsx("Scoping review spreadsheet.xlsx")
+
+```
+
+#Missing data
+
+```{r missing data check, include=TRUE}
+
+#NCT Number missing values:
+
+print("Count of total missing values")
+sum(is.na(estimanddb_final$`NCT number (if available)`))
+print("Position of missing values ")
+which(is.na(estimanddb_final$`NCT number (if available)`))
+
+# "Count of total missing values"
+# 1
+# "Position of missing values "
+# 1986
+
+#Does not appear to have NCT number, use "Nil known" for NCT Number field in row 1986.
+
+estimanddb_final$`NCT number (if available)`[is.na(estimanddb_final$`NCT number (if available)`)] <- "Nil known"
+
+print("Count of total missing values")
+sum(is.na(estimanddb_final$`NCT number (if available)`))
+print("Position of missing values ")
+which(is.na(estimanddb_final$`NCT number (if available)`))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+
+##################################################################################################################################
+
+#ISRCTN Number missing values:
+
+print("Count of total missing values")
+sum(is.na(estimanddb_final$`ISRCTN number (if available)`))
+print("Position of missing values ")
+which(is.na(estimanddb_final$`ISRCTN number (if available)`))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+
+##################################################################################################################################
+
+#Funding Type missing values:
+
+print("Count of total missing values")
+sum(is.na(estimanddb_final$`Funding type`))
+print("Position of missing values ")
+which(is.na(estimanddb_final$`Funding type`))
+
+#> print("Count of total missing values")
+#[1] "Count of total missing values"
+#> sum(is.na(estimanddb_final$`Funding type`))
+#[1] 0
+#> print("Position of missing values ")
+#[1] "Position of missing values "
+#> which(is.na(estimanddb_final$`Funding type`))
+#integer(0)
+
+table(estimanddb_final$'Funding type')
+
+#    Industry      Missing Non-Industry        Other 
+#        1146           28          877            4 
+
+##################################################################################################################################
+
+#Trial design missing values
+
+print("Count of total missing values")
+sum(is.na(estimanddb_final$`Treatment allocation`))
+print("Position of missing values ")
+which(is.na(estimanddb_final$`Treatment allocation`))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+
+##################################################################################################################################
+
+#Intervention type missing values
+
+print("Count of total missing values")
+sum(is.na(estimanddb_final$`Intervention type`))
+print("Position of missing values ")
+which(is.na(estimanddb_final$`Intervention type`))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+
+##################################################################################################################################
+
+#Protocol available missing values
+
+print("Count of total missing values")
+sum(is.na(estimanddb_final$`Protocol file available?`))
+print("Position of missing values ")
+which(is.na(estimanddb_final$`Protocol file available?`))
+
+#> print("Count of total missing values")
+#[1] "Count of total missing values"
+#> sum(is.na(estimanddb_final$`Protocol file available?`))
+#[1] 0
+#> print("Position of missing values ")
+#[1] "Position of missing values "
+#> which(is.na(estimanddb_final$`Protocol file available?`))
+#integer(0)
+
+##################################################################################################################################
+
+#SAP available missing values
+
+print("Count of total missing values")
+sum(is.na(estimanddb_final$`SAP file available?`))
+print("Position of missing values ")
+which(is.na(estimanddb_final$`SAP file available?`))
+
+#> print("Count of total missing values")
+#[1] "Count of total missing values"
+#> sum(is.na(estimanddb_final$`SAP file available?`))
+#[1] 0
+#> print("Position of missing values ")
+#[1] "Position of missing values "
+#> which(is.na(estimanddb_final$`SAP file available?`))
+#integer(0)
+
+##################################################################################################################################
+
+#Trial phase missing values
+
+print("Count of total missing values")
+sum(is.na(estimanddb_final$`Trial Phase`))
+print("Position of missing values ")
+which(is.na(estimanddb_final$`Trial Phase`))
+
+#> print("Count of total missing values")
+#[1] "Count of total missing values"
+#> sum(is.na(estimanddb_final$`Trial Phase`))
+#[1] 0
+#> print("Position of missing values ")
+#[1] "Position of missing values "
+#> which(is.na(estimanddb_final$`Trial Phase`))
+#integer(0)
+
+##################################################################################################################################
+
+#Sponsor type missing values
+
+print("Count of total missing values")
+sum(is.na(estimanddb_final$`Sponsor type`))
+print("Position of missing values ")
+which(is.na(estimanddb_final$`Sponsor type`))
+
+#> print("Count of total missing values")
+#[1] "Count of total missing values"
+#> sum(is.na(estimanddb_final$`Sponsor type`))
+#[1] 0
+#> print("Position of missing values ")
+#[1] "Position of missing values "
+#> which(is.na(estimanddb_final$`Sponsor type`))
+#integer(0)
+
+###################################################################################################################################
+
+#In the UK?
+
+print("Count of total missing values")
+sum(is.na(estimanddb_final$`Running in UK?`))
+print("Position of missing values ")
+which(is.na(estimanddb_final$`Running in UK?`))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+
+###################################################################################################################################
+
+#Intervention model
+
+print("Count of total missing values")
+sum(is.na(estimanddb_final$`Intervention model`))
+print("Position of missing values ")
+which(is.na(estimanddb_final$`Intervention model`))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+
+###################################################################################################################################
+
+#Single or multi-country?
+
+print("Count of total missing values")
+sum(is.na(estimanddb_final$`Single or multi-country?`))
+print("Position of missing values ")
+which(is.na(estimanddb_final$`Single or multi-country?`))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+
+###################################################################################################################################
+
+#Cancer or non-cancer?
+
+print("Count of total missing values")
+sum(is.na(estimanddb_final$`Cancer or non-cancer disease`))
+print("Position of missing values ")
+which(is.na(estimanddb_final$`Cancer or non-cancer disease`))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+
+###################################################################################################################################
+
+#Intervention type
+
+print("Count of total missing values")
+sum(is.na(estimanddb_final$`Intervention type`))
+print("Position of missing values ")
+which(is.na(estimanddb_final$`Intervention type`))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+
+###################################################################################################################################
+
+#Year opened
+
+print("Count of total missing values")
+sum(is.na(estimanddb_final$`Year opened`))
+print("Position of missing values ")
+which(is.na(estimanddb_final$`Year opened`))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+
+###################################################################################################################################
+
+#Estimands used?
+
+print("Count of total missing values")
+sum(is.na(estimanddb_final$`Estimands used?`))
+print("Position of missing values ")
+which(is.na(estimanddb_final$`Estimands used?`))
+
+#[1] "Count of total missing values"
+#[1] 0
+#[1] "Position of missing values "
+#integer(0)
+
+```
+
+#Tables
+
+```{r, tables, include=TRUE}
+
+table(estimanddb_final$`Sponsor type`)
+
+#    Industry      Missing Non-Industry 
+#          68         1888           99 
+
+table(estimanddb_final$`Sponsor country`)
+
+# Australia; United Kingdom                    Belgium                     Brazil                     Canada 
+#                         2                          1                          2                          1 
+#                     China Congo, Democratic Republic             Czech Republic                     Greece 
+#                         1                          1                          1                          2 
+#                     Italy                       Mali                Netherlands                    Nigeria 
+#                         4                          1                          2                          1 
+#                        NK                      Spain                     Sweden                Switzerland 
+#                        23                          1                          9                          7 
+#                    Taiwan                  UK and US             United Kingdom              United States 
+#                         1                          1                         86                         22 
+#  United States of America 
+#                         1 
+
+table(estimanddb_final$`Funding type`)
+
+#    Industry      Missing Non-Industry        Other 
+#        1146           28          877            4
+
+table(estimanddb_final$`Single or multi-country?`)
+
+#Multiple   Single 
+#     508     1547 
+
+table(estimanddb_final$`Running in UK?`)
+
+#  No  Yes 
+#1782  273 
+
+table(estimanddb_final$`Treatment allocation`)
+
+#       Missing Non-Randomised     Randomised 
+#           469            200           1386 
+
+table(estimanddb_final$`Intervention model`)
+
+#   Crossover    Factorial      Missing     Parallel   Sequential Single Group 
+#         177           13           68         1171          158          468
+
+table(estimanddb_final$`Trial Phase`)
+
+#     Phase I   Phase I/II     Phase II Phase II/III    Phase III Phase III/IV 
+#         487          160          784           82          539            3 
+
+table(estimanddb_final$`Cancer or non-cancer disease`)
+
+#    Cancer Non-cancer 
+#       376       1679 
+
+table(estimanddb_final$`Cancer or non-cancer disease`)
+
+#    Cancer Non-cancer 
+#       376       1679 
+
+table(estimanddb_final$`Intervention type`)
+
+#                                    Behavioural                                          Device 
+#                                             43                                              35 
+#                                            IMP     Multiple intervention types (including IMP) 
+#                                           1760                                             116 
+#Multiple intervention types (not including IMP)                                           Other 
+#                                              7                                              74 
+#                              Procedure/Surgery 
+#                                             20 
+
+table(estimanddb_final$`Year opened`)
+
+#2021 2022 2023 2024 
+#1197  580  195   83
+
+estimanddb_final$`Estimands used?`[estimanddb_final$`Estimands used?` == "yes"] <- "Yes"
+
+table(estimanddb_final$`Estimands used?`)
+
+#  No  Yes 
+#1666  389
+
+table(estimanddb_final$`Protocol file available?`)
+
+#Combined       No      Yes 
+#     730       30     1295 
+
+table(estimanddb_final$`SAP file available?`)
+
+#Combined       No      Yes 
+#     730      248     1077 
+
+```
+
+#Contingency tables
+
+```{r contingency tables, include=TRUE}
+
+#Sponsor type
+
+estimanddb_final_table <- estimanddb_final
+
+library(gtsummary)
+library(ggplot2)
+library(dplyr)
+
+estimanddb_final_table$`Sponsor type`[estimanddb_final_table$`Sponsor type` == "Missing"] <- NA
+
+table(estimanddb_final_table$`Sponsor type`, estimanddb_final_table$`Estimands used?`)
+
+estimanddb_final_table |> tbl_summary(by = `Estimands used?`, include = `Sponsor type`, percent = "row") |>
+  add_n() |>
+  add_overall(last=TRUE) |>
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Estimand's used?**") |>
+  modify_caption("**Table 1. Estimand usage by sponsor type**") |>
+  bold_labels() |>
+  add_p(test.args = all_tests("fisher.test") ~ list(workspace=2e9))
+
+##################################################################################################################################
+
+#Funding type
+
+estimanddb_final_table$`Funding type`[estimanddb_final_table$`Funding type` == "Missing"] <- NA
+
+table(estimanddb_final_table$`Funding type`, estimanddb_final_table$`Estimands used?`)
+
+estimanddb_final_table |> tbl_summary(by = `Estimands used?`, include = `Funding type`, percent = "row") |>
+  add_n() |>
+  add_overall(last=TRUE) |>
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Estimand's used?**") |>
+  modify_caption("**Table 2. Estimand usage by funding type**") |>
+  bold_labels() |>
+  add_p(test.args = all_tests("fisher.test") ~ list(workspace=2e9))
+
+##################################################################################################################################
+
+#Single or multi-country?
+
+table(estimanddb_final_table$`Single or multi-country?`, estimanddb_final_table$`Estimands used?`)
+
+estimanddb_final_table |> tbl_summary(by = `Estimands used?`, include = `Single or multi-country?`, percent = "row") |>
+  add_n() |>
+  add_overall(last=TRUE) |>
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Estimand's used?**") |>
+  modify_caption("**Table 3. Estimand usage by country**") |>
+  bold_labels() |>
+  add_p(test.args = all_tests("fisher.test") ~ list(workspace=2e9))
+
+##################################################################################################################################
+
+#Running in the UK?
+
+estimanddb_final_table$'Trial in UK?' <- estimanddb_final_table$`Running in UK?`
+
+estimanddb_final_table$`Trial in UK?` <- as.factor(estimanddb_final_table$`Trial in UK?`)
+levels(estimanddb_final_table$`Trial in UK?`) <- c("No", "Yes")
+
+table(estimanddb_final_table$`Running in UK?`, estimanddb_final_table$`Estimands used?`)
+
+estimanddb_final_table |> tbl_summary(by = `Estimands used?`, include = `Trial in UK?`, percent = "row", type = `Trial in UK?` ~ "categorical") |>
+  add_n() |>
+  add_overall(last=TRUE) |>
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Estimand's used?**") |>
+  modify_caption("**Table 4. Estimand usage by UK trial status**") |>
+  bold_labels() |>
+  add_p(test.args = all_tests("fisher.test") ~ list(workspace=2e9))
+
+#Something wrong - won't break down the Run In UK into Yes/No - maybe need to re-level?
+
+##################################################################################################################################
+
+#Treatment allocation
+
+table(estimanddb_final_table$`Treatment allocation`, estimanddb_final_table$`Estimands used?`)
+estimanddb_final_table$`Treatment allocation`[estimanddb_final_table$`Treatment allocation` == "Missing"] <- NA
+
+estimanddb_final_table |> tbl_summary(by = `Estimands used?`, include = `Treatment allocation`, percent = "row") |>
+  add_n() |>
+  add_overall(last=TRUE) |>
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Estimand's used?**") |>
+  modify_caption("**Table 5. Estimand usage by treatment allocation**") |>
+  bold_labels() |>
+  add_p(test.args = all_tests("fisher.test") ~ list(workspace=2e9))
+
+##################################################################################################################################
+
+#Intervention model
+
+table(estimanddb_final_table$`Intervention model`, estimanddb_final_table$`Estimands used?`)
+estimanddb_final_table$`Intervention model`[estimanddb_final_table$`Intervention model` == "Missing"] <- NA
+
+estimanddb_final_table |> tbl_summary(by = `Estimands used?`, include = `Intervention model`, percent = "row") |>
+  add_n() |>
+  add_overall(last=TRUE) |>
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Estimand's used?**") |>
+  modify_caption("**Table 6. Estimand usage by intervention model**") |>
+  bold_labels() |>
+  add_p(test.args = all_tests("fisher.test") ~ list(workspace=2e9))
+
+##################################################################################################################################
+
+#Trial phase
+
+table(estimanddb_final_table$`Trial Phase`, estimanddb_final_table$`Estimands used?`)
+
+estimanddb_final_table |> tbl_summary(by = `Estimands used?`, include = `Trial Phase`, percent = "row") |>
+  add_n() |>
+  add_overall(last=TRUE) |>
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Estimand's used?**") |>
+  modify_caption("**Table 7. Estimand usage by trial phase**") |>
+  bold_labels() |>
+  add_p(test.args = all_tests("fisher.test") ~ list(workspace=2e9))
+
+##################################################################################################################################
+
+#SAP availability
+
+table(estimanddb_final_table$`SAP file available?`, estimanddb_final_table$`Estimands used?`)
+
+estimanddb_final_table |> tbl_summary(by = `Estimands used?`, include = `SAP file available?`, percent = "row") |>
+  add_n() |>
+  add_overall(last=TRUE) |>
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Estimand's used?**") |>
+  modify_caption("**Table 8. Estimand usage by SAP availability**") |>
+  bold_labels() |>
+  add_p(test.args = all_tests("fisher.test") ~ list(workspace=2e9))
+
+##################################################################################################################################
+
+#Protocol availability
+
+table(estimanddb_final_table$`Protocol file available?`, estimanddb_final_table$`Estimands used?`)
+
+estimanddb_final_table |> tbl_summary(by = `Estimands used?`, include = `Protocol file available?`, percent = "row") |>
+  add_n() |>
+  add_overall(last=TRUE) |>
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Estimand's used?**") |>
+  modify_caption("**Table 9. Estimand usage by Protocol availability**") |>
+  bold_labels() |>
+  add_p(test.args = all_tests("fisher.test") ~ list(workspace=2e9))
+
+##################################################################################################################################
+
+#Year opened
+
+table(estimanddb_final_table$`Year opened`, estimanddb_final_table$`Estimands used?`)
+
+estimanddb_final_table |> tbl_summary(by = `Estimands used?`, include = `Year opened`, percent = "row") |>
+  add_n() |>
+  add_overall(last=TRUE) |>
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Estimand's used?**") |>
+  modify_caption("**Table 10. Estimand usage by year opened**") |>
+  bold_labels() |>
+  add_p(test.args = all_tests("fisher.test") ~ list(workspace=2e9))
+
+##################################################################################################################################
+
+#Cancer or non-cancer disease
+
+table(estimanddb_final_table$`Cancer or non-cancer disease`, estimanddb_final_table$`Estimands used?`)
+
+estimanddb_final_table |> tbl_summary(by = `Estimands used?`, include = `Cancer or non-cancer disease`, percent = "row") |>
+  add_n() |>
+  add_overall(last=TRUE) |>
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Estimand's used?**") |>
+  modify_caption("**Table 11. Estimand usage by disease status**") |>
+  bold_labels() |>
+  add_p(test.args = all_tests("fisher.test") ~ list(workspace=2e9))
+
+```
+
+#Logistic regression
+
+```{r logisitic regression, include=TRUE}
+
+estimanddb_final_table$`NCT number (if available)`[estimanddb_final_table$`NCT number (if available)` == "Nil known"] <- NA
+estimanddb_final_table$`ISRCTN number (if available)`[estimanddb_final_table$`ISRCTN number (if available)` == "Nil known"] <- NA
+
+#Estimand's used (Y/Dependent-variable)
+
+library(dplyr)
+
+estimand_model <- estimanddb_final_table[, c("Estimands used?", "Sponsor type", "Funding type", "Cancer or non-cancer disease", "Year opened", "Running in UK?", "Single or multi-country?", "Treatment allocation", "Intervention model", "Trial Phase")]
+
+estimand_model <- estimand_model %>%
+  rename(estimand = `Estimands used?`)
+
+estimand_model$estimand_num <- ifelse(estimand_model$estimand == "Yes", 1, 0)
+estimand_model$estimand_num <- as.factor(estimand_model$estimand_num)
+
+#Covariates (X/Independent variables)
+
+estimand_model <- estimand_model %>%
+  rename(sponsor = `Sponsor type`)
+estimand_model$sponsor <- as.factor(estimand_model$sponsor)
+
+estimand_model <- estimand_model %>%
+  rename(funding = `Funding type`)
+estimand_model$funding <- as.factor(estimand_model$funding)
+
+estimand_model <- estimand_model %>%
+  rename(cancer = `Cancer or non-cancer disease`)
+estimand_model$cancer <- as.factor(estimand_model$cancer)
+
+estimand_model <- estimand_model %>%
+  rename(year = `Year opened`)
+estimand_model$year <- as.factor(estimand_model$year)
+
+estimand_model <- estimand_model %>%
+  rename(uk = `Running in UK?`)
+estimand_model$uk <- as.factor(estimand_model$uk)
+
+estimand_model <- estimand_model %>%
+  rename(country = `Single or multi-country?`)
+estimand_model$country <- as.factor(estimand_model$country)
+
+estimand_model <- estimand_model %>%
+  rename(random = `Treatment allocation`)
+estimand_model$random <- as.factor(estimand_model$random)
+
+estimand_model <- estimand_model %>%
+  rename(int_model = `Intervention model`)
+estimand_model$int_model <- as.factor(estimand_model$int_model)
+
+estimand_model <- estimand_model %>%
+  rename(phase = `Trial Phase`)
+estimand_model$phase <- as.factor(estimand_model$phase)
+
+#######################################################################################################################
+
+#Check all assumptions
+
+#Check independence, linearity of log odds, outliers/influential points and multicollinearity
+
+library(anyDuplicated)
+
+anyDuplicated(estimanddb_final_table$`NCT number (if available)`)
+
+#[1] 1952
+
+duplicated_values <- duplicated(estimanddb_final_table$`NCT number (if available)`)
+
+
+
+######################################################################################################################
+
+#Fit model with all covariates
+
+model1 <- glm(estimand_num ~ sponsor + funding + cancer + year + uk + country + random + int_model + phase, data = estimand_model, family = binomial(link = "logit"))
+
+summary(model1)
+
+Call:
+glm(formula = estimand_num ~ sponsor + funding + cancer + year + 
+    uk + country + random + int_model + phase, family = binomial(link = "logit"), 
+    data = estimand_model)
+
+#Coefficients:
+#                        Estimate Std. Error z value Pr(>|z|)   
+#(Intercept)             -74.4846 10821.9575  -0.007  0.99451   
+#sponsorNon-Industry       0.1097     2.1031   0.052  0.95839   
+#fundingNon-Industry       1.0247     2.0645   0.496  0.61967   
+#cancerNon-cancer          2.5820     1.6654   1.550  0.12105   
+#year2022                 -1.0652     0.9773  -1.090  0.27574   
+#year2023                  0.4324     1.5671   0.276  0.78259   
+#year2024                  2.5141     1.6113   1.560  0.11869   
+#ukYes                    -0.5789     1.0640  -0.544  0.58635   
+#countrySingle            -4.6556     1.5383  -3.026  0.00247 **
+#randomRandomised         20.5030  5955.8528   0.003  0.99725   
+#int_modelParallel        18.8583  6956.5440   0.003  0.99784   
+#int_modelSequential      34.4879  8196.0395   0.004  0.99664   
+#int_modelSingle Group    51.9155 20772.1154   0.002  0.99801   
+#phasePhase I/II          17.6960 18644.4388   0.001  0.99924   
+#phasePhase II            36.3042  5766.2014   0.006  0.99498   
+#phasePhase II/III        54.0422 10454.0497   0.005  0.99588   
+#phasePhase III           34.6408  5766.2015   0.006  0.99521   
+#---
+#Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+#(Dispersion parameter for binomial family taken to be 1)
+#
+#    Null deviance: 103.318  on 74  degrees of freedom
+#Residual deviance:  43.372  on 58  degrees of freedom
+#  (1980 observations deleted due to missingness)
+
+#AIC: 77.372
+#
+#Number of Fisher Scoring iterations: 19
+
+#May want to re-level variables of interest to look at comparison's (e.g. - 2022 vs 2023 may be of more interest than 2021 vs 2022) 
+
+
+
+
+```
