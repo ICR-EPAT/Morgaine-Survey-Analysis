@@ -577,9 +577,11 @@ estimanddb_final_table |> tbl_summary(by = `Estimands used?`, include = c(
   add_n() |>
   add_overall(last=TRUE) |>
   modify_spanning_header(c("stat_1", "stat_2") ~ "**Estimand's used?**") |>
+  italicize_levels() |>
   modify_caption("**Table 12. Estimand usage by category**") |>
   bold_labels() |>
-  add_p(test.args = all_tests("fisher.test") ~ list(workspace=2e9))
+  add_p(test.args = all_tests("fisher.test") ~ list(workspace=2e9)) |>
+  bold_p(t=0.05)
 
 ```
 
@@ -1398,4 +1400,3 @@ ggplot(filtered_sponsor2, aes(x = year, y = prob)) +
   ggtitle("Predicted Probabilities for 2021-2024 by Sponsor Type (with LOESS)")
 
 ```
-
