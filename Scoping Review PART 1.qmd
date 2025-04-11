@@ -766,9 +766,9 @@ ggplot(estimand_model, aes(x = sponsor,
 
 estimand_model_recode1 <- estimand_model
 
-#Recoding sponsor covariate (Missing = 0, Non-industry = 1, Industry = 2)
+#Recoding sponsor covariate (Non-Industry = 0, Industry = 1, Missing = 2)
 
-estimand_model_recode1$sponsor <- factor(estimand_model_recode1$sponsor, levels = c("Missing", "Non-Industry", "Industry"))
+estimand_model_recode1$sponsor <- factor(estimand_model_recode1$sponsor, levels = c("Non-Industry", "Industry", "Missing"))
 
 library(ggplot2)
 
@@ -788,9 +788,9 @@ ggplot(estimand_model, aes(x = funding,
   geom_jitter(height = 0.05,
               alpha=0.1)
 
-#Recoding funding covariate (Other = 0, Missing = 1, Non-Industry = 2, Industry=3)
+#Recoding funding covariate (Non-Industry = 0, Industry = 1, Other = 2, Missing = 3)
 
-estimand_model_recode1$funding <- factor(estimand_model_recode1$funding, levels = c("Other", "Missing", "Non-Industry", "Industry"))
+estimand_model_recode1$funding <- factor(estimand_model_recode1$funding, levels = c("Non-Industry", "Industry", "Other", "Missing"))
 
 ggplot(estimand_model_recode1, aes(x = funding,
                            y=estimand_num)) +
@@ -913,11 +913,127 @@ ggplot(estimand_model_recode1, aes(x = int_model,
 model2 <- glm(estimand_num ~ sponsor + funding + cancer + year + uk + country + random + int_model + phase, data = estimand_model_recode1, family = binomial(link = "logit"))
 
 summary(model2)
+
+confint(model2)
 ```
 
-#Splines
+#Plots
 
-```{r covariate spline fitting, include=TRUE}
+```{r Plotting, include=TRUE}
 
+pred_probs <- predict(model2, type = "response")
+pred_df <- data.frame(sponsor = estimand_model_recode1$sponsor, prob = pred_probs)
+
+#Sponsor
+
+plot(estimand_model_recode1$sponsor, pred_probs)
+pred_df$sponsor <- factor(pred_df$sponsor)
+
+#ggplot(pred_df, aes(x = sponsor, y = prob)) +
+#  geom_point(aes(color = sponsor), size = 1.5) +  # Add points for each category
+#  geom_smooth(method = "lm", aes(group = 1), color = "black", linetype = "dotted", size = 0.5, se #= FALSE) +  # Add dotted black line
+#  labs(x = "Sponsor Type", y = "Predicted Probability", color = "Sponsor Type") +
+#  theme_minimal() +
+#  ggtitle("Predicted Probabiliies for Different Sponsor Types (with linear fit)")
+
+#This is innapropriate since it is a categorical variable, and not continuous.
+
+ggplot(pred_df, aes(x = sponsor, y = prob)) +
+  geom_boxplot(aes(color = sponsor), alpha = 0.3, outlier.shape = TRUE, width = 0.4) +
+  labs(x = "Sponsor Type", y = "Predicted Probability", color = "Sponsor Type") +
+  scale_y_continuous(limits = c(0, 1)) +
+  theme_minimal() +
+  ggtitle("Predicted Probabilities for Sponsor Type")
+
+filtered_sponsor <- pred_df %>%
+  filter(sponsor %in% c("Non-Industry", "Industry"))
+
+ggplot(filtered_sponsor, aes(x = sponsor, y = prob)) +
+  geom_boxplot(aes(color = sponsor), alpha = 0.3, outlier.shape = TRUE, width = 0.4) +
+  labs(x = "Sponsor Type", y = "Predicted Probability", color = "Sponsor Type") +
+  scale_y_continuous(limits = c(0, 1)) +
+  theme_minimal() +
+  ggtitle("Predicted Probabilities for Sponsor Type")
+
+ggplot(filtered_sponsor, aes(x = sponsor, y = prob)) +
+  geom_boxplot(aes(color = sponsor), alpha = 0.3, outlier.shape = TRUE, width = 0.4) +  # Boxplot with narrower width
+  geom_smooth(method = "loess", aes(group = 1), color = "black", linetype = "dotted", size = 0.5) +  
+  labs(x = "Sponsor Type", y = "Predicted Probability", color = "Sponsor Type") +  
+  scale_y_continuous(limits = c(0, 1)) + 
+  theme_minimal() +
+  ggtitle("Predicted Probabilities for Sponsor Type with Loess Line")
+
+ggplot(filtered_sponsor, aes(x = sponsor, y = prob)) +
+  geom_point(aes(color = sponsor), size = 1.5) +  # Add points for each category
+  geom_smooth(method = "loess", aes(group = 1), color = "black", linetype = "dotted", size = 0.5, se = TRUE) +
+  labs(x = "Sponsor Type", y = "Predicted Probability", color = "Sponsor Type") +
+  theme_minimal() +
+  ggtitle("Predicted Probabilities for Sponsor Types (with loess)")
+
+####################################################################################################################
+
+#Funding
+
+pred_df <- data.frame(funding = estimand_model_recode1$funding, prob = pred_probs)
+pred_df$funding <- factor(pred_df$funding)
+
+ggplot(pred_df, aes(x = funding, y = prob)) +
+  geom_boxplot(aes(color = funding), alpha = 0.3, outlier.shape = TRUE, width = 0.4) +
+  labs(x = "Funding Type", y = "Predicted Probability", color = "Funding Type") +
+  scale_y_continuous(limits = c(0, 1)) +
+  theme_minimal() +
+  ggtitle("Predicted Probabilities for Funding Type")
+
+filtered_funding <- pred_df %>%
+  filter(funding %in% c("Non-Industry", "Industry", "Other"))
+
+ggplot(filtered_funding, aes(x = funding, y = prob)) +
+  geom_boxplot(aes(color = funding), alpha = 0.3, outlier.shape = TRUE, width = 0.4) +
+  labs(x = "Funding  Type", y = "Predicted Probability", color = "Funding Type") +
+  scale_y_continuous(limits = c(0, 1)) +
+  theme_minimal() +
+  ggtitle("Predicted Probabilities for Funding Type")
+
+ggplot(filtered_funding, aes(x = funding, y = prob)) +
+  geom_boxplot(aes(color = funding), alpha = 0.3, outlier.shape = TRUE, width = 0.4) + 
+  geom_smooth(method = "loess", aes(group = 1), color = "black", linetype = "dotted", size = 0.5) +  
+  labs(x = "Funding Type", y = "Predicted Probability", color = "Funding Type") +  
+  scale_y_continuous(limits = c(0, 1)) + 
+  theme_minimal() +
+  ggtitle("Predicted Probabilities for Funding Type with Loess Line")
+
+ggplot(filtered_funding, aes(x = funding, y = prob)) +
+  geom_point(aes(color = funding), size = 1.5) +  
+  geom_smooth(method = "loess", aes(group = 1), color = "black", linetype = "dotted", size = 0.5, se = TRUE) +
+  labs(x = "Funding Type", y = "Predicted Probability", color = "Funding Type") +
+  theme_minimal() +
+  ggtitle("Predicted Probabilities for Funding Type (with loess)")
+
+#Filter to just INDUSTRY VS NON-INDUSTRY
+
+filtered_funding1 <- pred_df %>%
+  filter(funding %in% c("Non-Industry", "Industry"))
+
+ggplot(filtered_funding1, aes(x = funding, y = prob)) +
+  geom_boxplot(aes(color = funding), alpha = 0.3, outlier.shape = TRUE, width = 0.4) +
+  labs(x = "Funding  Type", y = "Predicted Probability", color = "Funding Type") +
+  scale_y_continuous(limits = c(0, 1)) +
+  theme_minimal() +
+  ggtitle("Predicted Probabilities for Funding Type")
+
+ggplot(filtered_funding1, aes(x = funding, y = prob)) +
+  geom_boxplot(aes(color = funding), alpha = 0.3, outlier.shape = TRUE, width = 0.4) + 
+  geom_smooth(method = "loess", aes(group = 1), color = "black", linetype = "dotted", size = 0.5) +  
+  labs(x = "Funding Type", y = "Predicted Probability", color = "Funding Type") +  
+  scale_y_continuous(limits = c(0, 1)) + 
+  theme_minimal() +
+  ggtitle("Predicted Probabilities for Funding Type with Loess Line")
+
+ggplot(filtered_funding1, aes(x = funding, y = prob)) +
+  geom_point(aes(color = funding), size = 1.5) +  
+  geom_smooth(method = "loess", aes(group = 1), color = "black", linetype = "dotted", size = 0.5, se = TRUE) +
+  labs(x = "Funding Type", y = "Predicted Probability", color = "Funding Type") +
+  theme_minimal() +
+  ggtitle("Predicted Probabilities for Funding Type (with loess)")
 ```
 
