@@ -555,9 +555,35 @@ estimanddb_final_table |> tbl_summary(by = `Estimands used?`, include = `Cancer 
   bold_labels() |>
   add_p(test.args = all_tests("fisher.test") ~ list(workspace=2e9))
 
+#######################################################################################################################
+
+#Overall table
+
+estimanddb_final_table |> tbl_summary(by = `Estimands used?`, include = c(
+  `Sponsor type`, 
+  `Funding type`, 
+  `Single or multi-country?`, 
+  `Trial in UK?`, 
+  `Treatment allocation`, 
+  `Intervention model`, 
+  `Trial Phase`, 
+  `SAP file available?`, 
+  `Protocol file available?`, 
+  `Year opened`, 
+  `Cancer or non-cancer disease`
+),
+  percent = "row",
+  type = `Trial in UK?` ~ "categorical") |>
+  add_n() |>
+  add_overall(last=TRUE) |>
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Estimand's used?**") |>
+  modify_caption("**Table 12. Estimand usage by category**") |>
+  bold_labels() |>
+  add_p(test.args = all_tests("fisher.test") ~ list(workspace=2e9))
+
 ```
 
-#Logistic regression
+#Logistic regression 1
 
 ```{r logisitic regression, include=TRUE}
 
@@ -576,14 +602,17 @@ estimand_model <- estimand_model %>%
 estimand_model$estimand_num <- ifelse(estimand_model$estimand == "Yes", 1, 0)
 estimand_model$estimand_num <- as.factor(estimand_model$estimand_num)
 
+
 #Covariates (X/Independent variables)
 
 estimand_model <- estimand_model %>%
   rename(sponsor = `Sponsor type`)
+estimand_model$sponsor[is.na(estimand_model$sponsor)] <- "Missing"
 estimand_model$sponsor <- as.factor(estimand_model$sponsor)
 
 estimand_model <- estimand_model %>%
   rename(funding = `Funding type`)
+estimand_model$funding[is.na(estimand_model$funding)] <- "Missing"
 estimand_model$funding <- as.factor(estimand_model$funding)
 
 estimand_model <- estimand_model %>%
@@ -604,10 +633,12 @@ estimand_model$country <- as.factor(estimand_model$country)
 
 estimand_model <- estimand_model %>%
   rename(random = `Treatment allocation`)
+estimand_model$random[is.na(estimand_model$random)] <- "Missing"
 estimand_model$random <- as.factor(estimand_model$random)
 
 estimand_model <- estimand_model %>%
   rename(int_model = `Intervention model`)
+estimand_model$int_model[is.na(estimand_model$int_model)] <- "Missing"
 estimand_model$int_model <- as.factor(estimand_model$int_model)
 
 estimand_model <- estimand_model %>%
@@ -616,19 +647,39 @@ estimand_model$phase <- as.factor(estimand_model$phase)
 
 #######################################################################################################################
 
-#Check all assumptions
-
-#Check independence, linearity of log odds, outliers/influential points and multicollinearity
-
-library(anyDuplicated)
+library(dplyr)
 
 anyDuplicated(estimanddb_final_table$`NCT number (if available)`)
 
-#[1] 1952
+#[1] 1952 <- is NA
 
-duplicated_values <- duplicated(estimanddb_final_table$`NCT number (if available)`)
+NCTcounts <- table(estimanddb_final_table$`NCT number (if available)`)
+NCT_2_counts <- NCTcounts[NCTcounts > 1]
 
+if(length(NCT_2_counts) > 0) {
+  print("Values occurring more than 1 times:")
+  print(NCT_2_counts)
+} else {
+  print("No values occur more than 1 times.")
+}
 
+#[1] "No values occur more than 1 times."
+
+anyDuplicated(estimanddb_final_table$`ISRCTN number (if available)`)
+
+#[1] 2 <- is NA
+
+ISRCTNcounts <- table(estimanddb_final_table$`ISRCTN number (if available)`)
+ISRCTN_2_counts <- ISRCTNcounts[ISRCTNcounts > 1]
+
+if(length(ISRCTN_2_counts) > 0) {
+  print("Values occurring more than 1 times:")
+  print(ISRCTN_2_counts)
+} else {
+  print("No values occur more than 1 times.")
+}
+
+#[1] "No values occur more than 1 times."
 
 ######################################################################################################################
 
@@ -638,46 +689,235 @@ model1 <- glm(estimand_num ~ sponsor + funding + cancer + year + uk + country + 
 
 summary(model1)
 
-Call:
-glm(formula = estimand_num ~ sponsor + funding + cancer + year + 
-    uk + country + random + int_model + phase, family = binomial(link = "logit"), 
-    data = estimand_model)
-
+#Call:
+#glm(formula = estimand_num ~ sponsor + funding + cancer + year + 
+#    uk + country + random + int_model + phase, family = binomial(link = "logit"), 
+#    data = estimand_model)
+#
 #Coefficients:
-#                        Estimate Std. Error z value Pr(>|z|)   
-#(Intercept)             -74.4846 10821.9575  -0.007  0.99451   
-#sponsorNon-Industry       0.1097     2.1031   0.052  0.95839   
-#fundingNon-Industry       1.0247     2.0645   0.496  0.61967   
-#cancerNon-cancer          2.5820     1.6654   1.550  0.12105   
-#year2022                 -1.0652     0.9773  -1.090  0.27574   
-#year2023                  0.4324     1.5671   0.276  0.78259   
-#year2024                  2.5141     1.6113   1.560  0.11869   
-#ukYes                    -0.5789     1.0640  -0.544  0.58635   
-#countrySingle            -4.6556     1.5383  -3.026  0.00247 **
-#randomRandomised         20.5030  5955.8528   0.003  0.99725   
-#int_modelParallel        18.8583  6956.5440   0.003  0.99784   
-#int_modelSequential      34.4879  8196.0395   0.004  0.99664   
-#int_modelSingle Group    51.9155 20772.1154   0.002  0.99801   
-#phasePhase I/II          17.6960 18644.4388   0.001  0.99924   
-#phasePhase II            36.3042  5766.2014   0.006  0.99498   
-#phasePhase II/III        54.0422 10454.0497   0.005  0.99588   
-#phasePhase III           34.6408  5766.2015   0.006  0.99521   
+#                        Estimate Std. Error z value Pr(>|z|)    
+#(Intercept)            -3.066122   0.767808  -3.993 6.51e-05 ***
+#sponsorMissing         -0.371945   0.321556  -1.157  0.24739    
+#sponsorNon-Industry     0.771864   0.581094   1.328  0.18408    
+#fundingMissing         -2.428303   0.862260  -2.816  0.00486 ** 
+#fundingNon-Industry    -2.407215   0.240051 -10.028  < 2e-16 ***
+#fundingOther          -12.873769 412.544147  -0.031  0.97511    
+#cancerNon-cancer        0.652169   0.226443   2.880  0.00398 ** 
+#year2022                0.158790   0.156809   1.013  0.31124    
+#year2023                0.394158   0.301784   1.306  0.19152    
+#year2024                0.711971   0.471133   1.511  0.13074    
+#ukYes                  -0.002074   0.197868  -0.010  0.99164    
+#countrySingle          -1.087433   0.158163  -6.875 6.18e-12 ***
+#randomNon-Randomised   -0.153409   0.509324  -0.301  0.76326    
+#randomRandomised        0.555077   0.518105   1.071  0.28401    
+#int_modelFactorial      1.429720   1.141227   1.253  0.21028    
+#int_modelMissing       -0.279750   0.790684  -0.354  0.72348    
+#int_modelParallel       1.078945   0.409769   2.633  0.00846 ** 
+#int_modelSequential     1.014895   0.510981   1.986  0.04701 *  
+#int_modelSingle Group   0.876521   0.640677   1.368  0.17128    
+#phasePhase I/II        -0.180227   0.523465  -0.344  0.73062    
+#phasePhase II           1.290633   0.271566   4.753 2.01e-06 ***
+#phasePhase II/III       1.764194   0.408504   4.319 1.57e-05 ***
+#phasePhase III          1.756655   0.276077   6.363 1.98e-10 ***
+#phasePhase III/IV     -10.088367 499.253692  -0.020  0.98388    
 #---
 #Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 #(Dispersion parameter for binomial family taken to be 1)
-#
-#    Null deviance: 103.318  on 74  degrees of freedom
-#Residual deviance:  43.372  on 58  degrees of freedom
-#  (1980 observations deleted due to missingness)
 
-#AIC: 77.372
-#
-#Number of Fisher Scoring iterations: 19
+#    Null deviance: 1994.2  on 2054  degrees of freedom
+#Residual deviance: 1373.9  on 2031  degrees of freedom
+#AIC: 1421.9
 
-#May want to re-level variables of interest to look at comparison's (e.g. - 2022 vs 2023 may be of more interest than 2021 vs 2022) 
+#Number of Fisher Scoring iterations: 13
 
+############### May want to re-level variables of interest to look at comparison's (e.g. - 2022 vs 2023 may be of more interest than 2021 vs 2022)
 
+########################################################################################################################
 
+#Check all assumptions
+
+#Check independence, linearity of log odds, outliers/influential points and multicollinearity
+
+library(tidyverse)
+sapply(estimand_model, function(x) sum(is.na(x)))
+
+#Check model using GAMLSS
+par(mfrow=c(1,1))
+library(gamlss)
+model1.1 <- gamlss(estimand_num ~ sponsor + funding + cancer + year + uk + country + random + int_model + phase, family = BI, data = estimand_model)
+plot(model1.1)
+
+########################################################################################################################
+```
+
+#Checking invididual covariates
+
+```{r individual covariate exploration, include=TRUE}
+
+#Sponsor
+
+library(ggplot2)
+
+ggplot(estimand_model, aes(x = sponsor,
+                           y=estimand_num)) +
+  geom_jitter(height = 0.05,
+              alpha=0.1)
+
+estimand_model_recode1 <- estimand_model
+
+#Recoding sponsor covariate (Missing = 0, Non-industry = 1, Industry = 2)
+
+estimand_model_recode1$sponsor <- factor(estimand_model_recode1$sponsor, levels = c("Missing", "Non-Industry", "Industry"))
+
+library(ggplot2)
+
+ggplot(estimand_model_recode1, aes(x = sponsor,
+                           y=estimand_num)) +
+  geom_jitter(height = 0.05,
+              alpha=0.1)
+
+#####################################################################################################################
+
+#Funding
+
+library(ggplot2)
+
+ggplot(estimand_model, aes(x = funding,
+                           y=estimand_num)) +
+  geom_jitter(height = 0.05,
+              alpha=0.1)
+
+#Recoding funding covariate (Other = 0, Missing = 1, Non-Industry = 2, Industry=3)
+
+estimand_model_recode1$funding <- factor(estimand_model_recode1$funding, levels = c("Other", "Missing", "Non-Industry", "Industry"))
+
+ggplot(estimand_model_recode1, aes(x = funding,
+                           y=estimand_num)) +
+  geom_jitter(height = 0.05,
+              alpha=0.1)
+
+#####################################################################################################################
+
+#Cancer
+
+library(ggplot2)
+
+ggplot(estimand_model, aes(x = cancer,
+                           y=estimand_num)) +
+  geom_jitter(height = 0.05,
+              alpha=0.1)
+
+#Recoding cancer covariate (Non-cancer = 0, Cancer = 1)
+
+estimand_model_recode1$cancer <- factor(estimand_model_recode1$cancer, levels = c("Non-cancer", "Cancer"))
+
+ggplot(estimand_model_recode1, aes(x = cancer,
+                           y=estimand_num)) +
+  geom_jitter(height = 0.05,
+              alpha=0.1)
+
+#####################################################################################################################
+
+#Year
+
+ggplot(estimand_model_recode1, aes(x = year,
+                           y=estimand_num)) +
+  geom_jitter(height = 0.05,
+              alpha=0.1)
+
+#Keep leveling the same
+
+#####################################################################################################################
+
+#UK
+
+ggplot(estimand_model_recode1, aes(x = uk,
+                           y=estimand_num)) +
+  geom_jitter(height = 0.05,
+              alpha=0.1)
+
+#Keep leveling the same
+
+#####################################################################################################################
+
+#Country
+
+ggplot(estimand_model_recode1, aes(x = country,
+                           y=estimand_num)) +
+  geom_jitter(height = 0.05,
+              alpha=0.1)
+
+#Recoding cancer covariate (Single = 0, Multiple = 1)
+
+estimand_model_recode1$country <- factor(estimand_model_recode1$country, levels = c("Single", "Multiple"))
+
+ggplot(estimand_model_recode1, aes(x = country,
+                           y=estimand_num)) +
+  geom_jitter(height = 0.05,
+              alpha=0.1)
+
+#####################################################################################################################
+
+#Phase
+
+ggplot(estimand_model_recode1, aes(x = phase,
+                           y=estimand_num)) +
+  geom_jitter(height = 0.05,
+              alpha=0.1)
+
+#Keep leveling the same
+
+####################################################################################################################
+
+#####################################################################################################################
+
+#Random
+
+ggplot(estimand_model_recode1, aes(x = random,
+                           y=estimand_num)) +
+  geom_jitter(height = 0.05,
+              alpha=0.1)
+
+#Recoding random covariate (Non-randomised = 0, Missing = 1, Randomised=2)
+
+estimand_model_recode1$random <- factor(estimand_model_recode1$random, levels = c("Non-Randomised", "Missing", "Randomised"))
+
+ggplot(estimand_model_recode1, aes(x = random,
+                           y=estimand_num)) +
+  geom_jitter(height = 0.05,
+              alpha=0.1)
+
+#####################################################################################################################
+
+#Int_model
+
+ggplot(estimand_model_recode1, aes(x = int_model,
+                           y=estimand_num)) +
+  geom_jitter(height = 0.05,
+              alpha=0.1)
+
+estimand_model_recode1$int_model <- factor(estimand_model_recode1$int_model, levels = c("Missing", "Factorial", "Crossover", "Sequential", "Single Group", "Parallel"))
+
+ggplot(estimand_model_recode1, aes(x = int_model,
+                           y=estimand_num)) +
+  geom_jitter(height = 0.05,
+              alpha=0.1)
 
 ```
+
+#Logisitic regression 2
+
+```{r re-coded variables, include=TRUE}
+
+model2 <- glm(estimand_num ~ sponsor + funding + cancer + year + uk + country + random + int_model + phase, data = estimand_model_recode1, family = binomial(link = "logit"))
+
+summary(model2)
+```
+
+#Splines
+
+```{r covariate spline fitting, include=TRUE}
+
+```
+
