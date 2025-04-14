@@ -1382,9 +1382,10 @@ ggplot(filtered_int, aes(x = int_model, y = prob)) +
 
 #Sponsor type
 
-pred_df <- data.frame(year = estimand_model_recode1$year, sponsor = estimand_model_recode1$sponsor, prob = pred_probs)
+pred_df <- data.frame(year = estimand_model_recode1$year, sponsor = estimand_model_recode1$sponsor, cancer = estimand_model_recode1$cancer, prob = pred_probs)
 pred_df$year <- factor(pred_df$year)
 pred_df$sponsor <- factor(pred_df$sponsor)
+pred_df$cancer <- factor(pred_df$cancer)
 
 #Filter to remove "Missing"
 
@@ -1399,4 +1400,17 @@ ggplot(filtered_sponsor2, aes(x = year, y = prob)) +
   theme_minimal() +
   ggtitle("Predicted Probabilities for 2021-2024 by Sponsor Type (with LOESS)")
 
+filtered_sponsor3 <- pred_df %>%
+  filter(cancer %in% c("Non-cancer", "Cancer"))
+
+ggplot(filtered_sponsor3, aes(x = year, y = prob)) +
+  geom_point(aes(color = year), size = 1.2) +  # Scatter plot with points colored by year
+  geom_smooth(aes(color = cancer, group = cancer), method = "loess", linetype = "dotted", size = 0.8, span = 0.75, se = TRUE) +  # Loess line for each industry type
+  labs(x = "Year", y = "Predicted Probability", color = "Cancer vs Non-cancer") +  # Add axis labels and legend title
+  scale_y_continuous(limits = c(0, 1)) +  # Set y-axis limits between 0 and 1
+  theme_minimal() +
+  ggtitle("Predicted Probabilities for 2021-2024 by Cancer vs Non-Cancer (with LOESS)")
+
 ```
+
+
