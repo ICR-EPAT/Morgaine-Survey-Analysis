@@ -532,7 +532,7 @@ scoping_recode$pub_sec_spec <- factor(scoping_recode$pub_sec_spec, levels = c("N
 
 ```
 
-#Plotting
+#Plotting: Stacked barcharts
 
 ```{r plots, include=TRUE}
 
@@ -734,4 +734,9 @@ summeasure_funding
 
 ```
 
+#Plotting: Pie charts
+
+```{r pie charts, include=TRUE}
+
+```
 
