@@ -912,7 +912,7 @@ ggplot(estimand_model_recode1, aes(x = int_model,
 
 ```{r re-coded variables, include=TRUE}
 
-model2 <- glm(estimand_num ~ sponsor + funding + cancer + year + uk + country + random + int_model + phase, data = estimand_model_recode1, family = binomial(link = "logit"))
+model2 <- glm(estimand_num ~ sponsor + funding + cancer + year + uk + country + random + phase, data = estimand_model_recode1, family = binomial(link = "logit"))
 
 summary(model2)
 
@@ -928,7 +928,6 @@ tbl_regression(model2, exponentiate = TRUE, label = list(
   uk ~ "Trial run in the UK?",
   country = "Single/Multiple Country",
   random ~ "Allocation Type",
-  int_model ~ "Intervention Design",
   phase ~ "Trial Phase"
 )) %>%
   modify_caption("Part 1 - Multivariate Logisitic Regression") %>%
@@ -936,6 +935,28 @@ tbl_regression(model2, exponentiate = TRUE, label = list(
   bold_p(t=0.05) %>%
   bold_labels() %>%
   add_n()
+
+#Multicollinearity check
+
+library(car)
+
+vif(model2)
+
+#sponsor    2.376105  2        1.241556
+#funding    1.559004  3        1.076815
+#cancer     1.103573  1        1.050511
+#year       1.312488  3        1.046363
+#uk         1.336801  1        1.156201
+#country    1.363785  1        1.167812
+#random     8.346138  2        1.699697
+#int_model 18.761258  5        1.340683
+#phase      1.449589  5        1.037826
+
+#Check model using GAMLSS
+par(mfrow=c(1,1))
+library(gamlss)
+model2.1 <- gamlss(estimand_num ~ sponsor + funding + cancer + year + uk + country + random + phase, family = BI, data = estimand_model_recode1)
+plot(model2.1)
 
 
 ```
@@ -1413,4 +1434,32 @@ ggplot(filtered_sponsor3, aes(x = year, y = prob)) +
 
 ```
 
+
+#Collinearity check 
+
+```{r collinearity matrix, include=TRUE}
+
+#Data used for logistic regression
+
+library(ggcorrplot)
+model.matrix(~0+., data=estimand_model_recode1) %>% 
+  cor(use="pairwise.complete.obs") %>% 
+  ggcorrplot(show.diag=FALSE, type="lower", lab=TRUE, lab_size=2)
+
+#Recoded
+
+estimand_model_recode2 <- estimand_model_recode1
+
+estimand_model_recode2$sponsor <- factor(estimand_model_recode2$sponsor, levels = c("Industry", "Non-Industry", "Missing"))
+estimand_model_recode2$funding <- factor(estimand_model_recode2$funding, levels = c("Industry", "Non-Industry", "Other", "Missing"))
+estimand_model_recode2$cancer <- factor(estimand_model_recode2$cancer, levels = c("Cancer", "Non-cancer"))
+estimand_model_recode2$uk <- factor(estimand_model_recode2$uk, levels = c("Yes", "No"))
+estimand_model_recode2$country <- factor(estimand_model_recode2$country, levels = c("Multiple", "Single"))
+
+library(ggcorrplot)
+model.matrix(~0+., data=estimand_model_recode2) %>% 
+  cor(use="pairwise.complete.obs") %>% 
+  ggcorrplot(show.diag=FALSE, type="lower", lab=TRUE, lab_size=2)
+
+```
 

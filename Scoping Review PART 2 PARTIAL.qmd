@@ -1,0 +1,110 @@
+---
+title: "Scoping Review Part 2 (Partial data)"
+format: html
+editor: visual
+---
+
+```{r import data, include=TRUE}
+
+library(readxl)
+
+scoping_2 <- read_excel("Scoping review team PART 2.xlsx", skip = 1)
+
+```
+
+
+#Recode
+
+```{r data exploration, include=TRUE}
+
+scoping_recode$`Publication: Is there a comprehensive section on estimands that includes all constituent parts (treatment conditions,  population, endpoint, summary, intercurrent events)?`
+
+scoping_recode <- scoping_2[, c("Primary estimand - population explicitly listed as part of the estimand definition?", "Primary estimand - is the listed population the entire trial population, a subgroup defined by a particular characteristic measured at baseline, or a principal stratum defined by the occurrence or non-occurrence of an intercurrent event?", "Specify other")]
+
+library(dplyr)
+
+scoping_recode <- scoping_2 %>%
+  rename(
+    prime_pop_list = "Primary estimand - population explicitly listed as part of the estimand definition?",
+    prime_pop_def = "Primary estimand - is the listed population the entire trial population, a subgroup defined by a particular characteristic measured at baseline, or a principal stratum defined by the occurrence or non-occurrence of an intercurrent event?",
+    prime_pop_spec = "Specify other",
+    prime_end_point = "Primary estimand - endpoint/variable explicitly listed as part of the estimand definition?",
+    prime_treat_cond = "Primary estimand - Treatment conditions  explicitly listed as part of the estimand definition?",
+    prime_summary_measure = "Primary estimand - summary measure explicitly listed as part of the estimand definition?",
+    prime_summary_measure2 = "Primary estimand - summary measure used",
+    prime_summary_measure3 = "Primary estimand - summary measure used (specify other)",
+    prime_treat_pol = "Primary estimand - treatment policy strategy explicitly used?",
+    prime_comp_strat = "Primary estimand - composite strategy explicitly used?",
+    prime_while_treat = "Primary estimand - while on treatment (or while alive) strategy explicitly used?",
+    prime_hypo_strat = "Primary estimand - hypothetical strategy explicitly used?",
+    prime_prin_strat = "Primary estimand - principal stratum strategy explicitly used?",
+    prime_other_strat = "Primary estimand - other strategy explicitly used?",
+    prime_other_spec = "Primary estimand - specify other strategy used",
+    sec_estimand_use = "Any secondary or exploratory estimands?",
+    est_prot = "Estimands outlined in protocol?",
+    prot_const = "Protocol: Is there a comprehensive section on estimands that includes all constituent parts (treatment conditions,  population, endpoint, summary, intercurrent events)?",
+    est_sap = "Estimands outlined in SAP?",
+    sap_const = "SAP: Is there a comprehensive section on estimands that includes all constituent parts (treatment conditions,  population, endpoint, summary, intercurrent events)?",
+    est_pub = "Estimands outlined in publication?",
+    est_pub_type = "If estimands are detailed in publication - what type of publication?",
+    est_pub_type_spec = "If other publication type, please specify",
+    pub_sec_spec = "Publication: Is there a comprehensive section on estimands that includes all constituent parts (treatment conditions,  population, endpoint, summary, intercurrent events)?",
+    )
+
+```
+
+#Exploration and tables:
+
+```{r tables, include=TRUE}
+
+####################################################################################################################################################
+
+#Population listed
+
+table(scoping_recode$prime_pop_list)
+
+#"Primary estimand - population explicitly listed as part of the estimand definition?"
+
+#N/A  No Yes 
+#  3   8  61
+
+####################################################################################################################################################
+
+table(scoping_recode$prime_pop_def)
+
+"Primary estimand - is the listed population the entire trial population, a subgroup defined by a particular characteristic measured at baseline, or a principal stratum defined by the occurrence or non-occurrence of an intercurrent event?"
+
+#                                                          N/A                                                         Other 
+#                                                           10                                                             7 
+#                        Principal stratum of trial population Subgroup of trial population based on baseline characteristic 
+#                                                            8                                                             1 
+#                                             Trial population 
+#                                                           46 
+
+####################################################################################################################################################
+
+table(scoping_recode$prime_pop_spec)
+
+#"Specify other"
+
+####################################################################################################################################################
+
+table(scoping_recode$prime_end_point)
+
+#"Primary estimand - endpoint/variable explicitly listed as part of the estimand definition?"
+
+#N/A  No Yes 
+#  3   6  63
+
+####################################################################################################################################################
+
+table(scoping_recode$prime_treat_cond)
+
+#"Primary estimand - Treatment conditions  explicitly listed as part of the estimand definition?"
+
+#N/A  No Yes 
+#  3  19  50 
+
+
+```
+
