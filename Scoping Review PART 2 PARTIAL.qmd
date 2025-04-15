@@ -68,6 +68,16 @@ table(scoping_recode$prime_pop_list)
 #N/A  No Yes 
 #  3   8  61
 
+print("Count of total missing values")
+sum(is.na(scoping_recode$prime_pop_list))
+print("Position of missing values ")
+which(is.na(scoping_recode$prime_pop_list))
+
+#A lot of missing values - this should be 0 upon completion of scoping review.
+
+scoping_recode$prime_pop_list <- factor(scoping_recode$prime_pop_list, levels = c("No", "Yes", "N/A"))
+
+
 ####################################################################################################################################################
 
 table(scoping_recode$prime_pop_def)
@@ -80,6 +90,15 @@ table(scoping_recode$prime_pop_def)
 #                                                            8                                                             1 
 #                                             Trial population 
 #                                                           46 
+
+print("Count of total missing values")
+sum(is.na(scoping_recode$prime_pop_def))
+print("Position of missing values ")
+which(is.na(scoping_recode$prime_pop_def))
+
+#A lot of missing values - this should be 0 upon completion of scoping review.
+
+scoping_recode$prime_pop_def <- factor(scoping_recode$prime_pop_def, levels = c("Trial population", "Subgroup of trial population based on baseline characteristic", "Principal stratum of trial population", "Other", "N/A"))
 
 ####################################################################################################################################################
 
@@ -96,6 +115,15 @@ table(scoping_recode$prime_end_point)
 #N/A  No Yes 
 #  3   6  63
 
+print("Count of total missing values")
+sum(is.na(scoping_recode$prime_end_point))
+print("Position of missing values ")
+which(is.na(scoping_recode$prime_end_point))
+
+#A lot of missing values - this should be 0 upon completion of scoping review.
+
+scoping_recode$prime_end_point <- factor(scoping_recode$prime_end_point, levels = c("No", "Yes", "N/A"))
+
 ####################################################################################################################################################
 
 table(scoping_recode$prime_treat_cond)
@@ -103,8 +131,607 @@ table(scoping_recode$prime_treat_cond)
 #"Primary estimand - Treatment conditions  explicitly listed as part of the estimand definition?"
 
 #N/A  No Yes 
-#  3  19  50 
+#  3  19  50
 
+print("Count of total missing values")
+sum(is.na(scoping_recode$prime_treat_cond))
+print("Position of missing values ")
+which(is.na(scoping_recode$prime_treat_cond))
+
+#A lot of missing values - this should be 0 upon completion of scoping review.
+
+
+scoping_recode$prime_treat_cond <- factor(scoping_recode$prime_treat_cond, levels = c("No", "Yes", "N/A"))
+
+####################################################################################################################################################
+
+table(scoping_recode$prime_summary_measure)
+
+#"Primary estimand - summary measure explicitly listed as part of the estimand definition?"
+
+#N/A  No Yes 
+#  3   6  63
+
+print("Count of total missing values")
+sum(is.na(scoping_recode$prime_summary_measure))
+print("Position of missing values ")
+which(is.na(scoping_recode$prime_summary_measure))
+
+#A lot of missing values - this should be 0 upon completion of scoping review.
+
+
+scoping_recode$prime_treat_cond <- factor(scoping_recode$prime_treat_cond, levels = c("No", "Yes", "N/A"))
+
+
+####################################################################################################################################################
+
+table(scoping_recode$prime_summary_measure2)
+
+#"Primary estimand - summary measure used"
+
+#      Difference in means              Hazard ratio                       N/A                Odds ratio                     Other 
+#                       25                         2                         9                         4                        30 
+#               Risk ratio Risk ratio/ relative risk 
+#                        1                         1 
+
+print("Count of total missing values")
+sum(is.na(scoping_recode$prime_summary_measure2))
+print("Position of missing values ")
+which(is.na(scoping_recode$prime_summary_measure2))
+
+#A lot of missing values - this should be 0 upon completion of scoping review.
+
+scoping_recode$prime_summary_measure2 <- factor(scoping_recode$prime_summary_measure2, levels = c("Difference in means", "Hazard ratio", "Odds ratio", "Risk ratio", "Risk ratio/ relative risk", "Other", "N/A"))
+
+####################################################################################################################################################
+
+table(scoping_recode$prime_summary_measure3)
+
+#"Primary estimand - summary measure used (specify other)"
+
+#                                                                              Average 
+#                                                                                                                                                                 #                                                                                     1 
+#Co-primary estimands. One says "treatment difference from the nonparametric ANCOVA model (see\r\nSection 8.2.3.2)" but doesn’t specify how that's measured; other #says adjusted relative risk (from the modified Poisson model (see\r\nSection 8.2.3.2) 
+#                                                                                                                                                                 #                                                                                     1 
+#                                                                                                                                                                 #                                                                 Descriptive summaries 
+#                                                                                                                                                                 #                                                                                     1 
+#                                                                                                                                                                 #                                                        Difference between percentages 
+#                                                                                                                                                                 #                                                                                     1 
+#                                                                                                                                                                 #                                                        Difference between proportions 
+#                                                                                                                                                                 #                                                                                     1 
+#                                                                                                                                                                 #                                       Difference in mean AND difference in percentage 
+#                                                                                                                                                                 #                                                                                     1 
+#                                                                                                                                                                 #                                                              Difference in percentage 
+#                                                                                                                                                                 #                                                                                     1 
+#                                                                                                                                                                 #                                                              Difference in proportion 
+#                                                                                                                                                                 #                                                                                     4 
+#                                                                                                                                                                 #                                                                   Difference in rates 
+#                                                                                                                                                                 #                                                                                     1 
+#                                                                                                                                                                 #                                                           Difference in success rates 
+#                                                                                                                                                                 #                                                                                     1 
+#                                                                                                                                                                 #                                                                  Geometric mean ratio 
+#                                                                                                                                                                 #                                                                                     1 
+#                                                                                                                                                                 #                             Geometric mean ratio for some, reporting rates for others 
+#                                                                                                                                                                 #                                                                                     1 
+#                                                                                                                                                                 #                                                                                  Mean 
+#                                                                                                                                                                 #                                                                                     1 
+#                                                                                                                                                                 #                                                    Mean for paeds, LS mean for adults 
+#                                                                                                                                                                 #                                                                                     1 
+#                                                                                                                                                          #Multiple summary measures given - but main is Ratio of geometric least squares\r\n(GLS) means 
+#                                                                                                                                                                 #                                                                                     1 
+#                                                                                                                                                                 #                                                                                   N/A 
+#                                                                                                                                                                 #                                                                                    42 
+#                                                                                                                                                                 #                                                                            Percentage 
+#                                                                                                                                                                 #                                                                                     1 
+#                                                                                                                                                                 #                  Percentage reduction for various doses (dose-response relationship). 
+#                                                                                                                                                                 #                                                                                     1 
+#                                                                                                                                                                 #                                                                            Proportion 
+#                                                                                                                                                                 #                                                                                     5 
+#                                                                                                                                                                 #                                                                 Proportion and number 
+#                                                                                                                                                                 #                                                                                     1 
+#                                                                                                                                                                 #                                                              Ratio of geometric means 
+#                                                                                                                                                                 #                                                                                     1 
+#                                                                                                                                                                 #                                                             Response rate differences 
+#                                                                                                                                                                 #                                                                                     1 
+#                                                                                                                                                                 #                                                                       Risk difference 
+#                                                                                                                                                                 #                                                                                     1 
+#                                                                                                                                                                 #                                                    Upper limit of confidence interval 
+#                                                                                                                                                                 #                                                                                     1 
+
+####################################################################################################################################################
+
+table(scoping_recode$prime_treat_pol)
+
+#"Primary estimand - treatment policy strategy explicitly used?"
+
+#N/A  No Yes 
+#  3  32  37 
+
+print("Count of total missing values")
+sum(is.na(scoping_recode$prime_treat_pol))
+print("Position of missing values ")
+which(is.na(scoping_recode$prime_treat_pol))
+
+#A lot of missing values - this should be 0 upon completion of scoping review.
+
+
+scoping_recode$prime_treat_pol <- factor(scoping_recode$prime_treat_pol, levels = c("No", "Yes", "N/A"))
+
+####################################################################################################################################################
+
+table(scoping_recode$prime_comp_strat)
+
+#"Primary estimand - composite strategy explicitly used?"
+
+#N/A  No Yes 
+#  3  57  12
+
+print("Count of total missing values")
+sum(is.na(scoping_recode$prime_comp_strat))
+print("Position of missing values ")
+which(is.na(scoping_recode$prime_comp_strat))
+
+#A lot of missing values - this should be 0 upon completion of scoping review.
+
+
+scoping_recode$prime_comp_strat <- factor(scoping_recode$prime_comp_strat, levels = c("No", "Yes", "N/A"))
+
+####################################################################################################################################################
+
+table(scoping_recode$prime_while_treat)
+
+#"Primary estimand - while on treatment (or while alive) strategy explicitly used?"
+
+#N/A  No Yes 
+#  3  65   4
+
+print("Count of total missing values")
+sum(is.na(scoping_recode$prime_while_treat))
+print("Position of missing values ")
+which(is.na(scoping_recode$prime_while_treat))
+
+#A lot of missing values - this should be 0 upon completion of scoping review.
+
+
+scoping_recode$prime_while_treat <- factor(scoping_recode$prime_while_treat, levels = c("No", "Yes", "N/A"))
+
+####################################################################################################################################################
+
+table(scoping_recode$prime_hypo_strat)
+
+#"Primary estimand - hypothetical strategy explicitly used?"
+
+#N/A  No Yes 
+#  3  52  17 
+
+print("Count of total missing values")
+sum(is.na(scoping_recode$prime_hypo_strat))
+print("Position of missing values ")
+which(is.na(scoping_recode$prime_hypo_strat))
+
+#A lot of missing values - this should be 0 upon completion of scoping review.
+
+
+scoping_recode$prime_hypo_strat <- factor(scoping_recode$prime_hypo_strat, levels = c("No", "Yes", "N/A"))
+
+####################################################################################################################################################
+
+table(scoping_recode$prime_prin_strat)
+
+#"Primary estimand - principal stratum strategy explicitly used?"
+
+#N/A  No Yes 
+#  3  66   3
+
+print("Count of total missing values")
+sum(is.na(scoping_recode$prime_prin_strat))
+print("Position of missing values ")
+which(is.na(scoping_recode$prime_prin_strat))
+
+#A lot of missing values - this should be 0 upon completion of scoping review.
+
+
+scoping_recode$prime_prin_strat <- factor(scoping_recode$prime_prin_strat, levels = c("No", "Yes", "N/A"))
+
+####################################################################################################################################################
+
+table(scoping_recode$prime_other_strat)
+
+#"Primary estimand - other strategy explicitly used?"
+
+#N/A  No 
+#  3  69 
+
+print("Count of total missing values")
+sum(is.na(scoping_recode$prime_other_strat))
+print("Position of missing values ")
+which(is.na(scoping_recode$prime_other_strat))
+
+#A lot of missing values - this should be 0 upon completion of scoping review.
+
+
+scoping_recode$prime_other_strat <- factor(scoping_recode$prime_other_strat, levels = c("No", "N/A"))
+
+
+####################################################################################################################################################
+
+table(scoping_recode$prime_other_spec)
+
+#"Primary estimand - specify other strategy used"
+
+#N/A 
+# 72
+
+print("Count of total missing values")
+sum(is.na(scoping_recode$prime_other_spec))
+print("Position of missing values ")
+which(is.na(scoping_recode$prime_other_spec))
+
+#A lot of missing values - this should be 0 upon completion of scoping review.
+
+####################################################################################################################################################
+
+table(scoping_recode$sec_estimand_use)
+
+#"Any secondary or exploratory estimands?"
+
+# No Yes 
+# 20  52
+
+print("Count of total missing values")
+sum(is.na(scoping_recode$sec_estimand_use))
+print("Position of missing values ")
+which(is.na(scoping_recode$sec_estimand_use))
+
+#A lot of missing values - this should be 0 upon completion of scoping review.
+
+scoping_recode$sec_estimand_use <- factor(scoping_recode$sec_estimand_use, levels = c("No", "Yes"))
+
+####################################################################################################################################################
+
+table(scoping_recode$est_prot)
+
+#"Estimands outlined in protocol?"
+
+#N/A  No Yes 
+#  3  12  57
+
+print("Count of total missing values")
+sum(is.na(scoping_recode$est_prot))
+print("Position of missing values ")
+which(is.na(scoping_recode$est_prot))
+
+#A lot of missing values - this should be 0 upon completion of scoping review.
+
+scoping_recode$est_prot <- factor(scoping_recode$est_prot, levels = c("No", "Yes", "N/A"))
+
+####################################################################################################################################################
+
+table(scoping_recode$prot_const)
+
+#"Protocol: Is there a comprehensive section on estimands that includes all constituent parts (treatment conditions,  population, endpoint, summary, intercurrent events)?"
+
+#N/A  No Yes 
+# 16  24  32
+
+print("Count of total missing values")
+sum(is.na(scoping_recode$prot_const))
+print("Position of missing values ")
+which(is.na(scoping_recode$prot_const))
+
+#A lot of missing values - this should be 0 upon completion of scoping review.
+
+scoping_recode$prot_const <- factor(scoping_recode$prot_const, levels = c("No", "Yes", "N/A"))
+
+####################################################################################################################################################
+
+table(scoping_recode$est_sap)
+
+#"Estimands outlined in SAP?"
+
+#N/A  No Yes 
+#  5   5  62
+
+print("Count of total missing values")
+sum(is.na(scoping_recode$est_sap))
+print("Position of missing values ")
+which(is.na(scoping_recode$est_sap))
+
+#A lot of missing values - this should be 0 upon completion of scoping review.
+
+scoping_recode$est_sap <- factor(scoping_recode$est_sap, levels = c("No", "Yes", "N/A"))
+
+####################################################################################################################################################
+
+table(scoping_recode$sap_const)
+
+#"SAP: Is there a comprehensive section on estimands that includes all constituent parts (treatment conditions,  population, endpoint, summary, intercurrent events)?"
+
+#N/A  No Yes 
+# 11  26  35
+
+print("Count of total missing values")
+sum(is.na(scoping_recode$sap_const))
+print("Position of missing values ")
+which(is.na(scoping_recode$sap_const))
+
+#A lot of missing values - this should be 0 upon completion of scoping review.
+
+scoping_recode$sap_const <- factor(scoping_recode$sap_const, levels = c("No", "Yes", "N/A"))
+
+####################################################################################################################################################
+
+table(scoping_recode$est_pub)
+
+#"Estimands outlined in publication?"
+
+#N/A Yes 
+# 66   7
+
+print("Count of total missing values")
+sum(is.na(scoping_recode$est_pub))
+print("Position of missing values ")
+which(is.na(scoping_recode$est_pub))
+
+#A lot of missing values - this should be 0 upon completion of scoping review.
+
+scoping_recode$est_pub <- factor(scoping_recode$est_pub, levels = c("Yes", "N/A"))
+
+####################################################################################################################################################
+
+table(scoping_recode$est_pub_type)
+
+#"If estimands are detailed in publication - what type of publication?"
+
+#                        N/A                       Other Primary results publication        Protocol publication 
+#                         66                           1                           5                           1
+
+print("Count of total missing values")
+sum(is.na(scoping_recode$est_pub_type))
+print("Position of missing values ")
+which(is.na(scoping_recode$est_pub_type))
+
+#A lot of missing values - this should be 0 upon completion of scoping review.
+
+scoping_recode$est_pub_type <- factor(scoping_recode$est_pub_type, levels = c("Protocol publication", "Primary results publication", "Other", "N/A"))
+
+####################################################################################################################################################
+
+table(scoping_recode$est_pub_type_spec)
+
+#"If other publication type, please specify"
+
+#                         N/A Protocol and primary results 
+#                          72                            1
+
+print("Count of total missing values")
+sum(is.na(scoping_recode$est_pub_type_spec))
+print("Position of missing values ")
+which(is.na(scoping_recode$est_pub_type_spec))
+
+#A lot of missing values - this should be 0 upon completion of scoping review.
+
+
+####################################################################################################################################################
+
+table(scoping_recode$pub_sec_spec)
+
+#"Publication: Is there a comprehensive section on estimands that includes all constituent parts (treatment conditions,  population, endpoint, summary, intercurrent events)?"
+
+#N/A  No Yes 
+# 66   5   2 
+
+print("Count of total missing values")
+sum(is.na(scoping_recode$pub_sec_spec))
+print("Position of missing values ")
+which(is.na(scoping_recode$pub_sec_spec))
+
+#A lot of missing values - this should be 0 upon completion of scoping review.
+
+scoping_recode$pub_sec_spec <- factor(scoping_recode$pub_sec_spec, levels = c("No", "Yes", "N/A"))
 
 ```
+
+#Plotting
+
+```{r plots, include=TRUE}
+
+#Primary Estimand: Population explicity listed by Sponsor Type
+
+library(ggplot2)
+library(ggpubr)
+library(dplyr)
+
+scoping_recode_drop <- scoping_recode[, c("Sponsor type", "prime_pop_list")]
+scoping_recode_drop <- na.omit(scoping_recode_drop)
+scoping_recode_drop <- scoping_recode_drop[scoping_recode_drop$prime_pop_list != "N/A", ]
+scoping_recode_drop <- scoping_recode_drop[scoping_recode_drop$`Sponsor type` != "Missing", ]
+
+
+trialpop_sponsor <- scoping_recode_drop %>%
+                      count(prime_pop_list, `Sponsor type`) %>%       
+                      group_by(prime_pop_list) %>%
+                      mutate(pct= (n/sum(n))*100) %>%
+                      ggplot() + aes(prime_pop_list, y = n, fill=`Sponsor type`) +
+                      geom_bar(stat="identity") +
+                      ylab("Number of Responses") +
+                      xlab("Population explicitly listed as part of the estimand definition?") +
+                      geom_text(aes(label=paste0(sprintf("%1.1f", pct),"%")),
+                          position=position_stack(vjust=0.5)) +
+                      ggtitle("Primary Estimand: Trial population listing by Sponsor Type") +
+                      theme_bw()
+
+trialpop_sponsor
+
+#################################################################################################################
+
+#Primary Estimand: Population explicity listed by Funding Type
+
+scoping_recode_drop1 <- scoping_recode[, c("Funding type", "prime_pop_list")]
+scoping_recode_drop1 <- na.omit(scoping_recode_drop1)
+scoping_recode_drop1 <- scoping_recode_drop1[scoping_recode_drop1$prime_pop_list != "N/A", ]
+scoping_recode_drop1 <- scoping_recode_drop1[scoping_recode_drop1$`Funding type` != "Missing", ]
+
+trialpop_funding <- scoping_recode_drop1 %>%
+                      count(prime_pop_list, `Funding type`) %>%       
+                      group_by(prime_pop_list) %>%
+                      mutate(pct= (n/sum(n))*100) %>%
+                      ggplot() + aes(prime_pop_list, y = n, fill=`Funding type`) +
+                      geom_bar(stat="identity") +
+                      ylab("Number of Responses") +
+                      xlab("Population explicitly listed as part of the estimand definition?") +
+                      geom_text(aes(label=paste0(sprintf("%1.1f", pct),"%")),
+                          position=position_stack(vjust=0.5)) +
+                      ggtitle("Primary Estimand: Trial population listing by Funding Type") +
+                      theme_bw()
+
+trialpop_funding
+
+#################################################################################################################
+
+#Primary Estimand: Endpoint explicitly listed by Sponsor Type
+
+
+scoping_recode_drop2 <- scoping_recode[, c("Sponsor type", "prime_end_point")]
+scoping_recode_drop2 <- na.omit(scoping_recode_drop2)
+scoping_recode_drop2 <- scoping_recode_drop2[scoping_recode_drop2$prime_end_point != "N/A", ]
+scoping_recode_drop2 <- scoping_recode_drop2[scoping_recode_drop2$`Sponsor type` != "Missing", ]
+
+endpoint_sponsor <- scoping_recode_drop2 %>%
+                      count(prime_end_point, `Sponsor type`) %>%       
+                      group_by(prime_end_point) %>%
+                      mutate(pct= (n/sum(n))*100) %>%
+                      ggplot() + aes(prime_end_point, y = n, fill=`Sponsor type`) +
+                      geom_bar(stat="identity") +
+                      ylab("Number of Responses") +
+                      xlab("Endpoint/variable explicitly listed as part of the estimand definition?") +
+                      geom_text(aes(label=paste0(sprintf("%1.1f", pct),"%")),
+                          position=position_stack(vjust=0.5)) +
+                      ggtitle("Primary Estimand: Endpoint/variable listing by Sponsor Type") +
+                      theme_bw()
+
+endpoint_sponsor
+
+#################################################################################################################
+
+#Primary Estimand: Endpoint explicitly listed by Funding Type
+
+scoping_recode_drop3 <- scoping_recode[, c("Funding type", "prime_end_point")]
+scoping_recode_drop3 <- na.omit(scoping_recode_drop3)
+scoping_recode_drop3 <- scoping_recode_drop3[scoping_recode_drop3$prime_end_point != "N/A", ]
+scoping_recode_drop3 <- scoping_recode_drop3[scoping_recode_drop3$`Funding type` != "Missing", ]
+
+endpoint_funding <- scoping_recode_drop3 %>%
+                      count(prime_end_point, `Funding type`) %>%       
+                      group_by(prime_end_point) %>%
+                      mutate(pct= (n/sum(n))*100) %>%
+                      ggplot() + aes(prime_end_point, y = n, fill=`Funding type`) +
+                      geom_bar(stat="identity") +
+                      ylab("Number of Responses") +
+                      xlab("Endpoint/variable explicitly listed as part of the estimand definition?") +
+                      geom_text(aes(label=paste0(sprintf("%1.1f", pct),"%")),
+                          position=position_stack(vjust=0.5)) +
+                      ggtitle("Primary Estimand: Endpoint/variable listing by Funding Type") +
+                      theme_bw()
+
+endpoint_funding
+
+#################################################################################################################
+
+#Primary Estimand: Treatment condition explicitly listed by Sponsor Type
+
+scoping_recode_drop4 <- scoping_recode[, c("Sponsor type", "prime_treat_cond")]
+scoping_recode_drop4 <- na.omit(scoping_recode_drop4)
+scoping_recode_drop4 <- scoping_recode_drop4[scoping_recode_drop4$prime_treat_cond != "N/A", ]
+scoping_recode_drop4 <- scoping_recode_drop4[scoping_recode_drop4$`Sponsor type` != "Missing", ]
+
+treatcon_sponsor <- scoping_recode_drop4 %>%
+                      count(prime_treat_cond, `Sponsor type`) %>%       
+                      group_by(prime_treat_cond) %>%
+                      mutate(pct= (n/sum(n))*100) %>%
+                      ggplot() + aes(prime_treat_cond, y = n, fill=`Sponsor type`) +
+                      geom_bar(stat="identity") +
+                      ylab("Number of Responses") +
+                      xlab("Treatment condition explicitly listed as part of the estimand definition?") +
+                      geom_text(aes(label=paste0(sprintf("%1.1f", pct),"%")),
+                          position=position_stack(vjust=0.5)) +
+                      ggtitle("Primary Estimand: Treatment condition listing by Sponsor Type") +
+                      theme_bw()
+
+treatcon_sponsor
+
+#################################################################################################################
+
+#Primary Estimand: Treatment condition explicitly listed by Funding Type
+
+scoping_recode_drop5 <- scoping_recode[, c("Funding type", "prime_treat_cond")]
+scoping_recode_drop5 <- na.omit(scoping_recode_drop5)
+scoping_recode_drop5 <- scoping_recode_drop5[scoping_recode_drop5$prime_treat_cond != "N/A", ]
+scoping_recode_drop5 <- scoping_recode_drop5[scoping_recode_drop5$`Funding type` != "Missing", ]
+
+treatcon_funding <- scoping_recode_drop5 %>%
+                      count(prime_treat_cond, `Funding type`) %>%       
+                      group_by(prime_treat_cond) %>%
+                      mutate(pct= (n/sum(n))*100) %>%
+                      ggplot() + aes(prime_treat_cond, y = n, fill=`Funding type`) +
+                      geom_bar(stat="identity") +
+                      ylab("Number of Responses") +
+                      xlab("Treatment condition explicitly listed as part of the estimand definition?") +
+                      geom_text(aes(label=paste0(sprintf("%1.1f", pct),"%")),
+                          position=position_stack(vjust=0.5)) +
+                      ggtitle("Primary Estimand: Treatment condition listing by Funding Type") +
+                      theme_bw()
+
+treatcon_funding
+
+#################################################################################################################
+
+#Primary Estimand: Summary measures explicitly listed by Sponsor Type
+
+scoping_recode_drop6 <- scoping_recode[, c("Sponsor type", "prime_summary_measure")]
+scoping_recode_drop6 <- na.omit(scoping_recode_drop6)
+scoping_recode_drop6 <- scoping_recode_drop6[scoping_recode_drop6$prime_summary_measure != "N/A", ]
+scoping_recode_drop6 <- scoping_recode_drop6[scoping_recode_drop6$`Sponsor type` != "Missing", ]
+
+summeasure_sponsor <- scoping_recode_drop6 %>%
+                      count(prime_summary_measure, `Sponsor type`) %>%       
+                      group_by(prime_summary_measure) %>%
+                      mutate(pct= (n/sum(n))*100) %>%
+                      ggplot() + aes(prime_summary_measure, y = n, fill=`Sponsor type`) +
+                      geom_bar(stat="identity") +
+                      ylab("Number of Responses") +
+                      xlab("Treatment condition explicitly listed as part of the estimand definition?") +
+                      geom_text(aes(label=paste0(sprintf("%1.1f", pct),"%")),
+                          position=position_stack(vjust=0.5)) +
+                      ggtitle("Primary Estimand: Summary measure listing by Sponsor Type") +
+                      theme_bw()
+
+summeasure_sponsor
+
+#################################################################################################################
+
+#Primary Estimand: Summary measures explicitly listed by Funding Type
+
+scoping_recode_drop7 <- scoping_recode[, c("Funding type", "prime_summary_measure")]
+scoping_recode_drop7 <- na.omit(scoping_recode_drop7)
+scoping_recode_drop7 <- scoping_recode_drop7[scoping_recode_drop7$prime_summary_measure != "N/A", ]
+scoping_recode_drop7 <- scoping_recode_drop7[scoping_recode_drop7$`Funding type` != "Missing", ]
+
+summeasure_funding <- scoping_recode_drop7 %>%
+                      count(prime_summary_measure, `Funding type`) %>%       
+                      group_by(prime_summary_measure) %>%
+                      mutate(pct= (n/sum(n))*100) %>%
+                      ggplot() + aes(prime_summary_measure, y = n, fill=`Funding type`) +
+                      geom_bar(stat="identity") +
+                      ylab("Number of Responses") +
+                      xlab("Treatment condition explicitly listed as part of the estimand definition?") +
+                      geom_text(aes(label=paste0(sprintf("%1.1f", pct),"%")),
+                          position=position_stack(vjust=0.5)) +
+                      ggtitle("Primary Estimand: Summary measure listing by Funding Type") +
+                      theme_bw()
+
+summeasure_funding
+
+```
+
 
