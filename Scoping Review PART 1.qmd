@@ -1434,8 +1434,7 @@ ggplot(filtered_sponsor3, aes(x = year, y = prob)) +
 
 ```
 
-
-#Collinearity check 
+#Collinearity check
 
 ```{r collinearity matrix, include=TRUE}
 
@@ -1462,4 +1461,3 @@ model.matrix(~0+., data=estimand_model_recode2) %>%
   ggcorrplot(show.diag=FALSE, type="lower", lab=TRUE, lab_size=2)
 
 ```
-
