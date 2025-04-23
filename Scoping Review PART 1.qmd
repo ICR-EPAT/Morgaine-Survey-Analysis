@@ -602,6 +602,9 @@ estimand_model <- estimand_model %>%
   rename(estimand = `Estimands used?`)
 
 estimand_model$estimand_num <- ifelse(estimand_model$estimand == "Yes", 1, 0)
+estimand_model$estimand_num <- factor(ifelse(estimand_model$estimand_num == 1, "Yes", "No"),
+                                      levels = c("No", "Yes"))
+
 estimand_model$estimand_num <- as.factor(estimand_model$estimand_num)
 
 
@@ -757,6 +760,10 @@ plot(model1.1)
 
 ```{r individual covariate exploration, include=TRUE}
 
+estimand_model$estimand_num <- ifelse(estimand_model$estimand == "Yes", 1, 0)
+estimand_model$estimand_num <- factor(ifelse(estimand_model$estimand_num == 1, "Yes", "No"),
+                                      levels = c("No", "Yes"))
+
 #Sponsor
 
 library(ggplot2)
@@ -765,6 +772,14 @@ ggplot(estimand_model, aes(x = sponsor,
                            y=estimand_num)) +
   geom_jitter(height = 0.05,
               alpha=0.1)
+
+ggplot(estimand_model, aes(x = sponsor, y = estimand_num)) +
+  geom_jitter(height = 0.05,
+              alpha = 0.1) +
+  labs(title = "Distribution of Estimand usage by Sponsor",
+       x = "Sponsor",
+       y = "Estimand used")
+
 
 estimand_model_recode1 <- estimand_model
 
@@ -779,6 +794,13 @@ ggplot(estimand_model_recode1, aes(x = sponsor,
   geom_jitter(height = 0.05,
               alpha=0.1)
 
+ggplot(estimand_model_recode1, aes(x = sponsor, y = estimand_num)) +
+  geom_jitter(height = 0.05,
+              alpha = 0.1) +
+  labs(title = "Distribution of Estimand usage by Sponsor",
+       x = "Sponsor",
+       y = "Estimand used")
+
 #####################################################################################################################
 
 #Funding
@@ -790,6 +812,13 @@ ggplot(estimand_model, aes(x = funding,
   geom_jitter(height = 0.05,
               alpha=0.1)
 
+ggplot(estimand_model_recode1, aes(x = funding, y = estimand_num)) +
+  geom_jitter(height = 0.05,
+              alpha = 0.1) +
+  labs(title = "Distribution of Estimand usage by Funding",
+       x = "Funding",
+       y = "Estimand used")
+
 #Recoding funding covariate (Non-Industry = 0, Industry = 1, Other = 2, Missing = 3)
 
 estimand_model_recode1$funding <- factor(estimand_model_recode1$funding, levels = c("Non-Industry", "Industry", "Other", "Missing"))
@@ -798,6 +827,13 @@ ggplot(estimand_model_recode1, aes(x = funding,
                            y=estimand_num)) +
   geom_jitter(height = 0.05,
               alpha=0.1)
+
+ggplot(estimand_model_recode1, aes(x = funding, y = estimand_num)) +
+  geom_jitter(height = 0.05,
+              alpha = 0.1) +
+  labs(title = "Distribution of Estimand usage by Funding",
+       x = "Funding",
+       y = "Estimand used")
 
 #####################################################################################################################
 
@@ -810,6 +846,13 @@ ggplot(estimand_model, aes(x = cancer,
   geom_jitter(height = 0.05,
               alpha=0.1)
 
+ggplot(estimand_model_recode1, aes(x = cancer, y = estimand_num)) +
+  geom_jitter(height = 0.05,
+              alpha = 0.1) +
+  labs(title = "Distribution of Estimand usage by Cancer vs Non-Cancer",
+       x = "Cancer vs Non-Cancer",
+       y = "Estimand used")
+
 #Recoding cancer covariate (Non-cancer = 0, Cancer = 1)
 
 estimand_model_recode1$cancer <- factor(estimand_model_recode1$cancer, levels = c("Non-cancer", "Cancer"))
@@ -819,6 +862,13 @@ ggplot(estimand_model_recode1, aes(x = cancer,
   geom_jitter(height = 0.05,
               alpha=0.1)
 
+ggplot(estimand_model_recode1, aes(x = cancer, y = estimand_num)) +
+  geom_jitter(height = 0.05,
+              alpha = 0.1) +
+  labs(title = "Distribution of Estimand usage by Cancer vs Non-Cancer",
+       x = "Cancer vs Non-Cancer",
+       y = "Estimand used")
+
 #####################################################################################################################
 
 #Year
@@ -827,6 +877,13 @@ ggplot(estimand_model_recode1, aes(x = year,
                            y=estimand_num)) +
   geom_jitter(height = 0.05,
               alpha=0.1)
+
+ggplot(estimand_model_recode1, aes(x = year, y = estimand_num)) +
+  geom_jitter(height = 0.05,
+              alpha = 0.1) +
+  labs(title = "Distribution of Estimand usage by Year",
+       x = "Year",
+       y = "Estimand used")
 
 #Keep leveling the same
 
@@ -838,6 +895,13 @@ ggplot(estimand_model_recode1, aes(x = uk,
                            y=estimand_num)) +
   geom_jitter(height = 0.05,
               alpha=0.1)
+
+ggplot(estimand_model_recode1, aes(x = uk, y = estimand_num)) +
+  geom_jitter(height = 0.05,
+              alpha = 0.1) +
+  labs(title = "Distribution of Estimand usage by UK Trial Status",
+       x = "UK Trial Status",
+       y = "Estimand used")
 
 #Keep leveling the same
 
@@ -859,6 +923,13 @@ ggplot(estimand_model_recode1, aes(x = country,
   geom_jitter(height = 0.05,
               alpha=0.1)
 
+ggplot(estimand_model_recode1, aes(x = country, y = estimand_num)) +
+  geom_jitter(height = 0.05,
+              alpha = 0.1) +
+  labs(title = "Distribution of Estimand usage by Country",
+       x = "Country",
+       y = "Estimand used")
+
 #####################################################################################################################
 
 #Phase
@@ -867,6 +938,13 @@ ggplot(estimand_model_recode1, aes(x = phase,
                            y=estimand_num)) +
   geom_jitter(height = 0.05,
               alpha=0.1)
+
+ggplot(estimand_model_recode1, aes(x = phase, y = estimand_num)) +
+  geom_jitter(height = 0.05,
+              alpha = 0.1) +
+  labs(title = "Distribution of Estimand usage by Phase",
+       x = "Phase",
+       y = "Estimand used")
 
 #Keep leveling the same
 
@@ -890,6 +968,13 @@ ggplot(estimand_model_recode1, aes(x = random,
   geom_jitter(height = 0.05,
               alpha=0.1)
 
+ggplot(estimand_model_recode1, aes(x = random, y = estimand_num)) +
+  geom_jitter(height = 0.05,
+              alpha = 0.1) +
+  labs(title = "Distribution of Estimand usage by Randomisation Allocation",
+       x = "Randomisation Allocation",
+       y = "Estimand used")
+
 #####################################################################################################################
 
 #Int_model
@@ -905,6 +990,13 @@ ggplot(estimand_model_recode1, aes(x = int_model,
                            y=estimand_num)) +
   geom_jitter(height = 0.05,
               alpha=0.1)
+
+ggplot(estimand_model_recode1, aes(x = int_model, y = estimand_num)) +
+  geom_jitter(height = 0.05,
+              alpha = 0.1) +
+  labs(title = "Distribution of Estimand usage by Intervention Model",
+       x = "Intervention Model",
+       y = "Estimand used")
 
 ```
 
