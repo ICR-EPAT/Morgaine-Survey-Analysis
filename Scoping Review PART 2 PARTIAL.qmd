@@ -763,7 +763,7 @@ ggplot(prop_data, aes(x = "", y = Proportion, fill = Category)) +
   geom_bar(stat = "identity", width = 1) +
   coord_polar(theta = "y") +  
   geom_text(aes(label = paste0(round(Percentage, 1), "%")), 
-            position = position_stack(vjust = 0.5), size = 3, color = "white") +
+            position = position_stack(vjust = 0.5), size = 5, color = "white") +
   labs(title = "Proportion of listed population component categories") +
   theme_void() +  
   theme(legend.title = element_blank())  
