@@ -12,7 +12,6 @@ scoping_2 <- read_excel("Scoping review team PART 2.xlsx", skip = 1)
 
 ```
 
-
 #Recode
 
 ```{r data exploration, include=TRUE}
@@ -738,5 +737,35 @@ summeasure_funding
 
 ```{r pie charts, include=TRUE}
 
-```
+"Primary estimand - is the listed population the entire trial population, a subgroup defined by a particular characteristic measured at baseline, or a principal stratum defined by the occurrence or non-occurrence of an intercurrent event?"
 
+scoping_recode$prime_pop_def
+
+#Proportions
+prop_data <- as.data.frame(table(scoping_recode$prime_pop_def)) 
+colnames(prop_data) <- c("Category", "Count") 
+prop_data$Proportion <- prop_data$Count / sum(prop_data$Count)  
+
+ggplot(prop_data, aes(x = "", y = Proportion, fill = Category)) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar(theta = "y") + 
+  labs(title = "Proportion of Prime Population Definitions") +
+  theme_void() + 
+  theme(legend.title = element_blank())
+
+# Step 1: Calculate proportions
+prop_data <- as.data.frame(table(scoping_recode$prime_pop_def)) 
+colnames(prop_data) <- c("Category", "Count") 
+prop_data$Proportion <- prop_data$Count / sum(prop_data$Count)  
+prop_data$Percentage <- prop_data$Proportion * 100  # Convert to percentage
+
+ggplot(prop_data, aes(x = "", y = Proportion, fill = Category)) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar(theta = "y") +  
+  geom_text(aes(label = paste0(round(Percentage, 1), "%")), 
+            position = position_stack(vjust = 0.5), size = 3, color = "white") +
+  labs(title = "Proportion of listed population component categories") +
+  theme_void() +  
+  theme(legend.title = element_blank())  
+
+```
