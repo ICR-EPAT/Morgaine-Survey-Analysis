@@ -741,23 +741,10 @@ summeasure_funding
 
 scoping_recode$prime_pop_def
 
-#Proportions
 prop_data <- as.data.frame(table(scoping_recode$prime_pop_def)) 
 colnames(prop_data) <- c("Category", "Count") 
 prop_data$Proportion <- prop_data$Count / sum(prop_data$Count)  
-
-ggplot(prop_data, aes(x = "", y = Proportion, fill = Category)) +
-  geom_bar(stat = "identity", width = 1) +
-  coord_polar(theta = "y") + 
-  labs(title = "Proportion of Prime Population Definitions") +
-  theme_void() + 
-  theme(legend.title = element_blank())
-
-# Step 1: Calculate proportions
-prop_data <- as.data.frame(table(scoping_recode$prime_pop_def)) 
-colnames(prop_data) <- c("Category", "Count") 
-prop_data$Proportion <- prop_data$Count / sum(prop_data$Count)  
-prop_data$Percentage <- prop_data$Proportion * 100  # Convert to percentage
+prop_data$Percentage <- prop_data$Proportion * 100
 
 ggplot(prop_data, aes(x = "", y = Proportion, fill = Category)) +
   geom_bar(stat = "identity", width = 1) +
@@ -769,3 +756,59 @@ ggplot(prop_data, aes(x = "", y = Proportion, fill = Category)) +
   theme(legend.title = element_blank())  
 
 ```
+
+
+#Lineplots
+
+```{r lineplot , include=TRUE}
+
+"Estimands outlined in protocol?"
+
+#Remove any missing data - this filters it into a subset not including missing data:
+
+scoping_recode3 <- scoping_recode %>%
+  filter(!is.na(`Year opened to recruitment `), !is.na(est_prot)) %>%
+  mutate(est_prot = as.factor(est_prot))
+
+library(dplyr)
+
+scoping_recode3$`Year opened to recruitment ` <- as.factor(scoping_recode3$`Year opened to recruitment `)
+
+#We want to summarise the number of Yes's, No's and N/A's for each year the trial opened:
+
+est_prot_count <- scoping_recode3 %>%
+  group_by(`Year opened to recruitment `, est_prot) %>%
+  summarise(count = n(), .groups = "drop")
+
+#Plotting the data:
+
+library(ggplot2)
+
+scoping_recode3$est_prot <- as.factor(scoping_recode3$est_prot)
+
+table(scoping_recode3$est_prot)
+
+ggplot(est_prot_count, aes(x = `Year opened to recruitment `, y = count, color = est_prot, group = est_prot)) +
+  geom_line() +
+  labs(
+    title = "Estimand framework outlined in protocol by trial opening year",
+    x = "Year trial opened to recruitment",
+    y = "Number of estimand frameworks featured in protocol",
+    color = "Estimated Protocol"
+  ) +
+  scale_color_manual(values = c("Yes" = "blue", "No" = "red", "N/A" = "purple")) +
+  theme_minimal() +
+  theme(legend.title = element_blank())
+
+#As more data is collected Morgaine it should hopefully smoothen out and hopefully we'll see a trend over time! :)
+
+```
+
+#Side by side bar chart
+
+```{r side by side bar chart, include=TRUE}
+
+
+
+```
+
